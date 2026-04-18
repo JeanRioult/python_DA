@@ -1,0 +1,148 @@
+{
+  "chapter": "chapter-06-controle-du-flux",
+  "cards": [
+    {
+      "id": "c06-f01",
+      "front": {
+        "fr": "Pourquoi Python utilise-t-il l'indentation plutôt que des accolades pour structurer les blocs ?",
+        "en": "Why does Python use indentation rather than braces to structure blocks?"
+      },
+      "back": {
+        "fr": "C'est un choix de design : l'indentation visuelle devient la structure logique. Conséquence : tous les blocs doivent être indentés de manière cohérente (PEP 8 : 4 espaces, pas de tabs mélangés).",
+        "en": "It's a design choice: visual indentation becomes the logical structure. Consequence: all blocks must be indented consistently (PEP 8: 4 spaces, no mixed tabs)."
+      }
+    },
+    {
+      "id": "c06-f02",
+      "front": {
+        "fr": "Comment Python gère-t-il l'ordre des conditions dans un if/elif/elif ?",
+        "en": "How does Python handle the order of conditions in an if/elif/elif?"
+      },
+      "back": {
+        "fr": "Il évalue dans l'ordre et s'arrête à la PREMIÈRE vraie. Les suivantes sont ignorées, même si elles seraient vraies. Écris donc du plus spécifique au plus général.",
+        "en": "It evaluates in order and stops at the FIRST true condition. Later ones are skipped, even if they would be true. Write from most specific to most general."
+      }
+    },
+    {
+      "id": "c06-f03",
+      "front": {
+        "fr": "À partir de quel indice commence une liste Python ?",
+        "en": "What index does a Python list start from?"
+      },
+      "back": {
+        "fr": "Zéro. liste[0] est le premier, liste[-1] est le dernier (indices négatifs comptent depuis la fin).",
+        "en": "Zero. list[0] is the first, list[-1] is the last (negative indices count from the end)."
+      }
+    },
+    {
+      "id": "c06-f04",
+      "front": {
+        "fr": "Pourquoi `b = a` ne copie-t-il pas une liste en Python ?",
+        "en": "Why doesn't `b = a` copy a list in Python?"
+      },
+      "back": {
+        "fr": "L'affectation crée un alias (un deuxième nom) vers la même liste, pas une copie. Modifier b modifie a aussi. Pour vraiment copier : a.copy() ou a[:] ou list(a).",
+        "en": "The assignment creates an alias (a second name) to the same list, not a copy. Modifying b modifies a too. To really copy: a.copy() or a[:] or list(a)."
+      }
+    },
+    {
+      "id": "c06-f05",
+      "front": {
+        "fr": "Que fait `range(3, 10, 2)` ?",
+        "en": "What does `range(3, 10, 2)` do?"
+      },
+      "back": {
+        "fr": "Génère la séquence 3, 5, 7, 9 — de 3 (inclus) jusqu'à 10 (exclu) par pas de 2.",
+        "en": "Generates the sequence 3, 5, 7, 9 — from 3 (inclusive) up to 10 (exclusive) with step 2."
+      }
+    },
+    {
+      "id": "c06-f06",
+      "front": {
+        "fr": "Quand utiliser `for` vs `while` ?",
+        "en": "When do you use `for` vs `while`?"
+      },
+      "back": {
+        "fr": "`for` : parcourir une collection connue ou un nombre fixe d'itérations. `while` : répéter jusqu'à ce qu'une condition devienne fausse (itérations non connues d'avance).",
+        "en": "`for`: iterate over a known collection or a fixed number of iterations. `while`: repeat until a condition becomes false (iterations not known in advance)."
+      }
+    },
+    {
+      "id": "c06-f07",
+      "front": {
+        "fr": "Comment écrire en une ligne : « la liste des carrés des nombres pairs dans nombres » ?",
+        "en": "How would you write, in one line: 'the list of squares of the even numbers in `nombres`'?"
+      },
+      "back": {
+        "fr": "carres_pairs = [n * n for n in nombres if n % 2 == 0] — list comprehension avec filtre.",
+        "en": "carres_pairs = [n * n for n in nombres if n % 2 == 0] — list comprehension with a filter."
+      }
+    },
+    {
+      "id": "c06-f08",
+      "front": {
+        "fr": "Comment lit-on une traceback Python ?",
+        "en": "How do you read a Python traceback?"
+      },
+      "back": {
+        "fr": "De BAS en HAUT : le type d'erreur et son message (en bas), puis la ligne coupable dans ton code, puis la pile d'appels au-dessus.",
+        "en": "From BOTTOM to TOP: the error type and message (at the bottom), then the offending line in your code, then the call stack above."
+      }
+    },
+    {
+      "id": "c06-f09",
+      "front": {
+        "fr": "Pourquoi ne JAMAIS écrire `except:` tout nu ?",
+        "en": "Why should you NEVER write a bare `except:` ?"
+      },
+      "back": {
+        "fr": "Parce qu'il attrape TOUT, y compris Ctrl+C, KeyboardInterrupt et les bugs. Tu masques les vrais problèmes au lieu de les traiter. Attrape toujours le type spécifique le plus étroit possible.",
+        "en": "Because it catches EVERYTHING, including Ctrl+C, KeyboardInterrupt and actual bugs. You mask real problems instead of handling them. Always catch the narrowest specific type."
+      }
+    },
+    {
+      "id": "c06-f10",
+      "front": {
+        "fr": "Quelles exceptions `try/except` doit-il typiquement gérer lors de la conversion d'une donnée ?",
+        "en": "Which exceptions should a `try/except` typically handle when converting data?"
+      },
+      "back": {
+        "fr": "ValueError (ex : int(\"abc\")), TypeError (ex : opérations entre types incompatibles). Pour un fichier : FileNotFoundError. Pour un dict : KeyError.",
+        "en": "ValueError (e.g. int(\"abc\")), TypeError (operations between incompatible types). For a file: FileNotFoundError. For a dict: KeyError."
+      }
+    },
+    {
+      "id": "c06-f11",
+      "front": {
+        "fr": "Quelle est la première étape d'une méthode de débogage rigoureuse ?",
+        "en": "What is the first step of a rigorous debugging method?"
+      },
+      "back": {
+        "fr": "Reproduire le bug fiablement, idéalement avec un exemple minimal (MCVE). Sans reproduction, tu tâtonnes.",
+        "en": "Reproduce the bug reliably, ideally with a minimal example (MCVE). Without reproduction, you're guessing."
+      }
+    },
+    {
+      "id": "c06-f12",
+      "front": {
+        "fr": "Qu'est-ce que la technique du « canard en plastique » ?",
+        "en": "What is the 'rubber duck' debugging technique?"
+      },
+      "back": {
+        "fr": "Expliquer son problème à voix haute à un objet inanimé (ou un collègue). L'effort d'articulation révèle souvent la solution avant la fin de l'explication.",
+        "en": "Explain your problem out loud to an inanimate object (or a colleague). The effort of articulation often reveals the solution before you finish explaining."
+      }
+    },
+    {
+      "id": "c06-f13",
+      "front": {
+        "fr": "Quel piège célèbre touche les valeurs par défaut mutables d'une fonction Python ?",
+        "en": "What famous pitfall affects mutable default arguments of a Python function?"
+      },
+      "back": {
+        "fr": "`def f(liste=[]):` — la même liste est partagée entre TOUS les appels. Utiliser `def f(liste=None): if liste is None: liste = []` à la place.",
+        "en": "`def f(lst=[]):` — the same list is shared across ALL calls. Use `def f(lst=None): if lst is None: lst = []` instead."
+      }
+    }
+  ]
+}

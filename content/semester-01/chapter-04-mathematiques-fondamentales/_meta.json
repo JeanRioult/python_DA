@@ -1,0 +1,57 @@
+{
+  "id": "chapter-04-mathematiques-fondamentales",
+  "number": 4,
+  "semester": 1,
+  "title": {
+    "fr": "Mathématiques fondamentales",
+    "en": "Foundational mathematics"
+  },
+  "estimatedHours": 50,
+  "lessons": [
+    {
+      "id": "lesson-01",
+      "number": 1,
+      "title": {
+        "fr": "Arithmétique et fractions",
+        "en": "Arithmetic and fractions"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-02",
+      "number": 2,
+      "title": {
+        "fr": "Pourcentages et ratios",
+        "en": "Percentages and ratios"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-03",
+      "number": 3,
+      "title": {
+        "fr": "Algèbre : équations et inconnues",
+        "en": "Algebra: equations and unknowns"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-04",
+      "number": 4,
+      "title": {
+        "fr": "Fonctions et graphiques",
+        "en": "Functions and graphs"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-05",
+      "number": 5,
+      "title": {
+        "fr": "Modèles linéaires et affines",
+        "en": "Linear and affine models"
+      },
+      "estimatedMinutes": 15
+    }
+  ]
+}

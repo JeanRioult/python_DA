@@ -1,0 +1,137 @@
+{
+  "chapter": "chapter-08-ecrire-argumenter",
+  "cards": [
+    {
+      "id": "c08-f01",
+      "front": {
+        "fr": "Quelles sont les quatre qualités d'un écrit professionnel ?",
+        "en": "What are the four qualities of a professional piece of writing?"
+      },
+      "back": {
+        "fr": "Clarté, concision, précision, structure. Indépendantes et toutes indispensables.",
+        "en": "Clarity, concision, precision, structure. Independent and all essential."
+      }
+    },
+    {
+      "id": "c08-f02",
+      "front": {
+        "fr": "Qu'est-ce que la « pyramide inversée » en rédaction analytique ?",
+        "en": "What is the 'inverted pyramid' in analytical writing?"
+      },
+      "back": {
+        "fr": "Commencer par la conclusion, puis donner les données principales, puis les détails. Le lecteur pressé a l'essentiel dès le début.",
+        "en": "Start with the conclusion, then main data, then details. The busy reader gets the essentials first."
+      }
+    },
+    {
+      "id": "c08-f03",
+      "front": {
+        "fr": "Que signifie IMRaD et à quoi sert chaque section ?",
+        "en": "What does IMRaD mean and what is each section for?"
+      },
+      "back": {
+        "fr": "Introduction (pourquoi ?), Methods (comment ?), Results (qu'est-ce qu'on a trouvé ?), Discussion (qu'est-ce que ça veut dire ?).",
+        "en": "Introduction (why?), Methods (how?), Results (what did we find?), Discussion (what does it mean?)."
+      }
+    },
+    {
+      "id": "c08-f04",
+      "front": {
+        "fr": "Pourquoi la section « Limites » d'un rapport renforce-t-elle la crédibilité plutôt que de l'affaiblir ?",
+        "en": "Why does a 'Limitations' section strengthen rather than weaken a report's credibility?"
+      },
+      "back": {
+        "fr": "Elle montre que l'auteur a déjà pensé aux contre-arguments. Un lecteur critique trouvera toujours les limites ; mieux vaut les nommer soi-même, avec sa propre interprétation.",
+        "en": "It shows the author has already considered the counter-arguments. A critical reader will find the limits anyway; better to name them yourself, with your own framing."
+      }
+    },
+    {
+      "id": "c08-f05",
+      "front": {
+        "fr": "Qu'est-ce qu'une nominalisation et pourquoi l'éviter ?",
+        "en": "What is a nominalization and why avoid it?"
+      },
+      "back": {
+        "fr": "Transformer un verbe en nom (« procéder à l'examen de »). Alourdit et distance la phrase. Préférer le verbe direct (« examiner »).",
+        "en": "Turning a verb into a noun ('proceed to examination of'). It bloats and distances the sentence. Prefer the direct verb ('examine')."
+      }
+    },
+    {
+      "id": "c08-f06",
+      "front": {
+        "fr": "Qu'est-ce que la technique du Reverse Outline ?",
+        "en": "What is the Reverse Outline technique?"
+      },
+      "back": {
+        "fr": "Après un premier jet, résumer chaque paragraphe en une phrase. Si un paragraphe résiste au résumé, il traite plusieurs idées et doit être scindé ; si deux paragraphes se résument pareil, fusionner.",
+        "en": "After a first draft, summarize each paragraph in one sentence. If a paragraph resists this, it covers multiple ideas and should be split; if two paragraphs share a summary, merge them."
+      }
+    },
+    {
+      "id": "c08-f07",
+      "front": {
+        "fr": "Quelle est la différence entre citation directe, paraphrase et synthèse ?",
+        "en": "What is the difference between direct quote, paraphrase and synthesis?"
+      },
+      "back": {
+        "fr": "Citation directe : guillemets + référence, mots exacts de l'auteur. Paraphrase : reformulation avec tes mots + référence. Synthèse : plusieurs sources rassemblées + référence pour chacune.",
+        "en": "Direct quote: quotation marks + reference, author's exact words. Paraphrase: reword in your voice + reference. Synthesis: combine several sources + reference for each."
+      }
+    },
+    {
+      "id": "c08-f08",
+      "front": {
+        "fr": "Quels éléments sont obligatoires pour citer un dataset (ex. INSEE) ?",
+        "en": "What elements are mandatory when citing a dataset (e.g. INSEE)?"
+      },
+      "back": {
+        "fr": "Organisme, titre du dataset, identifiant/série, fichier précis si pertinent, date d'extraction, URL permanente. La date d'extraction est critique car les sources se mettent à jour.",
+        "en": "Organization, dataset title, identifier/series, specific file if relevant, date of extraction, permanent URL. The extraction date is critical because sources get updated."
+      }
+    },
+    {
+      "id": "c08-f09",
+      "front": {
+        "fr": "Quelle est la règle d'or pour une paraphrase qui n'est PAS du plagiat ?",
+        "en": "What is the golden rule for a paraphrase that is NOT plagiarism?"
+      },
+      "back": {
+        "fr": "Lire la source, la fermer, écrire de mémoire, relire pour vérifier. La structure de phrase et le choix de mots doivent être visiblement différents — et la référence reste obligatoire.",
+        "en": "Read the source, close it, write from memory, reread to verify. Sentence structure and word choice must be visibly different — and the reference is still mandatory."
+      }
+    },
+    {
+      "id": "c08-f10",
+      "front": {
+        "fr": "Quels sont les trois niveaux de lecture d'un texte difficile ?",
+        "en": "What are the three levels of reading a difficult text?"
+      },
+      "back": {
+        "fr": "Survol (2-5 min, décider si on continue), lecture active (30min-2h, extraire l'argument et annoter), étude approfondie (plusieurs passes espacées pour les textes de référence).",
+        "en": "Skim (2-5 min, decide if it's worth continuing), active reading (30min-2h, extract the argument and annotate), deep study (several spaced passes for reference texts)."
+      }
+    },
+    {
+      "id": "c08-f11",
+      "front": {
+        "fr": "Dans quel ordre lire efficacement un article scientifique dense ?",
+        "en": "In what order should you efficiently read a dense scientific article?"
+      },
+      "back": {
+        "fr": "Abstract → Conclusion → Figures → Introduction → Methods → Results → Discussion. Ordre « inverse » — savoir où l'on va avant de plonger dans les détails.",
+        "en": "Abstract → Conclusion → Figures → Introduction → Methods → Results → Discussion. 'Reverse' order — know where you're going before diving into details."
+      }
+    },
+    {
+      "id": "c08-f12",
+      "front": {
+        "fr": "Quelles trois questions garder en tête pendant une lecture active ?",
+        "en": "What three questions should you keep in mind during active reading?"
+      },
+      "back": {
+        "fr": "1) Quelle est la thèse ? 2) Quelles sont les preuves et sont-elles suffisantes ? 3) Qu'est-ce qui pourrait la contredire ?",
+        "en": "1) What is the thesis? 2) What is the evidence and is it sufficient? 3) What could contradict it?"
+      }
+    }
+  ]
+}

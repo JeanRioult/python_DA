@@ -1,0 +1,57 @@
+{
+  "id": "chapter-05-premiers-pas-python",
+  "number": 5,
+  "semester": 1,
+  "title": {
+    "fr": "Premiers pas en Python",
+    "en": "First steps in Python"
+  },
+  "estimatedHours": 50,
+  "lessons": [
+    {
+      "id": "lesson-01",
+      "number": 1,
+      "title": {
+        "fr": "Installer Python et PyCharm",
+        "en": "Installing Python and PyCharm"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-02",
+      "number": 2,
+      "title": {
+        "fr": "Le notebook Jupyter dans PyCharm",
+        "en": "The Jupyter notebook in PyCharm"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-03",
+      "number": 3,
+      "title": {
+        "fr": "Variables, types et affectation",
+        "en": "Variables, types and assignment"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-04",
+      "number": 4,
+      "title": {
+        "fr": "Entrées, sorties et arithmétique",
+        "en": "Input, output and arithmetic"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-05",
+      "number": 5,
+      "title": {
+        "fr": "Code lisible : commentaires, style, nommage",
+        "en": "Readable code: comments, style, naming"
+      },
+      "estimatedMinutes": 15
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "chapter": "chapter-02-qu-est-ce-qu-une-donnee",
+  "cards": [
+    {
+      "id": "c02-f01",
+      "front": {
+        "fr": "Pourquoi le mot « donnée » (du latin datum, « ce qui est donné ») est-il trompeur ?",
+        "en": "Why is the word 'data' (from Latin datum, 'that which is given') misleading?"
+      },
+      "back": {
+        "fr": "Parce qu'une donnée n'est pas donnée : elle est construite par une chaîne de choix humains (quoi mesurer, comment, qui inclure, quel format…).",
+        "en": "Because data is not given: it is constructed by a chain of human choices (what to measure, how, who to include, what format…)."
+      }
+    },
+    {
+      "id": "c02-f02",
+      "front": {
+        "fr": "Avant d'utiliser un dataset, quelle question faut-il se poser sur son origine ?",
+        "en": "Before using a dataset, what question should you ask about its origin?"
+      },
+      "back": {
+        "fr": "Pour répondre à quelle question quelqu'un l'a-t-il construit ? Si je l'utilise pour une autre question, quels angles morts je m'expose ?",
+        "en": "What question was it built to answer? If I'm using it for a different question, what blind spots am I exposing myself to?"
+      }
+    },
+    {
+      "id": "c02-f03",
+      "front": {
+        "fr": "Cite les quatre niveaux de mesure de Stevens dans l'ordre croissant de puissance.",
+        "en": "Name Stevens's four levels of measurement in order of increasing power."
+      },
+      "back": {
+        "fr": "Nominal, ordinal, intervalle, ratio.",
+        "en": "Nominal, ordinal, interval, ratio."
+      }
+    },
+    {
+      "id": "c02-f04",
+      "front": {
+        "fr": "Pourquoi 20 °C n'est-il PAS « deux fois plus chaud » que 10 °C ?",
+        "en": "Why is 20 °C NOT 'twice as hot' as 10 °C?"
+      },
+      "back": {
+        "fr": "Parce que Celsius est une échelle d'intervalle : son zéro (point de congélation de l'eau) est conventionnel, pas absolu. Les rapports ne sont valides qu'avec un zéro absolu (Kelvin).",
+        "en": "Because Celsius is an interval scale: its zero (freezing point of water) is conventional, not absolute. Ratios are only valid on a scale with an absolute zero (Kelvin)."
+      }
+    },
+    {
+      "id": "c02-f05",
+      "front": {
+        "fr": "Quelle mesure de tendance centrale est la plus adaptée à des données ordinales ?",
+        "en": "Which measure of central tendency is most appropriate for ordinal data?"
+      },
+      "back": {
+        "fr": "La médiane. La moyenne suppose des distances égales entre rangs, ce qui est faux pour une échelle ordinale.",
+        "en": "The median. The mean assumes equal distances between ranks, which is false for an ordinal scale."
+      }
+    },
+    {
+      "id": "c02-f06",
+      "front": {
+        "fr": "Quelle est la différence entre bruit et biais dans une mesure ?",
+        "en": "What is the difference between noise and bias in a measurement?"
+      },
+      "back": {
+        "fr": "Le bruit est aléatoire et se compense sur un grand échantillon. Le biais est systématique : plus de données ne le corrige pas — il faut changer de méthode.",
+        "en": "Noise is random and averages out on a large sample. Bias is systematic: more data does not fix it — you need a new method."
+      }
+    },
+    {
+      "id": "c02-f07",
+      "front": {
+        "fr": "Cite les trois types de valeurs manquantes (classification classique).",
+        "en": "Name the three types of missing data (classical classification)."
+      },
+      "back": {
+        "fr": "MCAR (Missing Completely At Random), MAR (Missing At Random, selon une autre variable), MNAR (Missing Not At Random, à cause de la valeur elle-même).",
+        "en": "MCAR (Missing Completely At Random), MAR (Missing At Random, dependent on another variable), MNAR (Missing Not At Random, because of the value itself)."
+      }
+    },
+    {
+      "id": "c02-f08",
+      "front": {
+        "fr": "Qu'est-ce que le biais du survivant ? Donne un exemple.",
+        "en": "What is survivorship bias? Give an example."
+      },
+      "back": {
+        "fr": "Analyser uniquement les cas qui ont « survécu » à un processus, en ignorant ceux qui manquent parce qu'ils n'ont pas survécu. Exemple : blinder les avions de guerre en regardant les impacts sur les rentrés — il faut blinder là où il n'y a PAS d'impacts sur les rentrés.",
+        "en": "Analyzing only the cases that 'survived' a process, ignoring those missing because they didn't. Example: armoring warplanes by looking at hits on returned planes — the correct conclusion is to armor where returned planes have NO hits."
+      }
+    },
+    {
+      "id": "c02-f09",
+      "front": {
+        "fr": "Qu'est-ce que l'effet Hawthorne (biais de l'observateur) ?",
+        "en": "What is the Hawthorne effect (observer bias)?"
+      },
+      "back": {
+        "fr": "Le simple fait d'être observé modifie le comportement de ce qu'on mesure. Peut être atténué par des mesures passives ou par un aveugle.",
+        "en": "Simply being observed changes the behavior of what is measured. Can be mitigated with passive measurement or blinding."
+      }
+    },
+    {
+      "id": "c02-f10",
+      "front": {
+        "fr": "Qu'est-ce que le paradoxe de Simpson ?",
+        "en": "What is Simpson's paradox?"
+      },
+      "back": {
+        "fr": "Une tendance présente dans plusieurs sous-groupes peut s'inverser (ou disparaître) quand on agrège les groupes. Toujours segmenter avant de conclure sur un effet global.",
+        "en": "A trend present in several subgroups can reverse (or vanish) when groups are aggregated. Always segment before concluding on a global effect."
+      }
+    },
+    {
+      "id": "c02-f11",
+      "front": {
+        "fr": "Quelle est la première étape de la check-list quand tu reçois un nouveau dataset ?",
+        "en": "What is the first step of the checklist when you receive a new dataset?"
+      },
+      "back": {
+        "fr": "Interroger l'origine : qui l'a collecté, quand, pour quel objectif, quelles populations incluses/exclues, quelle chaîne de traitement jusqu'à toi.",
+        "en": "Question the origin: who collected it, when, for what purpose, which populations are included/excluded, the chain of processing up to you."
+      }
+    },
+    {
+      "id": "c02-f12",
+      "front": {
+        "fr": "Pourquoi « une ligne = quoi ? » est-il la question la plus critique sur un dataset ?",
+        "en": "Why is 'one row = what?' the most critical question about a dataset?"
+      },
+      "back": {
+        "fr": "Mal comprendre la granularité d'une table est la source numéro un d'erreurs d'analyse : dé-agrégation accidentelle, double comptage, cardinalité de jointure cassée.",
+        "en": "Misunderstanding a table's granularity is the #1 source of analytical errors: accidental de-aggregation, double-counting, broken join cardinality."
+      }
+    },
+    {
+      "id": "c02-f13",
+      "front": {
+        "fr": "Quelle est la « question-mère » à poser face à tout dataset ?",
+        "en": "What is the 'mother question' to ask of any dataset?"
+      },
+      "back": {
+        "fr": "Qui a construit cette donnée, quand, pour quoi, et qui y manque ?",
+        "en": "Who built this data, when, for what purpose, and who is missing from it?"
+      }
+    }
+  ]
+}

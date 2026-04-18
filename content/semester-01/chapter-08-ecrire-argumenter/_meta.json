@@ -1,0 +1,57 @@
+{
+  "id": "chapter-08-ecrire-argumenter",
+  "number": 8,
+  "semester": 1,
+  "title": {
+    "fr": "Écrire & argumenter",
+    "en": "Writing & arguing"
+  },
+  "estimatedHours": 50,
+  "lessons": [
+    {
+      "id": "lesson-01",
+      "number": 1,
+      "title": {
+        "fr": "Pourquoi écrire est une compétence d'analyste",
+        "en": "Why writing is an analyst skill"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-02",
+      "number": 2,
+      "title": {
+        "fr": "Structurer : IMRaD et alternatives",
+        "en": "Structuring: IMRaD and alternatives"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-03",
+      "number": 3,
+      "title": {
+        "fr": "Bien phraser : clarté, concision, précision",
+        "en": "Good sentences: clarity, concision, precision"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-04",
+      "number": 4,
+      "title": {
+        "fr": "Citer, référencer, ne pas plagier",
+        "en": "Citing, referencing, avoiding plagiarism"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-05",
+      "number": 5,
+      "title": {
+        "fr": "Lire dense : face à un texte difficile",
+        "en": "Reading dense: facing a hard text"
+      },
+      "estimatedMinutes": 15
+    }
+  ]
+}

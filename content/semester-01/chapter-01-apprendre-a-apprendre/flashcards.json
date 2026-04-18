@@ -1,0 +1,148 @@
+{
+  "chapter": "chapter-01-apprendre-a-apprendre",
+  "cards": [
+    {
+      "id": "c01-f01",
+      "front": {
+        "fr": "Quels sont les trois principes des sciences de l'apprentissage appliqués dans ce cours ?",
+        "en": "What are the three learning-sciences principles this course applies?"
+      },
+      "back": {
+        "fr": "Récupération active, espacement, entrelacement.",
+        "en": "Retrieval practice, spaced repetition, interleaving."
+      }
+    },
+    {
+      "id": "c01-f02",
+      "front": {
+        "fr": "Pourquoi la relecture est-elle une moins bonne stratégie que l'auto-test ?",
+        "en": "Why is re-reading a worse strategy than self-testing?"
+      },
+      "back": {
+        "fr": "Elle crée un sentiment de maîtrise sans graver l'information en mémoire. L'auto-test force la récupération, qui est ce qui consolide la trace.",
+        "en": "It creates a feeling of mastery without carving the information into memory. Self-testing forces retrieval, which is what consolidates the trace."
+      }
+    },
+    {
+      "id": "c01-f03",
+      "front": {
+        "fr": "Combien d'éléments la mémoire de travail peut-elle tenir à la fois, approximativement ?",
+        "en": "Approximately how many elements can working memory hold at once?"
+      },
+      "back": {
+        "fr": "Environ 4. Cette capacité étroite est pourquoi la charge cognitive compte, et pourquoi on construit sur du connu.",
+        "en": "About 4. This narrow capacity is why cognitive load matters and why we build on what is already known."
+      }
+    },
+    {
+      "id": "c01-f04",
+      "front": {
+        "fr": "Pourquoi dormir suffisamment est-il critique pour l'apprentissage ?",
+        "en": "Why is enough sleep critical for learning?"
+      },
+      "back": {
+        "fr": "La consolidation des traces mémorielles se fait principalement pendant le sommeil. Une nuit courte annule une partie du travail de la veille.",
+        "en": "Consolidation of memory traces happens mainly during sleep. A short night cancels part of the previous day's work."
+      }
+    },
+    {
+      "id": "c01-f05",
+      "front": {
+        "fr": "Qu'est-ce que l'effet de test (testing effect) ?",
+        "en": "What is the testing effect?"
+      },
+      "back": {
+        "fr": "L'acte de se tester — y compris en échouant — renforce la trace mémorielle plus efficacement que de relire passivement.",
+        "en": "The act of testing yourself — including failing — strengthens the memory trace more effectively than passive re-reading."
+      }
+    },
+    {
+      "id": "c01-f06",
+      "front": {
+        "fr": "Les « styles d'apprentissage » (visuel, auditif, kinesthésique) sont-ils validés scientifiquement ?",
+        "en": "Are 'learning styles' (visual, auditory, kinesthetic) scientifically validated?"
+      },
+      "back": {
+        "fr": "Non. La recherche est claire : adapter l'enseignement à un prétendu « style » n'améliore pas l'apprentissage. C'est un mythe éducatif.",
+        "en": "No. Research is clear: matching teaching to a supposed 'style' does not improve learning. It is an educational myth."
+      }
+    },
+    {
+      "id": "c01-f07",
+      "front": {
+        "fr": "Quelle planification est meilleure : 4 h la veille d'un test, ou 30 min × 8 jours ?",
+        "en": "Which schedule is better: 4h the day before a test, or 30min × 8 days?"
+      },
+      "back": {
+        "fr": "Le second. Au test du lendemain, les deux sont proches ; à deux semaines, l'espacement l'emporte largement.",
+        "en": "The second. On next-day recall they're close; on two-week recall, spacing wins by a large margin."
+      }
+    },
+    {
+      "id": "c01-f08",
+      "front": {
+        "fr": "Pourquoi l'entrelacement (mélanger les types d'exercices) bat-il la pratique massée ?",
+        "en": "Why does interleaving (mixing exercise types) beat massed practice?"
+      },
+      "back": {
+        "fr": "Parce qu'il oblige à discriminer quel type de problème on traite et à choisir la méthode — précisément la compétence requise en examen et au travail.",
+        "en": "Because it forces you to discriminate which problem type you're dealing with and to choose the right method — the exact skill needed in exams and at work."
+      }
+    },
+    {
+      "id": "c01-f09",
+      "front": {
+        "fr": "Quelle est la règle des « difficultés désirables » (Bjork) ?",
+        "en": "What is the 'desirable difficulties' rule (Bjork)?"
+      },
+      "back": {
+        "fr": "Ce qui rend une séance plus facile sur le moment rend souvent l'apprentissage moins solide à long terme, et inversement. Ne te fie pas à ton ressenti.",
+        "en": "What makes a session easier in the moment often makes the learning less durable long-term, and vice versa. Don't trust how it felt."
+      }
+    },
+    {
+      "id": "c01-f10",
+      "front": {
+        "fr": "Quelles sont les trois zones d'une page de notes Cornell ?",
+        "en": "What are the three zones of a Cornell note page?"
+      },
+      "back": {
+        "fr": "Notes principales (droite, large), indices/questions (gauche, étroite, ajoutés après), résumé (bas, écrit de mémoire).",
+        "en": "Main notes (right, wide), cues/questions (left, narrow, added after), summary (bottom, written from memory)."
+      }
+    },
+    {
+      "id": "c01-f11",
+      "front": {
+        "fr": "Qu'est-ce qu'une note atomique au sens Zettelkasten ?",
+        "en": "What is an atomic note in the Zettelkasten sense?"
+      },
+      "back": {
+        "fr": "Une note portant une seule idée, écrite avec tes mots, compréhensible hors contexte, avec un identifiant stable et des liens vers d'autres notes.",
+        "en": "A note carrying one idea, written in your words, understandable out of context, with a stable ID and links to other notes."
+      }
+    },
+    {
+      "id": "c01-f12",
+      "front": {
+        "fr": "Quelle est la durée standard d'un pomodoro, et que fait-on après ?",
+        "en": "What is the standard length of a pomodoro, and what do you do after?"
+      },
+      "back": {
+        "fr": "25 minutes de concentration sur une seule tâche, puis 5 minutes de pause active (se lever, bouger). Après 4 cycles : pause plus longue (15–30 min).",
+        "en": "25 minutes of focus on one task, then a 5-minute active break (stand up, move). After 4 cycles: a longer break (15–30 min)."
+      }
+    },
+    {
+      "id": "c01-f13",
+      "front": {
+        "fr": "Cite deux stratégies spécifiques pour un cerveau TDAH.",
+        "en": "Name two specific strategies for an ADHD brain."
+      },
+      "back": {
+        "fr": "Externaliser la mémoire de travail (liste papier visible) ; body doubling (travailler en présence d'une autre personne) ; démarrage ritualisé ; exercice physique régulier.",
+        "en": "Externalize working memory (visible paper list); body doubling (working next to another person); ritualized starts; regular physical exercise."
+      }
+    }
+  ]
+}

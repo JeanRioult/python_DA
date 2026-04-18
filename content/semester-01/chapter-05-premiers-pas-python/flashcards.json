@@ -1,0 +1,137 @@
+{
+  "chapter": "chapter-05-premiers-pas-python",
+  "cards": [
+    {
+      "id": "c05-f01",
+      "front": {
+        "fr": "Pourquoi ce cours n'utilise-t-il pas Anaconda pour l'installation ?",
+        "en": "Why doesn't this course use Anaconda for installation?"
+      },
+      "back": {
+        "fr": "Parce qu'Anaconda ajoute une couche de complexité (environnements conda, terminal spécifique) inutile pour un débutant. Python + PyCharm avec venv suffit.",
+        "en": "Because Anaconda adds a layer of complexity (conda environments, dedicated terminal) that is unnecessary for a beginner. Python + PyCharm with venv is enough."
+      }
+    },
+    {
+      "id": "c05-f02",
+      "front": {
+        "fr": "Que fait le kernel d'un notebook Jupyter ?",
+        "en": "What does a Jupyter notebook kernel do?"
+      },
+      "back": {
+        "fr": "C'est le processus Python qui exécute le code et conserve toutes les variables, imports et fonctions entre les cellules.",
+        "en": "It is the Python process that executes code and keeps all variables, imports and functions alive across cells."
+      }
+    },
+    {
+      "id": "c05-f03",
+      "front": {
+        "fr": "Quel test permet de vérifier qu'un notebook est reproductible ?",
+        "en": "Which test confirms a notebook is reproducible?"
+      },
+      "back": {
+        "fr": "Redémarrer le kernel et relancer toutes les cellules depuis le haut. S'il n'y a aucune erreur, le notebook est propre.",
+        "en": "Restart the kernel and re-run every cell from the top. If no error, the notebook is clean."
+      }
+    },
+    {
+      "id": "c05-f04",
+      "front": {
+        "fr": "Quelle est la différence entre `=` et `==` en Python ?",
+        "en": "What is the difference between `=` and `==` in Python?"
+      },
+      "back": {
+        "fr": "`=` est l'affectation (range cette valeur sous ce nom). `==` est le test d'égalité (ces deux expressions sont-elles égales ?).",
+        "en": "`=` is assignment (store this value under that name). `==` is the equality test (are these two expressions equal?)."
+      }
+    },
+    {
+      "id": "c05-f05",
+      "front": {
+        "fr": "Pourquoi faut-il éviter de tester l'égalité entre deux floats avec `==` ?",
+        "en": "Why should you avoid testing float equality with `==`?"
+      },
+      "back": {
+        "fr": "Parce que la représentation binaire des floats (IEEE 754) est approximative : `0.1 + 0.2 == 0.3` donne `False`. Utiliser `math.isclose(a, b)` à la place.",
+        "en": "Because the binary (IEEE 754) representation of floats is approximate: `0.1 + 0.2 == 0.3` returns `False`. Use `math.isclose(a, b)` instead."
+      }
+    },
+    {
+      "id": "c05-f06",
+      "front": {
+        "fr": "Quels sont les cinq types primitifs Python à connaître dès le départ ?",
+        "en": "What are the five Python primitive types to know right away?"
+      },
+      "back": {
+        "fr": "int (entier), float (virgule flottante), str (chaîne), bool (True/False), NoneType (la valeur None).",
+        "en": "int, float, str, bool, NoneType (the value None)."
+      }
+    },
+    {
+      "id": "c05-f07",
+      "front": {
+        "fr": "Comment formatter proprement une chaîne avec des variables en Python moderne ?",
+        "en": "How do you cleanly format a string with variables in modern Python?"
+      },
+      "back": {
+        "fr": "Avec une f-string : f\"{variable}\". Préférer systématiquement à la concaténation avec `+`.",
+        "en": "With an f-string: f\"{variable}\". Always prefer over concatenation with `+`."
+      }
+    },
+    {
+      "id": "c05-f08",
+      "front": {
+        "fr": "Quelle est la différence entre `/`, `//` et `%` ?",
+        "en": "What is the difference between `/`, `//` and `%`?"
+      },
+      "back": {
+        "fr": "`/` : division flottante (toujours un float). `//` : division entière (quotient). `%` : modulo (reste de la division).",
+        "en": "`/`: float division (always returns a float). `//`: integer division (quotient). `%`: modulo (remainder of division)."
+      }
+    },
+    {
+      "id": "c05-f09",
+      "front": {
+        "fr": "En Python, `^` est-il l'opérateur de puissance ?",
+        "en": "In Python, is `^` the exponent operator?"
+      },
+      "back": {
+        "fr": "Non. `^` est le XOR bit-à-bit. La puissance s'écrit `**`. Erreur fréquente pour qui vient d'autres langages.",
+        "en": "No. `^` is bitwise XOR. Exponent is `**`. Common mistake for those coming from other languages."
+      }
+    },
+    {
+      "id": "c05-f10",
+      "front": {
+        "fr": "Quelle est la convention de nommage PEP 8 pour les variables ?",
+        "en": "What is the PEP 8 naming convention for variables?"
+      },
+      "back": {
+        "fr": "snake_case : minuscules avec underscores. Pas de camelCase (autres langages), pas de MAJUSCULES (réservées aux constantes).",
+        "en": "snake_case: lowercase with underscores. No camelCase (other languages), no UPPERCASE (reserved for constants)."
+      }
+    },
+    {
+      "id": "c05-f11",
+      "front": {
+        "fr": "Quand un commentaire de code est-il utile ? Quand est-il nuisible ?",
+        "en": "When is a code comment useful? When is it harmful?"
+      },
+      "back": {
+        "fr": "Utile : quand il explique le POURQUOI non-évident (choix méthodologique, avertissement, référence). Nuisible : quand il paraphrase le QUOI (que le code montre déjà) ou quand il n'a pas suivi les évolutions du code.",
+        "en": "Useful: when it explains the non-obvious WHY (design choice, warning, reference). Harmful: when it paraphrases the WHAT (already visible in code) or when it has drifted out of sync with the code."
+      }
+    },
+    {
+      "id": "c05-f12",
+      "front": {
+        "fr": "Quels outils formattent automatiquement un fichier Python selon PEP 8 ?",
+        "en": "Which tools auto-format a Python file according to PEP 8?"
+      },
+      "back": {
+        "fr": "black (strict, sans options) et ruff (plus récent, très rapide, combine formatage et linting).",
+        "en": "black (strict, no options) and ruff (newer, very fast, combines formatting and linting)."
+      }
+    }
+  ]
+}

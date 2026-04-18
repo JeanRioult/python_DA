@@ -1,0 +1,24 @@
+/* Low-stimulation mode for ADHD: hide decorations, reduce contrast of
+   non-essential UI, strip all transitions and non-essential animations. */
+
+html[data-stim="low"] .topbar {
+  box-shadow: none;
+}
+html[data-stim="low"] .lesson-content blockquote {
+  background: transparent;
+  border-left-color: var(--border);
+}
+html[data-stim="low"] .progress-fill {
+  transition: none;
+}
+html[data-stim="low"] *, html[data-stim="low"] *::before, html[data-stim="low"] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+html[data-stim="low"] .cta {
+  background: var(--text);
+  color: var(--bg);
+}
+html[data-stim="low"] .cta.done {
+  background: var(--text-soft);
+}

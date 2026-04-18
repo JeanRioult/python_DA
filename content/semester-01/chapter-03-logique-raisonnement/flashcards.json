@@ -1,0 +1,159 @@
+{
+  "chapter": "chapter-03-logique-raisonnement",
+  "cards": [
+    {
+      "id": "c03-f01",
+      "front": {
+        "fr": "Quels sont les deux rôles mentaux qu'un analyste doit alterner ?",
+        "en": "What two mental roles must an analyst alternate between?"
+      },
+      "back": {
+        "fr": "L'avocat (qui cherche ce qui soutient l'hypothèse) et le juge (qui cherche aussi ce qui la contredit).",
+        "en": "The advocate (looking for what supports the hypothesis) and the judge (also looking for what contradicts it)."
+      }
+    },
+    {
+      "id": "c03-f02",
+      "front": {
+        "fr": "Qu'est-ce que le principe de charité en argumentation ?",
+        "en": "What is the principle of charity in argumentation?"
+      },
+      "back": {
+        "fr": "Interpréter l'argument adverse dans sa version la plus forte possible avant de le critiquer. Sinon on ne démonte qu'une caricature.",
+        "en": "Interpret the opposing argument in its strongest possible form before criticizing it. Otherwise you're only dismantling a caricature."
+      }
+    },
+    {
+      "id": "c03-f03",
+      "front": {
+        "fr": "Donne les lois de De Morgan.",
+        "en": "State De Morgan's laws."
+      },
+      "back": {
+        "fr": "¬(P ∧ Q) ≡ ¬P ∨ ¬Q ; ¬(P ∨ Q) ≡ ¬P ∧ ¬Q. La négation transforme les ET en OU et vice-versa.",
+        "en": "¬(P ∧ Q) ≡ ¬P ∨ ¬Q ; ¬(P ∨ Q) ≡ ¬P ∧ ¬Q. Negation turns AND into OR and vice versa."
+      }
+    },
+    {
+      "id": "c03-f04",
+      "front": {
+        "fr": "Quelle est la contraposition de « P → Q » ?",
+        "en": "What is the contrapositive of 'P → Q'?"
+      },
+      "back": {
+        "fr": "¬Q → ¬P. C'est équivalent à P → Q. À ne pas confondre avec la réciproque Q → P (pas équivalente).",
+        "en": "¬Q → ¬P. This is equivalent to P → Q. Not to be confused with the converse Q → P (which is NOT equivalent)."
+      }
+    },
+    {
+      "id": "c03-f05",
+      "front": {
+        "fr": "Pourquoi P → Q est-il vrai quand P est faux, quel que soit Q ?",
+        "en": "Why is P → Q true when P is false, whatever Q is?"
+      },
+      "back": {
+        "fr": "Une implication ne peut être démontrée fausse que lorsque P est vrai et Q est faux. Avec P faux, l'implication tient « par défaut » (vacuously true).",
+        "en": "An implication can only be shown false when P is true and Q is false. With P false, the implication holds 'by default' (vacuously true)."
+      }
+    },
+    {
+      "id": "c03-f06",
+      "front": {
+        "fr": "Décris les trois modes de raisonnement et ce que chacun garantit.",
+        "en": "Describe the three modes of reasoning and what each guarantees."
+      },
+      "back": {
+        "fr": "Déduction (règle+cas→conclusion certaine si prémisses vraies), induction (observations→règle probable), abduction (observation→meilleure explication plausible).",
+        "en": "Deduction (rule+case→certain conclusion if premises are true), induction (observations→probable rule), abduction (observation→most plausible explanation)."
+      }
+    },
+    {
+      "id": "c03-f07",
+      "front": {
+        "fr": "Quel est le mode de raisonnement principal d'un détective comme Sherlock Holmes ?",
+        "en": "What is the primary mode of reasoning of a detective like Sherlock Holmes?"
+      },
+      "back": {
+        "fr": "L'abduction — chercher la meilleure explication d'observations. Ce que Conan Doyle appelait « déduction » est techniquement de l'abduction.",
+        "en": "Abduction — finding the best explanation for observations. What Conan Doyle called 'deduction' is technically abduction."
+      }
+    },
+    {
+      "id": "c03-f08",
+      "front": {
+        "fr": "Qu'est-ce qu'un sophisme (fallacy) ?",
+        "en": "What is a fallacy?"
+      },
+      "back": {
+        "fr": "Un raisonnement qui semble valide mais ne l'est pas à cause d'une erreur de structure logique.",
+        "en": "A piece of reasoning that appears valid but is not, due to a flaw in logical structure."
+      }
+    },
+    {
+      "id": "c03-f09",
+      "front": {
+        "fr": "Qu'est-ce qu'un strawman et comment l'éviter ?",
+        "en": "What is a strawman argument and how do you avoid it?"
+      },
+      "back": {
+        "fr": "Caricaturer une position pour la démonter plus facilement. L'antidote : appliquer le principe de charité — reformuler la position de l'autre dans sa version la plus forte avant de la critiquer.",
+        "en": "Caricaturing a position to knock it down more easily. Antidote: apply the principle of charity — restate the opposing position in its strongest form before critiquing it."
+      }
+    },
+    {
+      "id": "c03-f10",
+      "front": {
+        "fr": "Qu'est-ce que le cherry picking ? Pourquoi est-il dangereux en analyse ?",
+        "en": "What is cherry picking? Why is it dangerous in analysis?"
+      },
+      "back": {
+        "fr": "Sélectionner seulement les cas qui soutiennent son hypothèse, ignorer les autres. C'est le biais de confirmation en argumentation ; ça fabrique de fausses évidences.",
+        "en": "Selecting only the cases that support your hypothesis and ignoring the others. It's confirmation bias in argumentation; it manufactures false evidence."
+      }
+    },
+    {
+      "id": "c03-f11",
+      "front": {
+        "fr": "Qu'est-ce que le p-hacking ?",
+        "en": "What is p-hacking?"
+      },
+      "back": {
+        "fr": "Tester de nombreuses hypothèses sur un même dataset jusqu'à en trouver une « significative » (p<0.05) au hasard. Antidote : pré-enregistrer son plan d'analyse avant de voir les données.",
+        "en": "Testing many hypotheses on the same dataset until one comes out 'significant' (p<0.05) by chance. Antidote: pre-register the analysis plan before seeing the data."
+      }
+    },
+    {
+      "id": "c03-f12",
+      "front": {
+        "fr": "Quelles sont les 4 explications possibles quand A et B sont corrélés ?",
+        "en": "What are the 4 possible explanations when A and B are correlated?"
+      },
+      "back": {
+        "fr": "A cause B ; B cause A (causalité inversée) ; une troisième variable C cause les deux (confondeur) ; corrélation fortuite (hasard).",
+        "en": "A causes B; B causes A (reverse causation); a third variable C causes both (confounder); spurious correlation (chance)."
+      }
+    },
+    {
+      "id": "c03-f13",
+      "front": {
+        "fr": "Quel est l'étalon-or pour établir une causalité ?",
+        "en": "What is the gold standard for establishing causation?"
+      },
+      "back": {
+        "fr": "L'essai contrôlé randomisé (RCT). Le tirage au sort équilibre les confondeurs connus et inconnus entre les deux groupes.",
+        "en": "The randomized controlled trial (RCT). Random assignment balances known and unknown confounders between the two groups."
+      }
+    },
+    {
+      "id": "c03-f14",
+      "front": {
+        "fr": "Dans un rapport, quels verbes sont « causaux » et à utiliser avec prudence ?",
+        "en": "In a report, which verbs are 'causal' and should be used with care?"
+      },
+      "back": {
+        "fr": "Cause, entraîne, conduit à, grâce à, permet de. À réserver aux effets prouvés par RCT ou quasi-expérience. Sinon : associé à, corrélé avec, lié à.",
+        "en": "Cause, leads to, results in, thanks to, allows. Reserve these for effects proven by RCT or quasi-experiment. Otherwise use: associated with, correlates with, linked to."
+      }
+    }
+  ]
+}

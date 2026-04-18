@@ -1,0 +1,137 @@
+{
+  "chapter": "chapter-04-mathematiques-fondamentales",
+  "cards": [
+    {
+      "id": "c04-f01",
+      "front": {
+        "fr": "Comment additionner deux fractions de dénominateurs différents ?",
+        "en": "How do you add two fractions with different denominators?"
+      },
+      "back": {
+        "fr": "On les met d'abord au même dénominateur en multipliant numérateur et dénominateur par ce qu'il faut, puis on additionne les numérateurs. Jamais additionner numérateurs et dénominateurs directement.",
+        "en": "First bring them to a common denominator by multiplying numerator and denominator by the right factor, then add the numerators. Never add numerators and denominators directly."
+      }
+    },
+    {
+      "id": "c04-f02",
+      "front": {
+        "fr": "Quelle est la formule de la variation relative en pourcentage ?",
+        "en": "What is the formula for relative percentage change?"
+      },
+      "back": {
+        "fr": "Δ% = ((V2 - V1) / V1) × 100. Le dénominateur est la valeur de DÉPART, pas la finale.",
+        "en": "Δ% = ((V2 - V1) / V1) × 100. The denominator is the STARTING value, not the final one."
+      }
+    },
+    {
+      "id": "c04-f03",
+      "front": {
+        "fr": "Pourquoi +20 % suivi de −20 % ne ramène-t-il pas au point de départ ?",
+        "en": "Why does +20% followed by −20% not return to the starting value?"
+      },
+      "back": {
+        "fr": "Parce que les deux pourcentages ne s'appliquent pas à la même base. 100 → 120 (+20% de 100), puis 120 → 96 (−20% de 120). On perd 4%.",
+        "en": "Because the two percentages apply to different bases. 100 → 120 (+20% of 100), then 120 → 96 (−20% of 120). A net loss of 4%."
+      }
+    },
+    {
+      "id": "c04-f04",
+      "front": {
+        "fr": "Quelle est la différence entre « +2 points » et « +2 % » pour un taux ?",
+        "en": "What is the difference between '+2 points' and '+2%' for a rate?"
+      },
+      "back": {
+        "fr": "« +2 points » : différence absolue (ex. 8% → 10%). « +2% » : variation relative (8% × 1.02 = 8.16%). Mélanger les deux est une manipulation classique.",
+        "en": "'+2 points': absolute difference (e.g. 8% → 10%). '+2%': relative change (8% × 1.02 = 8.16%). Confusing the two is a classic manipulation."
+      }
+    },
+    {
+      "id": "c04-f05",
+      "front": {
+        "fr": "Quelle est la règle d'or de la résolution d'équations ?",
+        "en": "What is the golden rule of solving equations?"
+      },
+      "back": {
+        "fr": "Tout ce qu'on fait à un côté, on le fait à l'autre. Jamais diviser par zéro.",
+        "en": "Whatever you do to one side, you must do to the other. Never divide by zero."
+      }
+    },
+    {
+      "id": "c04-f06",
+      "front": {
+        "fr": "Quelles sont les trois identités remarquables à connaître ?",
+        "en": "What are the three key algebraic identities to know?"
+      },
+      "back": {
+        "fr": "(a+b)² = a² + 2ab + b² ; (a-b)² = a² - 2ab + b² ; (a+b)(a-b) = a² - b².",
+        "en": "(a+b)² = a² + 2ab + b² ; (a-b)² = a² - 2ab + b² ; (a+b)(a-b) = a² - b²."
+      }
+    },
+    {
+      "id": "c04-f07",
+      "front": {
+        "fr": "Pour une équation du 2nd degré ax²+bx+c=0, que dit le signe de Δ = b² - 4ac ?",
+        "en": "For a quadratic ax²+bx+c=0, what does the sign of Δ = b² - 4ac tell you?"
+      },
+      "back": {
+        "fr": "Δ > 0 : deux solutions réelles distinctes. Δ = 0 : une solution double. Δ < 0 : pas de solution réelle.",
+        "en": "Δ > 0: two distinct real solutions. Δ = 0: one repeated solution. Δ < 0: no real solution."
+      }
+    },
+    {
+      "id": "c04-f08",
+      "front": {
+        "fr": "Quelle est la différence entre une fonction linéaire et une fonction affine ?",
+        "en": "What is the difference between a linear and an affine function?"
+      },
+      "back": {
+        "fr": "Linéaire stricte : y = ax (passe par l'origine, additive). Affine : y = ax + b avec b quelconque. En statistiques, la « régression linéaire » est en fait le plus souvent affine.",
+        "en": "Strictly linear: y = ax (passes through origin, additive). Affine: y = ax + b with any b. In statistics, 'linear regression' is actually most often affine."
+      }
+    },
+    {
+      "id": "c04-f09",
+      "front": {
+        "fr": "Quelle propriété magique du logarithme le rend si utile ?",
+        "en": "What magical property of the logarithm makes it so useful?"
+      },
+      "back": {
+        "fr": "Il transforme les multiplications en additions : log(a × b) = log(a) + log(b). Un produit difficile à modéliser devient une somme facile.",
+        "en": "It turns multiplication into addition: log(a × b) = log(a) + log(b). A hard-to-model product becomes an easy sum."
+      }
+    },
+    {
+      "id": "c04-f10",
+      "front": {
+        "fr": "Comment calcule-t-on la pente d'une droite à partir de deux points (x1,y1), (x2,y2) ?",
+        "en": "How do you compute the slope of a line from two points (x1,y1), (x2,y2)?"
+      },
+      "back": {
+        "fr": "a = (y2 - y1) / (x2 - x1) — le rapport « Δy / Δx » (variation verticale sur variation horizontale).",
+        "en": "a = (y2 - y1) / (x2 - x1) — the 'Δy / Δx' ratio (vertical change over horizontal change)."
+      }
+    },
+    {
+      "id": "c04-f11",
+      "front": {
+        "fr": "Pourquoi interpréter l'ordonnée à l'origine b peut-il être trompeur ?",
+        "en": "Why can interpreting the intercept b be misleading?"
+      },
+      "back": {
+        "fr": "Parce qu'elle correspond à x=0, qui peut être hors du domaine raisonnable du problème (ex. x = année). On centre alors la variable pour rendre b interprétable.",
+        "en": "Because it corresponds to x=0, which may be outside the problem's reasonable domain (e.g. x = year). Centering the variable makes b interpretable."
+      }
+    },
+    {
+      "id": "c04-f12",
+      "front": {
+        "fr": "Qu'est-ce que le quartet d'Anscombe, et quelle leçon en tire-t-on ?",
+        "en": "What is Anscombe's quartet and what lesson does it teach?"
+      },
+      "back": {
+        "fr": "Quatre datasets avec les mêmes statistiques résumées (moyennes, variances, corrélation, régression) mais des graphiques radicalement différents. Leçon : toujours TRACER avant de conclure.",
+        "en": "Four datasets with identical summary statistics (means, variances, correlation, regression) but radically different graphs. Lesson: always PLOT before concluding."
+      }
+    }
+  ]
+}

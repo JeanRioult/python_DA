@@ -1,0 +1,57 @@
+{
+  "id": "chapter-07-tableurs",
+  "number": 7,
+  "semester": 1,
+  "title": {
+    "fr": "Tableurs",
+    "en": "Spreadsheets"
+  },
+  "estimatedHours": 50,
+  "lessons": [
+    {
+      "id": "lesson-01",
+      "number": 1,
+      "title": {
+        "fr": "Pourquoi les tableurs (même à l'époque de Python)",
+        "en": "Why spreadsheets (even in the age of Python)"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-02",
+      "number": 2,
+      "title": {
+        "fr": "Cellules, références, formules",
+        "en": "Cells, references, formulas"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-03",
+      "number": 3,
+      "title": {
+        "fr": "Fonctions essentielles et lookups",
+        "en": "Essential functions and lookups"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-04",
+      "number": 4,
+      "title": {
+        "fr": "Tableaux croisés dynamiques",
+        "en": "Pivot tables"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-05",
+      "number": 5,
+      "title": {
+        "fr": "Graphiques et leurs pièges",
+        "en": "Charts and their traps"
+      },
+      "estimatedMinutes": 15
+    }
+  ]
+}

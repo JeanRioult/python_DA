@@ -1,0 +1,968 @@
+[
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-01-apprendre-a-apprendre",
+    "chapterNumber": 1,
+    "chapterTitle": {
+      "fr": "Apprendre à apprendre",
+      "en": "Learning how to learn"
+    },
+    "lesson": "lesson-01",
+    "lessonNumber": 1,
+    "title": {
+      "fr": "Bienvenue — et pourquoi ce cours est différent",
+      "en": "Welcome — and why this course is different"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-01-apprendre-a-apprendre",
+    "chapterNumber": 1,
+    "chapterTitle": {
+      "fr": "Apprendre à apprendre",
+      "en": "Learning how to learn"
+    },
+    "lesson": "lesson-02",
+    "lessonNumber": 2,
+    "title": {
+      "fr": "La mémoire et l'apprentissage",
+      "en": "Memory and learning"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-01-apprendre-a-apprendre",
+    "chapterNumber": 1,
+    "chapterTitle": {
+      "fr": "Apprendre à apprendre",
+      "en": "Learning how to learn"
+    },
+    "lesson": "lesson-03",
+    "lessonNumber": 3,
+    "title": {
+      "fr": "La récupération active : le principe clé",
+      "en": "Retrieval practice: the key principle"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-01-apprendre-a-apprendre",
+    "chapterNumber": 1,
+    "chapterTitle": {
+      "fr": "Apprendre à apprendre",
+      "en": "Learning how to learn"
+    },
+    "lesson": "lesson-04",
+    "lessonNumber": 4,
+    "title": {
+      "fr": "Espacement et entrelacement",
+      "en": "Spacing and interleaving"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-01-apprendre-a-apprendre",
+    "chapterNumber": 1,
+    "chapterTitle": {
+      "fr": "Apprendre à apprendre",
+      "en": "Learning how to learn"
+    },
+    "lesson": "lesson-05",
+    "lessonNumber": 5,
+    "title": {
+      "fr": "Prendre des notes — Cornell et Zettelkasten",
+      "en": "Note-taking — Cornell and Zettelkasten"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-01-apprendre-a-apprendre",
+    "chapterNumber": 1,
+    "chapterTitle": {
+      "fr": "Apprendre à apprendre",
+      "en": "Learning how to learn"
+    },
+    "lesson": "lesson-06",
+    "lessonNumber": 6,
+    "title": {
+      "fr": "Pomodoro, attention, et TDAH",
+      "en": "Pomodoro, attention, and ADHD"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-02-qu-est-ce-qu-une-donnee",
+    "chapterNumber": 2,
+    "chapterTitle": {
+      "fr": "Qu'est-ce qu'une donnée ?",
+      "en": "What is data?"
+    },
+    "lesson": "lesson-01",
+    "lessonNumber": 1,
+    "title": {
+      "fr": "Une donnée n'est pas un fait",
+      "en": "Data is not fact"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-02-qu-est-ce-qu-une-donnee",
+    "chapterNumber": 2,
+    "chapterTitle": {
+      "fr": "Qu'est-ce qu'une donnée ?",
+      "en": "What is data?"
+    },
+    "lesson": "lesson-02",
+    "lessonNumber": 2,
+    "title": {
+      "fr": "Types et niveaux de mesure",
+      "en": "Types and levels of measurement"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-02-qu-est-ce-qu-une-donnee",
+    "chapterNumber": 2,
+    "chapterTitle": {
+      "fr": "Qu'est-ce qu'une donnée ?",
+      "en": "What is data?"
+    },
+    "lesson": "lesson-03",
+    "lessonNumber": 3,
+    "title": {
+      "fr": "La qualité des données",
+      "en": "Data quality"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-02-qu-est-ce-qu-une-donnee",
+    "chapterNumber": 2,
+    "chapterTitle": {
+      "fr": "Qu'est-ce qu'une donnée ?",
+      "en": "What is data?"
+    },
+    "lesson": "lesson-04",
+    "lessonNumber": 4,
+    "title": {
+      "fr": "Les biais de collecte",
+      "en": "Collection biases"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-02-qu-est-ce-qu-une-donnee",
+    "chapterNumber": 2,
+    "chapterTitle": {
+      "fr": "Qu'est-ce qu'une donnée ?",
+      "en": "What is data?"
+    },
+    "lesson": "lesson-05",
+    "lessonNumber": 5,
+    "title": {
+      "fr": "Quand tu reçois un dataset — la check-list",
+      "en": "Receiving a new dataset — the checklist"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-03-logique-raisonnement",
+    "chapterNumber": 3,
+    "chapterTitle": {
+      "fr": "Logique & raisonnement",
+      "en": "Logic & reasoning"
+    },
+    "lesson": "lesson-01",
+    "lessonNumber": 1,
+    "title": {
+      "fr": "Pourquoi la logique, pour un analyste",
+      "en": "Why logic matters for an analyst"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-03-logique-raisonnement",
+    "chapterNumber": 3,
+    "chapterTitle": {
+      "fr": "Logique & raisonnement",
+      "en": "Logic & reasoning"
+    },
+    "lesson": "lesson-02",
+    "lessonNumber": 2,
+    "title": {
+      "fr": "Logique propositionnelle et tables de vérité",
+      "en": "Propositional logic and truth tables"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-03-logique-raisonnement",
+    "chapterNumber": 3,
+    "chapterTitle": {
+      "fr": "Logique & raisonnement",
+      "en": "Logic & reasoning"
+    },
+    "lesson": "lesson-03",
+    "lessonNumber": 3,
+    "title": {
+      "fr": "Déduction, induction, abduction",
+      "en": "Deduction, induction, abduction"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-03-logique-raisonnement",
+    "chapterNumber": 3,
+    "chapterTitle": {
+      "fr": "Logique & raisonnement",
+      "en": "Logic & reasoning"
+    },
+    "lesson": "lesson-04",
+    "lessonNumber": 4,
+    "title": {
+      "fr": "Les sophismes courants",
+      "en": "Common fallacies"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-03-logique-raisonnement",
+    "chapterNumber": 3,
+    "chapterTitle": {
+      "fr": "Logique & raisonnement",
+      "en": "Logic & reasoning"
+    },
+    "lesson": "lesson-05",
+    "lessonNumber": 5,
+    "title": {
+      "fr": "Corrélation n'est pas causalité",
+      "en": "Correlation is not causation"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-04-mathematiques-fondamentales",
+    "chapterNumber": 4,
+    "chapterTitle": {
+      "fr": "Mathématiques fondamentales",
+      "en": "Foundational mathematics"
+    },
+    "lesson": "lesson-01",
+    "lessonNumber": 1,
+    "title": {
+      "fr": "Arithmétique et fractions",
+      "en": "Arithmetic and fractions"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-04-mathematiques-fondamentales",
+    "chapterNumber": 4,
+    "chapterTitle": {
+      "fr": "Mathématiques fondamentales",
+      "en": "Foundational mathematics"
+    },
+    "lesson": "lesson-02",
+    "lessonNumber": 2,
+    "title": {
+      "fr": "Pourcentages et ratios",
+      "en": "Percentages and ratios"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-04-mathematiques-fondamentales",
+    "chapterNumber": 4,
+    "chapterTitle": {
+      "fr": "Mathématiques fondamentales",
+      "en": "Foundational mathematics"
+    },
+    "lesson": "lesson-03",
+    "lessonNumber": 3,
+    "title": {
+      "fr": "Algèbre : équations et inconnues",
+      "en": "Algebra: equations and unknowns"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-04-mathematiques-fondamentales",
+    "chapterNumber": 4,
+    "chapterTitle": {
+      "fr": "Mathématiques fondamentales",
+      "en": "Foundational mathematics"
+    },
+    "lesson": "lesson-04",
+    "lessonNumber": 4,
+    "title": {
+      "fr": "Fonctions et graphiques",
+      "en": "Functions and graphs"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-04-mathematiques-fondamentales",
+    "chapterNumber": 4,
+    "chapterTitle": {
+      "fr": "Mathématiques fondamentales",
+      "en": "Foundational mathematics"
+    },
+    "lesson": "lesson-05",
+    "lessonNumber": 5,
+    "title": {
+      "fr": "Modèles linéaires et affines",
+      "en": "Linear and affine models"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-05-premiers-pas-python",
+    "chapterNumber": 5,
+    "chapterTitle": {
+      "fr": "Premiers pas en Python",
+      "en": "First steps in Python"
+    },
+    "lesson": "lesson-01",
+    "lessonNumber": 1,
+    "title": {
+      "fr": "Installer Python et PyCharm",
+      "en": "Installing Python and PyCharm"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-05-premiers-pas-python",
+    "chapterNumber": 5,
+    "chapterTitle": {
+      "fr": "Premiers pas en Python",
+      "en": "First steps in Python"
+    },
+    "lesson": "lesson-02",
+    "lessonNumber": 2,
+    "title": {
+      "fr": "Le notebook Jupyter dans PyCharm",
+      "en": "The Jupyter notebook in PyCharm"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-05-premiers-pas-python",
+    "chapterNumber": 5,
+    "chapterTitle": {
+      "fr": "Premiers pas en Python",
+      "en": "First steps in Python"
+    },
+    "lesson": "lesson-03",
+    "lessonNumber": 3,
+    "title": {
+      "fr": "Variables, types et affectation",
+      "en": "Variables, types and assignment"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-05-premiers-pas-python",
+    "chapterNumber": 5,
+    "chapterTitle": {
+      "fr": "Premiers pas en Python",
+      "en": "First steps in Python"
+    },
+    "lesson": "lesson-04",
+    "lessonNumber": 4,
+    "title": {
+      "fr": "Entrées, sorties et arithmétique",
+      "en": "Input, output and arithmetic"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-05-premiers-pas-python",
+    "chapterNumber": 5,
+    "chapterTitle": {
+      "fr": "Premiers pas en Python",
+      "en": "First steps in Python"
+    },
+    "lesson": "lesson-05",
+    "lessonNumber": 5,
+    "title": {
+      "fr": "Code lisible : commentaires, style, nommage",
+      "en": "Readable code: comments, style, naming"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-06-controle-du-flux",
+    "chapterNumber": 6,
+    "chapterTitle": {
+      "fr": "Contrôle du flux",
+      "en": "Control flow"
+    },
+    "lesson": "lesson-01",
+    "lessonNumber": 1,
+    "title": {
+      "fr": "Conditions : if, elif, else",
+      "en": "Conditions: if, elif, else"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-06-controle-du-flux",
+    "chapterNumber": 6,
+    "chapterTitle": {
+      "fr": "Contrôle du flux",
+      "en": "Control flow"
+    },
+    "lesson": "lesson-02",
+    "lessonNumber": 2,
+    "title": {
+      "fr": "Listes : la collection de base",
+      "en": "Lists: the base collection"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-06-controle-du-flux",
+    "chapterNumber": 6,
+    "chapterTitle": {
+      "fr": "Contrôle du flux",
+      "en": "Control flow"
+    },
+    "lesson": "lesson-03",
+    "lessonNumber": 3,
+    "title": {
+      "fr": "Boucles : for et while",
+      "en": "Loops: for and while"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-06-controle-du-flux",
+    "chapterNumber": 6,
+    "chapterTitle": {
+      "fr": "Contrôle du flux",
+      "en": "Control flow"
+    },
+    "lesson": "lesson-04",
+    "lessonNumber": 4,
+    "title": {
+      "fr": "Erreurs et try/except",
+      "en": "Errors and try/except"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-06-controle-du-flux",
+    "chapterNumber": 6,
+    "chapterTitle": {
+      "fr": "Contrôle du flux",
+      "en": "Control flow"
+    },
+    "lesson": "lesson-05",
+    "lessonNumber": 5,
+    "title": {
+      "fr": "Déboguer : la méthode mentale",
+      "en": "Debugging: the mental method"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-07-tableurs",
+    "chapterNumber": 7,
+    "chapterTitle": {
+      "fr": "Tableurs",
+      "en": "Spreadsheets"
+    },
+    "lesson": "lesson-01",
+    "lessonNumber": 1,
+    "title": {
+      "fr": "Pourquoi les tableurs (même à l'époque de Python)",
+      "en": "Why spreadsheets (even in the age of Python)"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-07-tableurs",
+    "chapterNumber": 7,
+    "chapterTitle": {
+      "fr": "Tableurs",
+      "en": "Spreadsheets"
+    },
+    "lesson": "lesson-02",
+    "lessonNumber": 2,
+    "title": {
+      "fr": "Cellules, références, formules",
+      "en": "Cells, references, formulas"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-07-tableurs",
+    "chapterNumber": 7,
+    "chapterTitle": {
+      "fr": "Tableurs",
+      "en": "Spreadsheets"
+    },
+    "lesson": "lesson-03",
+    "lessonNumber": 3,
+    "title": {
+      "fr": "Fonctions essentielles et lookups",
+      "en": "Essential functions and lookups"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-07-tableurs",
+    "chapterNumber": 7,
+    "chapterTitle": {
+      "fr": "Tableurs",
+      "en": "Spreadsheets"
+    },
+    "lesson": "lesson-04",
+    "lessonNumber": 4,
+    "title": {
+      "fr": "Tableaux croisés dynamiques",
+      "en": "Pivot tables"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-07-tableurs",
+    "chapterNumber": 7,
+    "chapterTitle": {
+      "fr": "Tableurs",
+      "en": "Spreadsheets"
+    },
+    "lesson": "lesson-05",
+    "lessonNumber": 5,
+    "title": {
+      "fr": "Graphiques et leurs pièges",
+      "en": "Charts and their traps"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-08-ecrire-argumenter",
+    "chapterNumber": 8,
+    "chapterTitle": {
+      "fr": "Écrire & argumenter",
+      "en": "Writing & arguing"
+    },
+    "lesson": "lesson-01",
+    "lessonNumber": 1,
+    "title": {
+      "fr": "Pourquoi écrire est une compétence d'analyste",
+      "en": "Why writing is an analyst skill"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-08-ecrire-argumenter",
+    "chapterNumber": 8,
+    "chapterTitle": {
+      "fr": "Écrire & argumenter",
+      "en": "Writing & arguing"
+    },
+    "lesson": "lesson-02",
+    "lessonNumber": 2,
+    "title": {
+      "fr": "Structurer : IMRaD et alternatives",
+      "en": "Structuring: IMRaD and alternatives"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-08-ecrire-argumenter",
+    "chapterNumber": 8,
+    "chapterTitle": {
+      "fr": "Écrire & argumenter",
+      "en": "Writing & arguing"
+    },
+    "lesson": "lesson-03",
+    "lessonNumber": 3,
+    "title": {
+      "fr": "Bien phraser : clarté, concision, précision",
+      "en": "Good sentences: clarity, concision, precision"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-08-ecrire-argumenter",
+    "chapterNumber": 8,
+    "chapterTitle": {
+      "fr": "Écrire & argumenter",
+      "en": "Writing & arguing"
+    },
+    "lesson": "lesson-04",
+    "lessonNumber": 4,
+    "title": {
+      "fr": "Citer, référencer, ne pas plagier",
+      "en": "Citing, referencing, avoiding plagiarism"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-08-ecrire-argumenter",
+    "chapterNumber": 8,
+    "chapterTitle": {
+      "fr": "Écrire & argumenter",
+      "en": "Writing & arguing"
+    },
+    "lesson": "lesson-05",
+    "lessonNumber": 5,
+    "title": {
+      "fr": "Lire dense : face à un texte difficile",
+      "en": "Reading dense: facing a hard text"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-09-methode-scientifique",
+    "chapterNumber": 9,
+    "chapterTitle": {
+      "fr": "Méthode scientifique",
+      "en": "Scientific method"
+    },
+    "lesson": "lesson-01",
+    "lessonNumber": 1,
+    "title": {
+      "fr": "De la curiosité à l'hypothèse",
+      "en": "From curiosity to hypothesis"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-09-methode-scientifique",
+    "chapterNumber": 9,
+    "chapterTitle": {
+      "fr": "Méthode scientifique",
+      "en": "Scientific method"
+    },
+    "lesson": "lesson-02",
+    "lessonNumber": 2,
+    "title": {
+      "fr": "Tester : contrôles et groupes témoins",
+      "en": "Testing: controls and control groups"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-09-methode-scientifique",
+    "chapterNumber": 9,
+    "chapterTitle": {
+      "fr": "Méthode scientifique",
+      "en": "Scientific method"
+    },
+    "lesson": "lesson-03",
+    "lessonNumber": 3,
+    "title": {
+      "fr": "Les biais qui survivent à un bon protocole",
+      "en": "Biases that survive a good protocol"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-09-methode-scientifique",
+    "chapterNumber": 9,
+    "chapterTitle": {
+      "fr": "Méthode scientifique",
+      "en": "Scientific method"
+    },
+    "lesson": "lesson-04",
+    "lessonNumber": 4,
+    "title": {
+      "fr": "La réplication et la crise",
+      "en": "Replication and the crisis"
+    },
+    "estimatedMinutes": 15
+  },
+  {
+    "semester": "semester-01",
+    "semesterNumber": 1,
+    "semesterTitle": {
+      "fr": "Fondations de la pensée",
+      "en": "Foundations of Thinking"
+    },
+    "chapter": "chapter-09-methode-scientifique",
+    "chapterNumber": 9,
+    "chapterTitle": {
+      "fr": "Méthode scientifique",
+      "en": "Scientific method"
+    },
+    "lesson": "lesson-05",
+    "lessonNumber": 5,
+    "title": {
+      "fr": "Méthode scientifique pour l'analyste en entreprise",
+      "en": "Scientific method for the analyst in industry"
+    },
+    "estimatedMinutes": 15
+  }
+]

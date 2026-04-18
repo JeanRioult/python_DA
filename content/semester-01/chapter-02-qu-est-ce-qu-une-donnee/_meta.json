@@ -1,0 +1,57 @@
+{
+  "id": "chapter-02-qu-est-ce-qu-une-donnee",
+  "number": 2,
+  "semester": 1,
+  "title": {
+    "fr": "Qu'est-ce qu'une donnée ?",
+    "en": "What is data?"
+  },
+  "estimatedHours": 50,
+  "lessons": [
+    {
+      "id": "lesson-01",
+      "number": 1,
+      "title": {
+        "fr": "Une donnée n'est pas un fait",
+        "en": "Data is not fact"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-02",
+      "number": 2,
+      "title": {
+        "fr": "Types et niveaux de mesure",
+        "en": "Types and levels of measurement"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-03",
+      "number": 3,
+      "title": {
+        "fr": "La qualité des données",
+        "en": "Data quality"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-04",
+      "number": 4,
+      "title": {
+        "fr": "Les biais de collecte",
+        "en": "Collection biases"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-05",
+      "number": 5,
+      "title": {
+        "fr": "Quand tu reçois un dataset — la check-list",
+        "en": "Receiving a new dataset — the checklist"
+      },
+      "estimatedMinutes": 15
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "id": "chapter-01-apprendre-a-apprendre",
+  "number": 1,
+  "semester": 1,
+  "title": {
+    "fr": "Apprendre à apprendre",
+    "en": "Learning how to learn"
+  },
+  "estimatedHours": 50,
+  "lessons": [
+    {
+      "id": "lesson-01",
+      "number": 1,
+      "title": {
+        "fr": "Bienvenue — et pourquoi ce cours est différent",
+        "en": "Welcome — and why this course is different"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-02",
+      "number": 2,
+      "title": {
+        "fr": "La mémoire et l'apprentissage",
+        "en": "Memory and learning"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-03",
+      "number": 3,
+      "title": {
+        "fr": "La récupération active : le principe clé",
+        "en": "Retrieval practice: the key principle"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-04",
+      "number": 4,
+      "title": {
+        "fr": "Espacement et entrelacement",
+        "en": "Spacing and interleaving"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-05",
+      "number": 5,
+      "title": {
+        "fr": "Prendre des notes — Cornell et Zettelkasten",
+        "en": "Note-taking — Cornell and Zettelkasten"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-06",
+      "number": 6,
+      "title": {
+        "fr": "Pomodoro, attention, et TDAH",
+        "en": "Pomodoro, attention, and ADHD"
+      },
+      "estimatedMinutes": 15
+    }
+  ]
+}

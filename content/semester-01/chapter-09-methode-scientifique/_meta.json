@@ -1,0 +1,57 @@
+{
+  "id": "chapter-09-methode-scientifique",
+  "number": 9,
+  "semester": 1,
+  "title": {
+    "fr": "Méthode scientifique",
+    "en": "Scientific method"
+  },
+  "estimatedHours": 50,
+  "lessons": [
+    {
+      "id": "lesson-01",
+      "number": 1,
+      "title": {
+        "fr": "De la curiosité à l'hypothèse",
+        "en": "From curiosity to hypothesis"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-02",
+      "number": 2,
+      "title": {
+        "fr": "Tester : contrôles et groupes témoins",
+        "en": "Testing: controls and control groups"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-03",
+      "number": 3,
+      "title": {
+        "fr": "Les biais qui survivent à un bon protocole",
+        "en": "Biases that survive a good protocol"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-04",
+      "number": 4,
+      "title": {
+        "fr": "La réplication et la crise",
+        "en": "Replication and the crisis"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-05",
+      "number": 5,
+      "title": {
+        "fr": "Méthode scientifique pour l'analyste en entreprise",
+        "en": "Scientific method for the analyst in industry"
+      },
+      "estimatedMinutes": 15
+    }
+  ]
+}

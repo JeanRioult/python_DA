@@ -1,0 +1,16 @@
+html[data-font="dyslexic"] {
+  --font-body: "OpenDyslexic", "Atkinson Hyperlegible", system-ui, sans-serif;
+  --line-height: 1.9;
+}
+html[data-font="dyslexic"] body {
+  letter-spacing: 0.02em;
+  word-spacing: 0.08em;
+}
+html[data-font="dyslexic"] .lesson-content p,
+html[data-font="dyslexic"] .lesson-content li {
+  font-size: 1.1rem;
+}
+
+html[data-font="system"] {
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}

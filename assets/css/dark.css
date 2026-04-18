@@ -1,0 +1,15 @@
+html[data-theme="dark"] {
+  --bg: #1a1a1f;
+  --bg-elev: #24242b;
+  --text: #e8e6e0;
+  --text-soft: #a9a6a0;
+  --accent: #7db0d9;
+  --accent-soft: #2a3742;
+  --border: #3a3a44;
+  --danger: #e08a96;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+html[data-theme="dark"] body {
+  /* Warm dark — avoid pure black/white, contrast >= 7:1 */
+}

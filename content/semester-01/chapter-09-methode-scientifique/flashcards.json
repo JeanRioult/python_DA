@@ -1,0 +1,137 @@
+{
+  "chapter": "chapter-09-methode-scientifique",
+  "cards": [
+    {
+      "id": "c09-f01",
+      "front": {
+        "fr": "Quelles sont les 7 étapes du cycle scientifique ?",
+        "en": "What are the 7 steps of the scientific cycle?"
+      },
+      "back": {
+        "fr": "1) Observation, 2) Question, 3) Recherche existante, 4) Hypothèse, 5) Prédiction, 6) Expérience/test, 7) Analyse — puis retour à une étape antérieure.",
+        "en": "1) Observation, 2) Question, 3) Existing research, 4) Hypothesis, 5) Prediction, 6) Experiment/test, 7) Analysis — then loop back to an earlier step."
+      }
+    },
+    {
+      "id": "c09-f02",
+      "front": {
+        "fr": "Qu'est-ce qui distingue une bonne hypothèse d'une mauvaise ?",
+        "en": "What distinguishes a good hypothesis from a bad one?"
+      },
+      "back": {
+        "fr": "Spécifique, falsifiable, testable, modeste (une affirmation à la fois).",
+        "en": "Specific, falsifiable, testable, modest (one claim at a time)."
+      }
+    },
+    {
+      "id": "c09-f03",
+      "front": {
+        "fr": "Pourquoi un groupe témoin SIMULTANÉ est-il meilleur qu'un « avant/après » ?",
+        "en": "Why is a SIMULTANEOUS control group better than a 'before/after'?"
+      },
+      "back": {
+        "fr": "Parce qu'entre un « avant » et un « après », mille autres choses ont changé (saisonnalité, concurrence, contexte). Un témoin simultané isole l'effet de l'intervention.",
+        "en": "Because between 'before' and 'after' many other things change (seasonality, competition, context). A simultaneous control isolates the intervention's effect."
+      }
+    },
+    {
+      "id": "c09-f04",
+      "front": {
+        "fr": "Pourquoi l'analyse « intention-to-treat » (ITT) est-elle préférée à l'analyse « per-protocol » ?",
+        "en": "Why is 'intention-to-treat' (ITT) analysis preferred over 'per-protocol'?"
+      },
+      "back": {
+        "fr": "ITT préserve la randomisation en analysant les sujets tels qu'ils ont été assignés, même s'ils n'ont pas suivi le protocole. Per-protocol ne considère que les adhérents, qui ne sont pas un échantillon aléatoire.",
+        "en": "ITT preserves randomization by analyzing subjects as assigned, even if they didn't follow the protocol. Per-protocol only keeps adherents, who are not a random sample."
+      }
+    },
+    {
+      "id": "c09-f05",
+      "front": {
+        "fr": "Qu'est-ce que le HARKing et en quoi c'est un problème ?",
+        "en": "What is HARKing, and why is it a problem?"
+      },
+      "back": {
+        "fr": "Hypothesizing After the Results are Known : formuler l'hypothèse APRÈS avoir vu les données, en prétendant que c'était l'hypothèse initiale. Ça trompe : un pattern remarqué a posteriori n'a pas la même valeur qu'une prédiction préalable vérifiée.",
+        "en": "Hypothesizing After the Results are Known: formulating the hypothesis AFTER seeing the data, claiming it was the initial one. Misleading: a pattern spotted post-hoc has nothing like the value of a pre-registered prediction confirmed."
+      }
+    },
+    {
+      "id": "c09-f06",
+      "front": {
+        "fr": "Qu'est-ce que la crise de la réplication ?",
+        "en": "What is the replication crisis?"
+      },
+      "back": {
+        "fr": "Le constat que beaucoup de résultats scientifiques publiés (parfois 30 à 60 %) ne se reproduisent pas quand d'autres équipes tentent de les répliquer. Causes : biais de publication, p-hacking, HARKing, échantillons trop petits, pressions académiques.",
+        "en": "The finding that many published scientific results (sometimes 30 to 60%) fail to reproduce when other teams try. Causes: publication bias, p-hacking, HARKing, small samples, academic pressure."
+      }
+    },
+    {
+      "id": "c09-f07",
+      "front": {
+        "fr": "Quelles sont les trois parades « sociales » au biais de confirmation ?",
+        "en": "What are the three 'social' remedies for confirmation bias?"
+      },
+      "back": {
+        "fr": "Pré-enregistrement (écrire hypothèse et protocole AVANT l'analyse), peer review (relecture indépendante), adversarial collaboration (collaborer avec quelqu'un qui a l'hypothèse opposée, en fixant le protocole ensemble).",
+        "en": "Pre-registration (writing hypothesis and protocol BEFORE analyzing), peer review (independent review), adversarial collaboration (collaborating with someone who holds the opposite hypothesis, fixing the protocol together)."
+      }
+    },
+    {
+      "id": "c09-f08",
+      "front": {
+        "fr": "Pourquoi une section « Limites » rend-elle un rapport PLUS crédible ?",
+        "en": "Why does a 'Limits' section make a report MORE credible?"
+      },
+      "back": {
+        "fr": "Elle montre que l'analyste a pensé aux contre-arguments. Un lecteur critique trouvera les limites de toute façon ; mieux vaut les nommer soi-même, avec son cadrage — et ça protège l'analyste en cas de décision mal prise ailleurs.",
+        "en": "It shows the analyst has considered the counter-arguments. A critical reader will find the limits anyway; better to name them yourself, with your framing — and it protects the analyst if the decision goes wrong downstream."
+      }
+    },
+    {
+      "id": "c09-f09",
+      "front": {
+        "fr": "Qu'est-ce que le scout mindset de Julia Galef ?",
+        "en": "What is Julia Galef's scout mindset?"
+      },
+      "back": {
+        "fr": "Ajuster ses croyances aux preuves (par opposition au soldier mindset, qui défend ses croyances contre les preuves). En pratique : dire « je ne sais pas », changer d'avis publiquement face à de nouvelles preuves, féliciter ceux qui te corrigent.",
+        "en": "Adjust your beliefs to the evidence (as opposed to the soldier mindset, which defends beliefs against evidence). In practice: say 'I don't know', publicly change your mind with new evidence, thank those who correct you."
+      }
+    },
+    {
+      "id": "c09-f10",
+      "front": {
+        "fr": "Quels sont les quatre anti-patterns méthodologiques les plus fréquents en entreprise ?",
+        "en": "What are the four most common methodological anti-patterns in industry?"
+      },
+      "back": {
+        "fr": "1) « Un chiffre qui prouve X » (on veut la confirmation). 2) « Pas le temps pour un témoin ». 3) « Nos données sont spéciales » (rejet des principes statistiques). 4) « Refaire jusqu'à obtenir le bon résultat » (p-hacking).",
+        "en": "1) 'A number that proves X' (wanting confirmation). 2) 'No time for a control group'. 3) 'Our data is special' (rejecting statistical principles). 4) 'Re-run until we get the right result' (p-hacking)."
+      }
+    },
+    {
+      "id": "c09-f11",
+      "front": {
+        "fr": "Qu'est-ce que le cycle PDCA (Deming) ?",
+        "en": "What is the PDCA (Deming) cycle?"
+      },
+      "back": {
+        "fr": "Plan (hypothèse + protocole), Do (exécuter sur périmètre limité), Check (analyser), Act (déployer si succès, ajuster sinon). Version entreprise de la méthode scientifique, adoptée par Toyota, Amazon, Google.",
+        "en": "Plan (hypothesis + protocol), Do (execute on limited scope), Check (analyze), Act (deploy if success, adjust otherwise). The business version of the scientific method, adopted by Toyota, Amazon, Google."
+      }
+    },
+    {
+      "id": "c09-f12",
+      "front": {
+        "fr": "Avant de publier un résultat, quelle question faut-il se poser au minimum ?",
+        "en": "Before publishing a result, what is the minimum question to ask?"
+      },
+      "back": {
+        "fr": "« Quels scénarios, s'ils étaient vrais, invalideraient ma conclusion ? » Et aller les chercher activement. Si tu n'as pas de réponse, tu n'as pas fini l'analyse.",
+        "en": "'What scenarios, if true, would invalidate my conclusion?' And actively look for them. If you have no answer, your analysis is not finished."
+      }
+    }
+  ]
+}

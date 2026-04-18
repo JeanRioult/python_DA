@@ -1,0 +1,137 @@
+{
+  "chapter": "chapter-07-tableurs",
+  "cards": [
+    {
+      "id": "c07-f01",
+      "front": {
+        "fr": "Quand préférer un tableur à Python, et inversement ?",
+        "en": "When do you prefer a spreadsheet over Python, and vice versa?"
+      },
+      "back": {
+        "fr": "Tableur : analyses ponctuelles < 100k lignes, partage avec non-techniques, dashboard rapide. Python : > 100k lignes, reproductibilité critique, automatisation, stats avancées.",
+        "en": "Spreadsheet: ad-hoc analysis < 100k rows, sharing with non-technical people, quick dashboards. Python: > 100k rows, reproducibility-critical, automation, advanced statistics."
+      }
+    },
+    {
+      "id": "c07-f02",
+      "front": {
+        "fr": "Quelle est la différence entre `A1`, `$A1`, `A$1`, et `$A$1` ?",
+        "en": "What is the difference between `A1`, `$A1`, `A$1`, and `$A$1`?"
+      },
+      "back": {
+        "fr": "A1 : tout est relatif (se décale en copie). $A1 : colonne fixe, ligne variable. A$1 : ligne fixe, colonne variable. $A$1 : absolu, rien ne bouge.",
+        "en": "A1: all relative (shifts on copy). $A1: fixed column, variable row. A$1: fixed row, variable column. $A$1: absolute, nothing moves."
+      }
+    },
+    {
+      "id": "c07-f03",
+      "front": {
+        "fr": "Pourquoi convertir ses données en Table (Ctrl+T) avant toute analyse ?",
+        "en": "Why convert your data to a Table (Ctrl+T) before any analysis?"
+      },
+      "back": {
+        "fr": "La Table s'étend dynamiquement quand on ajoute des lignes/colonnes. Les formules qui y pointent et les TCD s'ajustent automatiquement — plus besoin de redéfinir les plages.",
+        "en": "Tables grow dynamically when rows/columns are added. Formulas and PivotTables that reference them adjust automatically — no need to redefine ranges."
+      }
+    },
+    {
+      "id": "c07-f04",
+      "front": {
+        "fr": "Que fait `SUMIFS(plage_somme; crit_plage_1; crit_1; crit_plage_2; crit_2)` ?",
+        "en": "What does `SUMIFS(sum_range; crit_range_1; crit_1; crit_range_2; crit_2)` do?"
+      },
+      "back": {
+        "fr": "Somme la plage_somme seulement pour les lignes qui respectent TOUS les critères (crit_range_i respecte crit_i). Alternative puissante à un RECHERCHEV + SI.",
+        "en": "Sums the sum_range only for rows matching ALL the criteria (each crit_range_i matches its crit_i). A powerful alternative to VLOOKUP+IF."
+      }
+    },
+    {
+      "id": "c07-f05",
+      "front": {
+        "fr": "Pourquoi XLOOKUP bat-il VLOOKUP ?",
+        "en": "Why does XLOOKUP beat VLOOKUP?"
+      },
+      "back": {
+        "fr": "Plages de recherche et de retour indépendantes (pas obligé que la clé soit en 1re colonne), valeur si absent intégrée (plus besoin de SIERREUR), recherche dans les deux sens, plus rapide.",
+        "en": "Lookup and return ranges are independent (key need not be in 1st column), not-found value is built in (no need for IFERROR), searches in both directions, faster."
+      }
+    },
+    {
+      "id": "c07-f06",
+      "front": {
+        "fr": "Quel est le dernier argument OBLIGATOIRE à passer à VLOOKUP, et pourquoi ?",
+        "en": "What is the MANDATORY last argument to pass to VLOOKUP, and why?"
+      },
+      "back": {
+        "fr": "FALSE (ou FAUX). Le défaut TRUE est la correspondance APPROXIMATIVE, qui donne des résultats silencieusement faux si les données ne sont pas triées. Toujours FALSE.",
+        "en": "FALSE. The default TRUE is APPROXIMATE match, which silently returns wrong results if the data is not sorted. Always FALSE."
+      }
+    },
+    {
+      "id": "c07-f07",
+      "front": {
+        "fr": "Quelles sont les 4 zones d'un tableau croisé dynamique ?",
+        "en": "What are the 4 zones of a pivot table?"
+      },
+      "back": {
+        "fr": "Lignes, Colonnes, Valeurs, Filtres. On glisse-dépose les champs de la source dans ces zones.",
+        "en": "Rows, Columns, Values, Filters. You drag-drop source fields into these zones."
+      }
+    },
+    {
+      "id": "c07-f08",
+      "front": {
+        "fr": "Pourquoi éviter un champ calculé de TCD pour un ratio (ex. densité = pop/superficie) ?",
+        "en": "Why should you avoid a pivot calculated field for a ratio (e.g. density = pop/area)?"
+      },
+      "back": {
+        "fr": "Parce qu'il calcule le ratio APRÈS agrégation : Moy(pop)/Moy(sup), pas Moy(pop/sup) — résultats différents. Solution : calculer le ratio dans la donnée source avant le TCD.",
+        "en": "Because it computes the ratio AFTER aggregation: Mean(pop)/Mean(area), not Mean(pop/area) — different results. Fix: compute the ratio in the source data before pivoting."
+      }
+    },
+    {
+      "id": "c07-f09",
+      "front": {
+        "fr": "Pourquoi l'axe Y d'un graphique en barres doit-il toujours commencer à zéro ?",
+        "en": "Why must the Y axis of a bar chart always start at zero?"
+      },
+      "back": {
+        "fr": "Parce que la longueur de la barre encode la valeur. Tronquer l'axe déforme le rapport visuel : une différence de 5% peut paraître 10× plus grande — tromperie classique.",
+        "en": "Because bar length encodes the value. Truncating the axis distorts the visual ratio: a 5% difference can look 10× bigger — a classic deception."
+      }
+    },
+    {
+      "id": "c07-f10",
+      "front": {
+        "fr": "Pourquoi éviter les graphiques 3D en analyse sérieuse ?",
+        "en": "Why avoid 3D charts in serious analysis?"
+      },
+      "back": {
+        "fr": "La profondeur déforme la lecture visuelle (cache ou grossit les valeurs), masque les arrière-plans, ajoute de l'« encre » sans ajouter d'information (Tufte).",
+        "en": "Depth distorts visual reading (hides or inflates values), obscures background elements, adds 'ink' with no information (Tufte)."
+      }
+    },
+    {
+      "id": "c07-f11",
+      "front": {
+        "fr": "Quel doit être le titre d'un graphique publiable ?",
+        "en": "What should the title of a publishable chart be?"
+      },
+      "back": {
+        "fr": "Le MESSAGE, pas juste le sujet. « Les ventes ont doublé au S1 2026 » bat « Ventes par mois ». Le graphique prouve ensuite la conclusion.",
+        "en": "The MESSAGE, not just the topic. 'Sales doubled in H1 2026' beats 'Sales by month'. The chart then proves the conclusion."
+      }
+    },
+    {
+      "id": "c07-f12",
+      "front": {
+        "fr": "Quelle palette de couleurs éviter pour marquer « bon/mauvais » et pourquoi ?",
+        "en": "Which color palette should you avoid to mark 'good/bad' and why?"
+      },
+      "back": {
+        "fr": "Le rouge/vert : il est culturel (pas universel) et inaccessible aux ~8 % d'hommes daltoniens. Utiliser des palettes colorblind-friendly (bleu/orange, viridis).",
+        "en": "Red/green: it is culturally biased (not universal) and inaccessible to ~8% of men who are colorblind. Use colorblind-friendly palettes (blue/orange, viridis)."
+      }
+    }
+  ]
+}

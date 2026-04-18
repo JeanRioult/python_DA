@@ -1,0 +1,57 @@
+{
+  "id": "chapter-03-logique-raisonnement",
+  "number": 3,
+  "semester": 1,
+  "title": {
+    "fr": "Logique & raisonnement",
+    "en": "Logic & reasoning"
+  },
+  "estimatedHours": 50,
+  "lessons": [
+    {
+      "id": "lesson-01",
+      "number": 1,
+      "title": {
+        "fr": "Pourquoi la logique, pour un analyste",
+        "en": "Why logic matters for an analyst"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-02",
+      "number": 2,
+      "title": {
+        "fr": "Logique propositionnelle et tables de vérité",
+        "en": "Propositional logic and truth tables"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-03",
+      "number": 3,
+      "title": {
+        "fr": "Déduction, induction, abduction",
+        "en": "Deduction, induction, abduction"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-04",
+      "number": 4,
+      "title": {
+        "fr": "Les sophismes courants",
+        "en": "Common fallacies"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-05",
+      "number": 5,
+      "title": {
+        "fr": "Corrélation n'est pas causalité",
+        "en": "Correlation is not causation"
+      },
+      "estimatedMinutes": 15
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "semester-01",
+  "number": 1,
+  "title": {
+    "fr": "Fondations de la pensée",
+    "en": "Foundations of Thinking"
+  },
+  "objectives": {
+    "fr": [
+      "Comprendre ce qu'est une donnée et comment elle est construite",
+      "Raisonner avec la logique propositionnelle",
+      "Rafraîchir l'arithmétique et l'algèbre jusqu'à l'aisance",
+      "Installer et naviguer dans PyCharm ; écrire de petits programmes Python",
+      "Construire et interpréter un tableau croisé dynamique",
+      "Appliquer la méthode scientifique à une question personnelle"
+    ],
+    "en": [
+      "Understand what data is and how it is constructed",
+      "Reason with propositional logic",
+      "Refresh arithmetic and algebra to fluency",
+      "Install and navigate PyCharm; write small Python programs",
+      "Build and interpret a pivot table",
+      "Apply the scientific method to a personal question"
+    ]
+  },
+  "estimatedHours": 450,
+  "chapters": [
+    "chapter-01-apprendre-a-apprendre",
+    "chapter-02-qu-est-ce-qu-une-donnee",
+    "chapter-03-logique-raisonnement",
+    "chapter-04-mathematiques-fondamentales",
+    "chapter-05-premiers-pas-python",
+    "chapter-06-controle-du-flux",
+    "chapter-07-tableurs",
+    "chapter-08-ecrire-argumenter",
+    "chapter-09-methode-scientifique"
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "id": "chapter-06-controle-du-flux",
+  "number": 6,
+  "semester": 1,
+  "title": {
+    "fr": "Contrôle du flux",
+    "en": "Control flow"
+  },
+  "estimatedHours": 50,
+  "lessons": [
+    {
+      "id": "lesson-01",
+      "number": 1,
+      "title": {
+        "fr": "Conditions : if, elif, else",
+        "en": "Conditions: if, elif, else"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-02",
+      "number": 2,
+      "title": {
+        "fr": "Listes : la collection de base",
+        "en": "Lists: the base collection"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-03",
+      "number": 3,
+      "title": {
+        "fr": "Boucles : for et while",
+        "en": "Loops: for and while"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-04",
+      "number": 4,
+      "title": {
+        "fr": "Erreurs et try/except",
+        "en": "Errors and try/except"
+      },
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "lesson-05",
+      "number": 5,
+      "title": {
+        "fr": "Déboguer : la méthode mentale",
+        "en": "Debugging: the mental method"
+      },
+      "estimatedMinutes": 15
+    }
+  ]
+}
