@@ -1,0 +1,44 @@
+Copyright (c) 2026 the repository owner.
+All rights reserved.
+
+This repository — including, without limitation, its source code, educational
+content (lessons, exercises, capstones, flashcards, notebooks, illustrations),
+documentation, and any associated materials — is proprietary. It is published
+on GitHub and served through GitHub Pages for personal, read-only access only.
+
+NO LICENSE IS GRANTED, express or implied, for any other use. In particular,
+and without limitation, the following actions are PROHIBITED without prior
+written permission from the copyright holder:
+
+  1. Reproducing, copying, mirroring, or redistributing the work or any
+     substantial portion of it, in any medium.
+  2. Creating derivative works (translations, adaptations, reformats,
+     summaries, remixes, or modified versions).
+  3. Using the content or any substantial portion in another course, product,
+     service, book, article, training corpus, or AI model, whether commercial
+     or non-commercial.
+  4. Republishing the work on another domain, platform, or medium.
+  5. Removing or altering this notice in any copy or fork.
+
+Forking the repository within GitHub, as a native platform feature, is
+permitted solely for personal offline viewing. Forking does NOT transfer any
+of the permissions above.
+
+Viewing the content through GitHub, GitHub Pages, or any other access path
+does NOT imply any grant of rights.
+
+To request permission for any use not covered above, contact the copyright
+holder through the repository's GitHub profile.
+
+SPDX-License-Identifier: LicenseRef-Proprietary-AllRightsReserved
+
+--------------------------------------------------------------------------------
+Third-party code vendored under its own terms:
+
+  assets/js/vendor/marked.min.js
+    Copyright (c) 2011-2024 Christopher Jeffrey and marked contributors.
+    Licensed under the MIT License. https://github.com/markedjs/marked
+
+  assets/js/vendor/katex/
+    Copyright (c) 2013-2024 KaTeX Contributors.
+    Licensed under the MIT License. https://github.com/KaTeX/KaTeX
