@@ -47,10 +47,10 @@ jobs:
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
-        with:
-          # Auto-enable Pages (with source = GitHub Actions) on first run.
-          # Requires the `pages: write` permission already granted above.
-          enablement: true
+        # Pages must be enabled once manually in Settings → Pages →
+        # Source: GitHub Actions. GITHUB_TOKEN is not admin-level and
+        # cannot enable Pages itself (enablement: true fails with
+        # "Resource not accessible by integration" on most repos).
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
