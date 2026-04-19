@@ -58,6 +58,26 @@
     <nav id="toc-nav"></nav>
   </aside>
 
+  <aside id="flashcards" class="flashcards-panel" aria-label="Flashcards" hidden>
+    <div class="flashcards-header">
+      <h2>Flashcards</h2>
+      <span id="card-counter" class="card-counter" aria-live="polite"></span>
+      <button id="cards-close" class="icon-btn" aria-label="Fermer">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <p id="card-chapter" class="card-chapter"></p>
+    <div id="card-surface" class="card-surface" role="button" tabindex="0" aria-label="Cliquer pour retourner la carte">
+      <div class="card-side card-front" id="card-front"></div>
+      <div class="card-side card-back" id="card-back" hidden></div>
+    </div>
+    <div class="card-controls">
+      <button id="card-prev" class="pill-btn" aria-label="Carte précédente">←</button>
+      <button id="card-flip" class="cta">Montrer la réponse</button>
+      <button id="card-next" class="pill-btn" aria-label="Carte suivante">→</button>
+    </div>
+  </aside>
+
   <aside id="search" class="search-panel" aria-label="Rechercher" hidden>
     <div class="search-header">
       <h2>Rechercher</h2>
@@ -103,6 +123,12 @@
     </fieldset>
 
     <fieldset>
+      <legend>Flashcards</legend>
+      <button id="cards-review" class="pill-btn">Réviser les cartes de ce chapitre</button>
+      <p id="cards-hint" class="settings-hint"></p>
+    </fieldset>
+
+    <fieldset>
       <legend>Progression</legend>
       <button id="progress-export" class="pill-btn">Exporter</button>
       <button id="progress-import" class="pill-btn">Importer</button>
@@ -117,7 +143,10 @@
     </article>
 
     <footer class="lesson-footer">
-      <button id="complete-btn" class="cta" disabled>Terminer cette leçon</button>
+      <div class="cta-row">
+        <button id="cards-btn" class="pill-btn" hidden>🗂 Cartes</button>
+        <button id="complete-btn" class="cta" disabled>Terminer et continuer</button>
+      </div>
       <p class="cta-hint">Appuie uniquement quand tu as vraiment fait les exercices.</p>
     </footer>
   </main>

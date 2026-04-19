@@ -30,9 +30,17 @@
       import: "Importer",
       reset: "Tout réinitialiser",
       resetConfirm: "Réinitialiser toute ta progression ? Cette action est irréversible.",
-      complete: "Terminer cette leçon",
+      complete: "Terminer et continuer",
       completed: "✓ Leçon terminée",
       completeHint: "Appuie uniquement quand tu as vraiment fait les exercices.",
+      flashcardsLegend: "Flashcards",
+      cardsBtn: (n) => `🗂 Cartes (${n})`,
+      cardsReviewBtn: "Réviser les cartes de ce chapitre",
+      cardsCountHint: (n) => `Ce chapitre contient ${n} carte${n > 1 ? "s" : ""} à réviser.`,
+      cardsNoneHint: "Ce chapitre n'a pas encore de flashcards.",
+      cardReveal: "Montrer la réponse",
+      cardHide: "Cacher la réponse",
+      cardTapHint: "Clique sur la carte pour retourner.",
       loading: "Chargement…",
       notFound: "Leçon introuvable. Vérifie que le fichier existe.",
       skipToMain: "Aller au contenu principal",
@@ -67,9 +75,17 @@
       import: "Import",
       reset: "Reset everything",
       resetConfirm: "Reset all your progress? This cannot be undone.",
-      complete: "Finish this lesson",
+      complete: "Finish & continue",
       completed: "✓ Lesson finished",
       completeHint: "Only press this once you have actually done the exercises.",
+      flashcardsLegend: "Flashcards",
+      cardsBtn: (n) => `🗂 Cards (${n})`,
+      cardsReviewBtn: "Review this chapter's cards",
+      cardsCountHint: (n) => `This chapter has ${n} card${n > 1 ? "s" : ""} to review.`,
+      cardsNoneHint: "This chapter has no flashcards yet.",
+      cardReveal: "Show answer",
+      cardHide: "Hide answer",
+      cardTapHint: "Tap the card to flip.",
       loading: "Loading…",
       notFound: "Lesson not found. Check the file exists.",
       skipToMain: "Skip to main content",
@@ -130,6 +146,7 @@
         this.t("font"),
         this.t("width"),
         this.t("stimLegend"),
+        this.t("flashcardsLegend"),
         this.t("progress"),
       ];
       fieldsets.forEach((fs, i) => {
@@ -160,6 +177,7 @@
       setText("#progress-import", this.t("import"));
       setText("#progress-reset", this.t("reset"));
       setText(".cta-hint", this.t("completeHint"));
+      setText("#cards-review", this.t("cardsReviewBtn"));
 
       const cta = q("#complete-btn");
       if (cta && !cta.classList.contains("done")) cta.textContent = this.t("complete");

@@ -211,12 +211,19 @@ body {
 .lesson-content a { color: var(--accent); }
 .lesson-content em { font-style: normal; font-weight: 700; }
 
-/* Lesson footer — single CTA */
+/* Lesson footer — primary CTA + secondary Cards button */
 .lesson-footer {
   margin-top: var(--space-6);
   padding-top: var(--space-4);
   border-top: 1px solid var(--border);
   text-align: center;
+}
+.cta-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
 }
 .cta {
   background: var(--accent);
@@ -235,6 +242,121 @@ body {
   margin-top: var(--space-2);
   color: var(--text-soft);
   font-size: 0.9rem;
+}
+
+.settings-hint {
+  color: var(--text-soft);
+  font-size: 0.85rem;
+  margin: var(--space-2) 0 0;
+}
+
+/* Flashcards panel — full-viewport centered modal */
+.flashcards-panel {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  backdrop-filter: blur(3px);
+}
+.flashcards-panel[hidden] { display: none; }
+html[data-theme="dark"] .flashcards-panel { background: rgba(0, 0, 0, 0.55); }
+
+.flashcards-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: var(--bg-elev);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius) var(--radius) 0 0;
+  border: 1px solid var(--border);
+  border-bottom: none;
+  width: min(640px, 100%);
+  box-sizing: border-box;
+}
+.flashcards-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  flex: 1;
+}
+.card-counter {
+  font-variant-numeric: tabular-nums;
+  color: var(--text-soft);
+  font-size: 0.95rem;
+  min-width: 5ch;
+  text-align: right;
+}
+.card-chapter {
+  background: var(--bg-elev);
+  width: min(640px, 100%);
+  margin: 0;
+  padding: 0 var(--space-3) var(--space-2);
+  color: var(--text-soft);
+  font-size: 0.9rem;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  box-sizing: border-box;
+}
+
+.card-surface {
+  background: var(--bg);
+  width: min(640px, 100%);
+  min-height: min(320px, 40vh);
+  padding: var(--space-5) var(--space-4);
+  border: 1px solid var(--border);
+  border-top: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-4);
+  font-size: 1.15rem;
+  line-height: 1.6;
+  transition: background-color 150ms ease;
+}
+.card-surface:hover { background: var(--accent-soft); }
+.card-surface:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: -3px;
+}
+.card-surface[data-revealed="true"] { background: var(--accent-soft); }
+.card-side {
+  width: 100%;
+}
+.card-front {
+  font-weight: 700;
+  color: var(--text);
+}
+.card-back {
+  color: var(--text);
+  padding-top: var(--space-3);
+  border-top: 1px dashed var(--border);
+}
+
+.card-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--bg-elev);
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  width: min(640px, 100%);
+  box-sizing: border-box;
+}
+.card-controls .pill-btn {
+  font-size: 1.2rem;
+  min-width: 3.5rem;
+}
+.card-controls .cta {
+  flex: 1;
 }
 
 .loading { color: var(--text-soft); font-style: normal; }

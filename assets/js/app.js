@@ -15,6 +15,11 @@
     searchDebounce: null,
     searchResults: [],
     searchSelection: -1,
+    // Flashcards
+    cards: [],
+    cardsChapter: null,
+    cardIdx: 0,
+    cardRevealed: false,
   };
 
   const $ = (sel) => document.querySelector(sel);
@@ -246,6 +251,7 @@
     renderToc();
     updateProgressBar();
     updateCompleteButton();
+    refreshCardsAvailability();
     window.scrollTo({ top: 0, behavior: "instant" });
     $("#main").focus();
   }
@@ -336,7 +342,7 @@
   // ---------- Panels ----------
 
   function closeAllPanels() {
-    ["#toc", "#settings", "#search"].forEach(sel => {
+    ["#toc", "#settings", "#search", "#flashcards"].forEach(sel => {
       const panel = $(sel);
       if (panel) panel.setAttribute("hidden", "");
     });
@@ -381,6 +387,8 @@
       renderToc();
       updateCompleteButton();
       renderSearchResults();  // re-render search with new language snippets
+      refreshCardsAvailability();
+      if (state.cards.length) renderCard();  // re-render any open card in new lang
     });
   }
 
@@ -389,8 +397,17 @@
       if (!state.currentLessonId) return;
       window.Progress.markCompleted(state.currentLessonId);
       updateProgressBar();
-      updateCompleteButton();
       renderToc();
+
+      // Navigate to the next lesson in the linear index if one exists.
+      const idx = state.index.findIndex(e => lessonKey(e) === state.currentLessonId);
+      const next = state.index[idx + 1];
+      if (next) {
+        location.hash = `#/${lessonKey(next)}`;
+      } else {
+        // Last lesson of the course — just update the button visibly.
+        updateCompleteButton();
+      }
     });
   }
 
@@ -580,6 +597,156 @@
     });
   }
 
+  // ---------- Flashcards ----------
+
+  function chapterIdFromLessonId(lessonId) {
+    if (!lessonId) return null;
+    const parts = lessonId.split("/");
+    if (parts.length < 2) return null;
+    return { semester: parts[0], chapter: parts[1] };
+  }
+
+  async function loadFlashcardsFor(chapterRef) {
+    if (!chapterRef) return null;
+    const url = `${CONTENT_ROOT}/${chapterRef.semester}/${chapterRef.chapter}/flashcards.json`;
+    try {
+      const r = await fetch(url);
+      if (!r.ok) return null;
+      return await r.json();
+    } catch (_) {
+      return null;
+    }
+  }
+
+  // Refresh the "🗂 Cartes" button at the bottom of the lesson and the
+  // settings-panel button + hint, based on whether the current chapter
+  // actually has any flashcards.
+  async function refreshCardsAvailability() {
+    const chapterRef = chapterIdFromLessonId(state.currentLessonId);
+    const data = await loadFlashcardsFor(chapterRef);
+    const btn = $("#cards-btn");
+    const reviewBtn = $("#cards-review");
+    const hint = $("#cards-hint");
+    const count = data?.cards?.length || 0;
+
+    if (btn) {
+      if (count > 0) {
+        btn.hidden = false;
+        btn.textContent = window.I18N.t("cardsBtn", count);
+      } else {
+        btn.hidden = true;
+      }
+    }
+    if (reviewBtn) reviewBtn.disabled = count === 0;
+    if (hint) {
+      hint.textContent = count > 0
+        ? window.I18N.t("cardsCountHint", count)
+        : window.I18N.t("cardsNoneHint");
+    }
+  }
+
+  async function openCardsForCurrentChapter() {
+    const chapterRef = chapterIdFromLessonId(state.currentLessonId);
+    const data = await loadFlashcardsFor(chapterRef);
+    if (!data || !data.cards || !data.cards.length) return;
+
+    state.cards = data.cards;
+    state.cardsChapter = chapterRef.chapter;
+    state.cardIdx = 0;
+    state.cardRevealed = false;
+
+    // Find chapter + semester titles for the header
+    const lessonEntry = findEntryById(state.currentLessonId);
+    const chapterTitle = lessonEntry ? localized(lessonEntry.chapterTitle, "") : "";
+    const chapterLabel = $("#card-chapter");
+    if (chapterLabel) chapterLabel.textContent = chapterTitle;
+
+    renderCard();
+    openPanel("#flashcards", "#cards-btn");
+  }
+
+  function renderCard() {
+    const card = state.cards[state.cardIdx];
+    if (!card) return;
+    const lang = window.I18N.current;
+    const front = localized(card.front, "");
+    const back = localized(card.back, "");
+
+    const frontEl = $("#card-front");
+    const backEl = $("#card-back");
+    if (frontEl) frontEl.textContent = front;
+    if (backEl) backEl.textContent = back;
+    if (backEl) backEl.hidden = !state.cardRevealed;
+
+    const counter = $("#card-counter");
+    if (counter) {
+      counter.textContent = `${state.cardIdx + 1} / ${state.cards.length}`;
+    }
+    const flip = $("#card-flip");
+    if (flip) {
+      flip.textContent = state.cardRevealed
+        ? window.I18N.t("cardHide")
+        : window.I18N.t("cardReveal");
+    }
+    const prev = $("#card-prev");
+    const next = $("#card-next");
+    if (prev) prev.disabled = state.cardIdx === 0;
+    if (next) next.disabled = state.cardIdx === state.cards.length - 1;
+
+    const surface = $("#card-surface");
+    if (surface) surface.dataset.revealed = state.cardRevealed ? "true" : "false";
+  }
+
+  function flipCard() {
+    if (!state.cards.length) return;
+    state.cardRevealed = !state.cardRevealed;
+    renderCard();
+  }
+
+  function gotoCard(delta) {
+    const n = state.cards.length;
+    if (!n) return;
+    const next = state.cardIdx + delta;
+    if (next < 0 || next >= n) return;
+    state.cardIdx = next;
+    state.cardRevealed = false;
+    renderCard();
+  }
+
+  function wireCards() {
+    const cardsBtn = $("#cards-btn");
+    const reviewBtn = $("#cards-review");
+    const closeBtn = $("#cards-close");
+    const flip = $("#card-flip");
+    const prev = $("#card-prev");
+    const next = $("#card-next");
+    const surface = $("#card-surface");
+
+    if (cardsBtn) cardsBtn.addEventListener("click", openCardsForCurrentChapter);
+    if (reviewBtn) reviewBtn.addEventListener("click", openCardsForCurrentChapter);
+    if (closeBtn) closeBtn.addEventListener("click", closeAllPanels);
+    if (flip) flip.addEventListener("click", flipCard);
+    if (prev) prev.addEventListener("click", () => gotoCard(-1));
+    if (next) next.addEventListener("click", () => gotoCard(+1));
+
+    // Tap/click on the card itself also flips.
+    if (surface) {
+      surface.addEventListener("click", flipCard);
+      surface.addEventListener("keydown", (e) => {
+        if (e.key === " " || e.key === "Enter") {
+          e.preventDefault();
+          flipCard();
+        } else if (e.key === "ArrowRight") {
+          gotoCard(+1);
+        } else if (e.key === "ArrowLeft") {
+          gotoCard(-1);
+        } else if (e.key === "Escape") {
+          closeAllPanels();
+        }
+      });
+    }
+  }
+
   // ---------- Boot ----------
 
   async function main() {
@@ -591,6 +758,7 @@
     wireLangToggle();
     wireCompleteBtn();
     wireSearch();
+    wireCards();
 
     state.index = await loadIndex();
     renderToc();

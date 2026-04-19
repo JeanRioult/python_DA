@@ -5,7 +5,7 @@
 //     so learners see updates when online but the app still works offline.
 //   - Version bumps invalidate old caches on activate.
 
-const VERSION = "v2-2026-04-18";
+const VERSION = "v3-2026-04-19";
 const CORE_CACHE = `pyda-core-${VERSION}`;
 const RUNTIME_CACHE = `pyda-runtime-${VERSION}`;
 
