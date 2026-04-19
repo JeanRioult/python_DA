@@ -2,103 +2,107 @@
 
 *Temps estimé : 15 minutes*
 
-## Rappel
+**Rappel :** essaie, sans regarder, de te rappeler ce qu'est le *permastore* de Bahrick. Et pourquoi l'entrelacement bat-il la pratique massée ?
 
-Sans regarder :
+---
 
-1. Quelle planification est meilleure : 4 h la veille ou 30 min pendant 8 jours ?
-2. Pourquoi l'entrelacement est-il plus efficace que la pratique massée ?
-3. Qu'est-ce qu'une « difficulté désirable » ?
+Niklas Luhmann est un sociologue allemand, né en 1927, qui a passé la majeure partie de sa vie à Bielefeld, une petite ville d'Allemagne du Nord dont personne ne parle jamais. Pendant quarante ans, il a écrit. À sa mort en 1998, il avait publié **70 livres** et environ 400 articles scientifiques — un rythme qui défie les lois de la production humaine ordinaire. Quand ses collègues lui demandaient comment il faisait, il répondait toujours la même chose, avec un demi-sourire : « *Eh bien, j'utilise mes fiches. Elles m'écrivent les livres.* »
 
-## À quoi servent les notes ?
+Ses « fiches » — un système qu'il appelait *Zettelkasten*, littéralement « boîte à fiches » — étaient rangées dans trois meubles en bois, chez lui. Environ **90 000 fiches** au total. À sa mort, elles ont été numérisées ; chacune est aujourd'hui consultable en ligne, avec son écriture serrée, ses flèches, ses codes numériques renvoyant à d'autres fiches.
 
-La plupart des gens prennent des notes pour **archiver** — remplir un cahier dont ils ne relisent jamais rien. C'est un usage quasi-inutile. Les bonnes notes servent à **deux choses** :
+Luhmann ne prenait pas des notes pour se souvenir. Il prenait des notes pour **penser**. Et sa méthode est, toujours aujourd'hui, un modèle.
 
-1. **Forcer l'encodage profond pendant l'écoute ou la lecture** — écrire avec ses propres mots oblige à comprendre.
-2. **Créer un matériel de récupération** — quelque chose à partir de quoi on pourra se tester plus tard.
+## À quoi servent les notes, au fait ?
 
-Si tes notes ne remplissent aucune de ces fonctions, elles ne servent à rien. Recopier des slides à la virgule n'en remplit aucune.
+Avant toute méthode, une question honnête. La plupart des gens prennent des notes pour **archiver** — remplir un cahier qu'ils ne rouvriront jamais. C'est un usage quasi-inutile, et très agréable.
 
-## Méthode 1 : Cornell
+Les bonnes notes servent à **deux choses**, et à ces deux choses seulement :
 
-Simple, robuste, inventée dans les années 1950. Divise ta page en **trois zones** :
+**Forcer un encodage profond pendant l'écoute ou la lecture.** Écrire avec tes propres mots oblige à comprendre. Copier-coller des phrases entières n'oblige à rien.
+
+**Créer un matériel d'auto-test pour plus tard.** Quelque chose à partir de quoi tu pourras te re-tester dans une semaine, dans un mois, dans six mois.
+
+Si tes notes ne remplissent aucune des deux fonctions, jette-les. Elles ne t'apprendront rien.
+
+## Méthode 1 — Cornell
+
+Méthode simple, robuste, inventée dans les années 1950 par Walter Pauk à l'université Cornell. Elle tient sur une feuille :
 
 ```
 +--------------------+----------------------+
 |                    |                      |
 |   Indices /        |   Notes principales  |
-|   questions        |   (prises pendant    |
-|   (ajoutées        |    le cours)         |
-|    APRÈS)          |                      |
+|   questions        |   (pendant le cours) |
+|   (APRÈS)          |                      |
 |                    |                      |
 +--------------------+----------------------+
-|             Résumé (écrit APRÈS)          |
+|         Résumé (APRÈS, de mémoire)        |
 +-------------------------------------------+
 ```
 
-- **Colonne droite (large)** : tes notes pendant le cours, avec tes mots.
-- **Colonne gauche (étroite)** : plus tard (même jour, idéalement), tu y ajoutes des **mots-clés et des questions** qui pointent vers les notes de droite. Ces questions deviennent ton auto-test.
-- **Bas de page** : un résumé en 3-4 phrases, écrit **sans regarder** tes notes.
+La colonne droite, large, reçoit tes notes pendant le cours, avec tes mots.
 
-Pour réviser : masque la colonne droite avec ta main, lis un mot-clé à gauche, essaie de reconstruire tout ce qu'il y avait à droite. C'est de la récupération active intégrée à ta méthode de notes.
+La colonne gauche, étroite, reste vide pendant le cours. Tu la remplis plus tard — idéalement le soir même — en y ajoutant des mots-clés et des questions qui pointent vers les notes de droite. Ces questions deviendront ton auto-test dans les jours qui suivent.
 
-Cornell est excellent pour **un cours donné**, un livre lu linéairement, une conférence. Ses limites apparaissent quand tu veux **relier** des idées entre chapitres ou entre cours.
+Le bas de page reçoit un résumé de trois ou quatre phrases, écrit **sans regarder** tes notes.
 
-## Méthode 2 : Zettelkasten
+Pour réviser, tu masques la colonne droite avec ta main, tu lis un mot-clé à gauche, et tu essaies de reconstruire tout ce qu'il y avait à droite. C'est de la récupération active intégrée à la méthode de notes.
 
-Inventée par le sociologue Niklas Luhmann, qui a publié plus de 70 livres en partie grâce à son système. *Zettelkasten* = « boîte à fiches » en allemand.
+Cornell marche brillamment pour un cours donné, un livre lu linéairement, une conférence. Sa limite apparaît quand tu veux **relier** les idées entre plusieurs cours, plusieurs livres — quand tu veux construire ton propre savoir transversal. Là, il te faut autre chose.
 
-Principe : au lieu de prendre des notes linéairement, tu crées une **collection de petites notes**, chacune portant **une idée**. Ces notes se lient entre elles.
+## Méthode 2 — Zettelkasten
 
-### Les règles de base
+Le système de Luhmann repose sur une idée simple : au lieu d'accumuler des notes linéaires (« voici ce que j'ai entendu en cours »), tu construis une **collection de petites notes atomiques**, chacune portant **une seule idée**, écrite **avec tes propres mots**, **compréhensible hors contexte**, et **reliée à d'autres notes** par des renvois explicites.
 
-1. **Une idée par note.** Si une note parle de deux choses, c'est deux notes.
-2. **Note atomique**. Courte, avec tes mots, compréhensible *hors contexte* (pas besoin de savoir d'où elle vient).
-3. **Identifiant stable**. Un numéro, une date, un slug — peu importe — mais unique et permanent.
-4. **Liens explicites** vers les autres notes pertinentes (`voir aussi : [202604180001]`). Ces liens créent un **graphe de ta pensée**.
-5. **Une note d'index** (ou plusieurs) qui pointe vers des chapelets de notes sur un thème.
+Ces notes se lient peu à peu, et ton savoir devient un **graphe** plutôt qu'une pile. Quand tu veux écrire quelque chose — un article, un chapitre, un rapport — tu n'écris pas à partir de rien. Tu traverses le graphe, tu choisis un fil, tu le développes.
 
-### Les trois types de notes
+Les règles de base, en cinq points :
 
-- **Notes fugaces** (*fleeting*) — idées capturées vite. Feuille volante, téléphone. Traitées dans les 48 h puis jetées.
-- **Notes de littérature** — résumés courts d'un livre, d'un article, avec la référence. Une par source majeure.
-- **Notes permanentes** — *tes* idées, tes connexions, tes reformulations. C'est ta vraie bibliothèque.
+1. **Une idée par fiche.** Si une fiche parle de deux choses, c'est deux fiches.
+2. **Atomique.** La fiche doit être compréhensible sans savoir d'où elle vient.
+3. **Tes mots.** Pas de copier-coller depuis la source. Reformuler oblige à comprendre.
+4. **Un identifiant unique et permanent.** Un numéro, une date, un *slug* — peu importe — mais unique et stable dans le temps.
+5. **Des liens explicites** vers les autres fiches qui parlent de la même chose, qui illustrent, ou qui contredisent (« voir aussi : 20260419-0001 »).
 
-La puissance vient des notes permanentes et de leurs liens. Quand tu veux écrire un projet, tu ne pars pas de zéro : tu traverses le graphe.
+Luhmann distinguait trois types de fiches :
 
-### En pratique, sur ordinateur
+- **Fugaces** — idées capturées vite (feuille volante, téléphone). Traitées en 48 heures, puis jetées.
+- **De littérature** — un résumé court de chaque source importante, avec la référence précise.
+- **Permanentes** — *tes* idées, *tes* reformulations, *tes* connexions. C'est ta vraie bibliothèque.
 
-Tu n'as pas besoin de boîte à fiches en carton. Tout éditeur de texte avec des fichiers liés marche :
+La puissance du système vient des permanentes et de leurs liens. Quand tu as 500 fiches permanentes bien liées, ton Zettelkasten devient un collègue à qui tu peux poser des questions — et il te répond par les fiches que tu avais oubliées avoir écrites.
 
-- **Obsidian** (le plus populaire, gratuit, offline, liens `[[comme ça]]`)
-- **Logseq** (libre, outliner)
-- **Un dossier de fichiers `.md`** + VS Code ou Sublime Text
+## En pratique, sur ordinateur
 
-Choisis-en un et n'en change plus pendant un an.
+Tu n'as pas besoin de meubles en bois. Un éditeur de texte moderne avec liens entre fichiers suffit largement :
+
+- **Obsidian** — le plus populaire, gratuit, offline, avec des liens sous forme `[[nom de fiche]]`. Recommandé pour débuter.
+- **Logseq** — libre, en mode outliner, idéal si tu aimes les structures hiérarchiques.
+- **Un simple dossier de fichiers `.md`** avec VS Code ou Sublime Text. Spartiate, efficace, et totalement portable dans le temps.
+
+Choisis-en un et **n'en change plus pendant un an**. Le pire Zettelkasten est celui qu'on migre tous les trois mois.
 
 ## Cornell pour le cours, Zettelkasten pour toi
 
-Une combinaison réaliste :
+Une combinaison réaliste pour un·e étudiant·e sérieux·se :
 
-- Prends des notes Cornell pendant un cours (rapide, structure imposée).
-- Le soir, pour les idées les plus *fortes*, crée une ou deux notes permanentes dans ton Zettelkasten, avec tes propres mots, et lie-les à ce que tu connais déjà.
+- Prends des **notes Cornell pendant un cours** — rapide, structure imposée, bien pour l'instant présent.
+- Le soir même, pour les idées les plus fortes de la journée, crée une ou deux **notes permanentes** dans ton Zettelkasten, reformulées avec tes mots, liées à ce que tu connais déjà.
 
-Tu n'as pas besoin de tout zettelkaster. Ce serait même contre-productif. Vise **la qualité, pas l'exhaustivité**.
+Tu n'as pas besoin de zettelkaster tout. Ce serait même contre-productif. Vise la qualité, pas l'exhaustivité. Dix notes permanentes précieuses valent mille notes d'archive.
 
-## Ce qu'il faut absolument éviter
+## Les quatre erreurs à ne pas faire
 
-- **Copier-coller** depuis un slide ou un livre — zéro encodage, zéro rétention.
-- **Prendre des notes exhaustives** dans l'espoir de pouvoir « rattraper » plus tard. Tu ne rattraperas pas.
-- **Utiliser quatre outils à la fois** (OneNote + Notion + papier + PDF). Choisis-en un ou deux.
-- **Jamais relire ni retraiter** tes notes. Ce qui distingue un cahier utile d'un cahier mort, c'est ce que tu fais **après** le cours.
+**Copier-coller depuis une source.** Aucun encodage. Aucune trace. Et le plagiat te mordra plus tard, quand tu écriras un rapport et que tu auras oublié ce qui était de toi et ce qui ne l'était pas.
 
-## À retenir
+**Chercher l'exhaustivité.** Tu ne rattraperas pas un cours que tu n'as pas suivi en prenant des notes parfaites. Tu auras un cahier impeccable et aucune idée. Vise plutôt à capturer les trois idées les plus importantes, et laisse tomber le reste.
 
-- Les notes servent à **encoder** pendant et à **se tester** après.
-- **Cornell** : trois zones, questions à gauche ajoutées après, résumé en bas de mémoire.
-- **Zettelkasten** : une idée par fiche, des liens, tes mots, long terme.
-- Un outil, de la discipline, et **du retraitement** le soir.
+**Utiliser quatre outils à la fois.** OneNote + Notion + papier + PDF surligné = aucun système cohérent. Choisis-en un ou deux, maximum.
+
+**Ne jamais relire ni retraiter.** Un cahier utile se distingue d'un cahier mort par ce que tu fais **après** le cours. Sans retraitement du soir, le cahier n'est qu'une décoration. Et tu le sais, au fond.
 
 ---
 
-> **La prochaine fois** : comment tenir une séance d'étude sans exploser. Pomodoro, attention profonde, et stratégies spécifiques pour TDAH.
+Un conseil, à appliquer cette semaine : choisis une seule méthode (Cornell ou Zettelkasten), et tiens-t'y pendant un mois. Tu auras l'impression que c'est lent au début — c'est normal. Comme pour le piano, les premières semaines payent mal. Puis un jour, tu rouvres quelque chose que tu avais noté il y a six mois, et tu te dis : « ah oui, cette idée » — et tu la retravailles, la relies à une autre. Là, tu comprendras.
+
+La leçon suivante : on parle de temps et d'attention. Pomodoro, travail profond, et stratégies pour les cerveaux qui fonctionnent différemment — TDAH, dyslexie, hypersensibilité. Parce qu'avoir la meilleure méthode du monde ne sert à rien si tu n'arrives pas à t'asseoir pour l'exécuter.
