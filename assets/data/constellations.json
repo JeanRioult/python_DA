@@ -72,6 +72,35 @@
           "en": "“You are now your own master — and your most demanding.”"
         }
       }
+    },
+    {
+      "id": "voie-paix",
+      "name": { "fr": "La Voie de la Paix", "en": "The Way of Peace" },
+      "flavor": {
+        "fr": "Apprendre sans se faire violence. Tenir longtemps plutôt que brûler vite.",
+        "en": "Learning without doing yourself violence. Lasting long rather than burning fast."
+      },
+      "icon": "☘",
+      "hue": 165,
+      "members": [
+        "c01-f13",
+        "c02-f11",
+        "c03-f02",
+        "c04-f12",
+        "c05-f11",
+        "c06-f12",
+        "c07-f03",
+        "c08-f06",
+        "c09-f09"
+      ],
+      "reward": {
+        "marqueId": "fondatrice-paix",
+        "title": { "fr": "Le Souffle Constant", "en": "The Steady Breath" },
+        "flavor": {
+          "fr": "« Apprendre sans s'épuiser, durer sans renoncer. »",
+          "en": "“Learn without exhausting yourself, last without giving up.”"
+        }
+      }
     }
   ]
 }
