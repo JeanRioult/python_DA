@@ -1,4 +1,4 @@
-# Python DA — an "Oppenheimer-view" data-analyst course
+# Python DA — a concise data-analyst course
 
 A self-directed, master's-level course that takes a complete beginner to a professional data analyst, with a deliberately broad foundation: mathematics, computer science, statistics, **and** philosophy, political science, literature, languages, and physics.
 
