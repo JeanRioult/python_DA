@@ -465,15 +465,26 @@
     updateChrome();
   }
 
+  function maitreFor(chapterId) {
+    const m = window.Compagnonnage && window.Compagnonnage.maitres;
+    return m ? m[chapterId] : null;
+  }
+
   function updateChrome() {
     const label = $("#cards-chapter-label");
     const stats = $("#cards-stats");
-    if (label) label.textContent = M.chapterTitle || "";
+    const m = M.chapterRef ? maitreFor(M.chapterRef.chapter) : null;
+    if (label) {
+      // Show "Atelier du Maître X · Ville" in addition to the chapter title.
+      const head = M.chapterTitle || "";
+      const tail = m ? ` — Atelier de ${localized(m.name, "")} · ${m.ville}` : "";
+      label.textContent = head + tail;
+    }
     if (stats) {
       const total = M.cards.length;
       const mastered = M.cards.filter(c => (window.Progress.getCardState(c.id).level || 0) >= 4).length;
-      const seen = M.cards.filter(c => (window.Progress.getCardState(c.id).seen || 0) > 0).length;
-      stats.textContent = `${seen}/${total} vues · ${mastered} maîtrisée${mastered > 1 ? "s" : ""}`;
+      const owned = M.cards.filter(c => isOwned(c)).length;
+      stats.textContent = `${owned}/${total} marques · ${mastered} dorée${mastered > 1 ? "s" : ""}`;
     }
   }
 
@@ -542,7 +553,21 @@
       </button>
     `;
 
+    const m = maitreFor(M.chapterRef.chapter);
+    const maitreCard = m ? `
+      <aside class="maitre-card">
+        <div class="maitre-card-head">
+          <span class="maitre-emblem" aria-hidden="true">${themeFor(M.chapterRef.chapter).glyph}</span>
+          <div>
+            <div class="maitre-name">${escapeHtml(localized(m.name, ""))}</div>
+            <div class="maitre-ville">Atelier de ${escapeHtml(m.metier)} · ${escapeHtml(m.ville)}</div>
+          </div>
+        </div>
+        <p class="maitre-intro">${escapeHtml(localized(m.intro, ""))}</p>
+      </aside>` : "";
+
     const html = `
+      ${maitreCard}
       <p class="library-tagline">${ownedCount} / ${total} marque${total > 1 ? "s" : ""} obtenue${ownedCount > 1 ? "s" : ""} — ${tagline}</p>
       <div class="library-actions">${restartBtn}</div>
       <div class="cards-grid">

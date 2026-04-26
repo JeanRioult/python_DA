@@ -131,19 +131,20 @@
     },
   ];
 
-  // XP → rank thresholds. Rank is a *title* shown next to the XP badge.
-  // The progression doubles each tier (cheap to design, generous early on).
-  const RANKS = [
-    { min:    0, fr: "Néophyte",  en: "Neophyte" },
-    { min:  100, fr: "Apprenti",  en: "Apprentice" },
-    { min:  300, fr: "Initié",    en: "Initiate" },
-    { min:  700, fr: "Adepte",    en: "Adept" },
-    { min: 1500, fr: "Compagnon", en: "Companion" },
-    { min: 3000, fr: "Artisan",   en: "Artisan" },
-    { min: 6000, fr: "Maître",    en: "Master" },
-    { min:12000, fr: "Sage",      en: "Sage" },
-    { min:25000, fr: "Archonte",  en: "Archon" },
+  // XP → rank thresholds. Compagnonnage titles by default; the file
+  // assets/data/compagnonnage.json may override at runtime via setRanks().
+  let RANKS = [
+    { min:     0, fr: "Aspirant",           en: "Aspirant" },
+    { min:   100, fr: "Postulant",          en: "Postulant" },
+    { min:   300, fr: "Affilié",            en: "Affiliate" },
+    { min:   700, fr: "Compagnon-reçu",     en: "Received Companion" },
+    { min:  1500, fr: "Compagnon-fini",     en: "Finished Companion" },
+    { min:  3000, fr: "Compagnon-passant",  en: "Passing Companion" },
+    { min:  6000, fr: "Maître",             en: "Master" },
+    { min: 12000, fr: "Maître-fondateur",   en: "Founder Master" },
+    { min: 25000, fr: "Légende du Tour",    en: "Legend of the Tour" },
   ];
+  function setRanks(arr) { if (Array.isArray(arr) && arr.length) RANKS = arr; }
   function rankFor(xp) {
     let r = RANKS[0];
     for (const tier of RANKS) if (xp >= tier.min) r = tier;
@@ -365,6 +366,7 @@
     toast,
     renderBadges,
     renderAchievementsList,
+    setRanks,
     ACHIEVEMENTS,
   };
 })();

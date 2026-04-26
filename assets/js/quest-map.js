@@ -179,13 +179,20 @@
           `</g>`;
       }
 
+      const maitre = (window.Compagnonnage && window.Compagnonnage.maitres && window.Compagnonnage.maitres[ch.id]) || null;
+      const subTitle = maitre
+        ? `${escapeHtml(localized(maitre.name, ""))} · ${escapeHtml(maitre.ville)}`
+        : `${status.done}/${status.total}`;
+
       sigils += `
         <g class="qm-node ${status.cls}" data-lesson="${escapeHtml(firstLessonId)}" style="--qm-hue:${hue};">
+          <title>${escapeHtml(localized(ch.title, ch.id))}${maitre ? ` — ${escapeHtml(localized(maitre.name, ""))}` : ""}</title>
           <circle cx="${p.x}" cy="${p.y}" r="34" class="qm-node-shape"/>
           <circle cx="${p.x}" cy="${p.y}" r="26" class="qm-node-inner"/>
           <text x="${p.x}" y="${p.y + 8}" class="qm-node-glyph" text-anchor="middle">${glyph}</text>
           <text x="${p.x}" y="${p.y + 56}" class="qm-node-title" text-anchor="middle">Ch.${ch.number ?? i + 1} — ${escapeHtml(truncate(localized(ch.title, ch.id), 22))}</text>
-          <text x="${p.x}" y="${p.y + 71}" class="qm-node-progress" text-anchor="middle">${status.done}/${status.total}</text>
+          <text x="${p.x}" y="${p.y + 71}" class="qm-node-subtitle" text-anchor="middle">${subTitle}</text>
+          <text x="${p.x}" y="${p.y + 85}" class="qm-node-progress" text-anchor="middle">${status.done}/${status.total}</text>
         </g>
       `;
     });

@@ -350,11 +350,36 @@ async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
     // --- 11c. Restart-lesson button visible after completion ---
     const restartBtn = $("#restart-lesson-btn");
     assert(!!restartBtn, "Restart-lesson button present in DOM");
-    // Navigate to the lesson we completed earlier (test 6) and confirm visible
     const completedId = `${window.AppIndex[0].semester}/${window.AppIndex[0].chapter}/${window.AppIndex[0].lesson}`;
     window.location.hash = `#/${completedId}`;
     await sleep(300);
     assert(!restartBtn.hidden, "Restart-lesson button visible after lesson completed");
+
+    // --- 11d. Compagnonnage lore loaded ---
+    assert(!!window.Compagnonnage && !!window.Compagnonnage.maitres, "compagnonnage data loaded");
+    assert(!!window.Compagnonnage.maitres["chapter-04-mathematiques-fondamentales"],
+      "ch.4 maître exists");
+    // Open cards on a chapter that has a maître and verify the intro is shown.
+    const ch4FirstLesson = window.AppIndex.find(e =>
+      e.chapter === "chapter-04-mathematiques-fondamentales");
+    if (ch4FirstLesson) {
+      window.location.hash = `#/${ch4FirstLesson.semester}/${ch4FirstLesson.chapter}/${ch4FirstLesson.lesson}`;
+      await sleep(400);
+      const cardsBtn4 = $("#cards-btn") || $("#cards-topbar-btn");
+      if (cardsBtn4 && !cardsBtn4.hidden) {
+        cardsBtn4.dispatchEvent(new window.MouseEvent("click", { bubbles: true }));
+        await sleep(300);
+        const maitre = $(".maitre-card");
+        assert(!!maitre, "maître card rendered in cards library");
+        const name = $(".maitre-name");
+        assert(name && /Pythagore/i.test(name.textContent), "ch.4 maître name shown (" + (name && name.textContent) + ")");
+        $("#cards-close").dispatchEvent(new window.MouseEvent("click", { bubbles: true }));
+      }
+    }
+    // Rank label (compagnonnage)
+    const rankBadge = $("#rank-badge .badge-value");
+    assert(rankBadge && /Aspirant|Postulant|Affilié|Compagnon|Maître|Légende/.test(rankBadge.textContent),
+      "rank badge uses compagnonnage titles (" + rankBadge.textContent + ")");
 
     // --- 12. Final: collect any errors that fired during run ---
     if (errors.length) {

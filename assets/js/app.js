@@ -991,6 +991,19 @@
 
     state.index = await loadIndex();
     window.AppIndex = state.index;   // exposed for cards.js daily mode + others
+
+    // Lore / compagnonnage data — best effort, never blocks boot.
+    try {
+      const r = await fetch("assets/data/compagnonnage.json");
+      if (r.ok) {
+        const data = await r.json();
+        window.Compagnonnage = data;
+        if (window.Game && data.ranks_compagnonnage) {
+          window.Game.setRanks(data.ranks_compagnonnage);
+        }
+      }
+    } catch (_) { /* lore is optional */ }
+
     if (window.Game) window.Game.init({ getIndex: () => state.index });
     if (window.QuestMap) window.QuestMap.init({ getIndex: () => state.index });
     renderToc();

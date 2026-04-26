@@ -1,0 +1,96 @@
+{
+  "maitres": {
+    "chapter-01-apprendre-a-apprendre": {
+      "ville": "Lyon",
+      "metier": "Mémoire",
+      "name": { "fr": "Maîtresse Hermine de la Soie", "en": "Mistress Hermine of the Silk" },
+      "intro": {
+        "fr": "Avant tout autre métier, on apprend à apprendre. Hermine te montrera comment graver les choses dans la durée, sans t'épuiser.",
+        "en": "Before any other craft, one learns to learn. Hermine will teach you how to carve things into long memory without burning out."
+      }
+    },
+    "chapter-02-qu-est-ce-qu-une-donnee": {
+      "ville": "Marseille",
+      "metier": "Donnée",
+      "name": { "fr": "Maître Augustin du Port", "en": "Master Augustin of the Port" },
+      "intro": {
+        "fr": "Toute donnée est construite — par quelqu'un, pour quelque chose. Augustin t'apprend à voir la main derrière le chiffre.",
+        "en": "Every datum is constructed — by someone, for something. Augustin teaches you to see the hand behind the number."
+      }
+    },
+    "chapter-03-logique-raisonnement": {
+      "ville": "Strasbourg",
+      "metier": "Logique",
+      "name": { "fr": "Maîtresse Léonore d'Ill", "en": "Mistress Léonore of the Ill" },
+      "intro": {
+        "fr": "Un raisonnement valide n'est pas un raisonnement vrai. Léonore t'apprend la différence — et pourquoi elle compte.",
+        "en": "A valid argument is not a true one. Léonore teaches you the difference — and why it matters."
+      }
+    },
+    "chapter-04-mathematiques-fondamentales": {
+      "ville": "Toulouse",
+      "metier": "Nombre",
+      "name": { "fr": "Maître Pythagore de Garonne", "en": "Master Pythagore of the Garonne" },
+      "intro": {
+        "fr": "Fractions, pourcentages, équations, fonctions : les outils d'airain de toute analyse. Pythagore les forgera avec toi.",
+        "en": "Fractions, percentages, equations, functions — the bronze tools of any analysis. Pythagore will forge them with you."
+      }
+    },
+    "chapter-05-premiers-pas-python": {
+      "ville": "Nantes",
+      "metier": "Code",
+      "name": { "fr": "Maître Joseph du Croisic", "en": "Master Joseph of the Croisic" },
+      "intro": {
+        "fr": "Une variable, une boucle, une fonction. Joseph t'apprend à parler aux machines avec patience et sans détours.",
+        "en": "A variable, a loop, a function. Joseph teaches you to speak to machines with patience and no detours."
+      }
+    },
+    "chapter-06-controle-du-flux": {
+      "ville": "Bordeaux",
+      "metier": "Algorithme",
+      "name": { "fr": "Maîtresse Ada de Garonne-Sud", "en": "Mistress Ada of the South-Garonne" },
+      "intro": {
+        "fr": "Si… sinon… tant que… Ada te montre comment plier le flux d'un programme à ta volonté, sans le casser.",
+        "en": "If… else… while… Ada shows you how to bend a program's flow to your will, without breaking it."
+      }
+    },
+    "chapter-07-tableurs": {
+      "ville": "Lille",
+      "metier": "Tableur",
+      "name": { "fr": "Maître Édouard de la Deûle", "en": "Master Édouard of the Deûle" },
+      "intro": {
+        "fr": "La grille est l'instrument le plus sous-estimé du monde. Édouard t'enseigne le tableau croisé, et la prudence qui va avec.",
+        "en": "The grid is the most underestimated instrument in the world. Édouard teaches you the pivot table — and the caution it requires."
+      }
+    },
+    "chapter-08-ecrire-argumenter": {
+      "ville": "Paris",
+      "metier": "Verbe",
+      "name": { "fr": "Maîtresse Olympe du Marais", "en": "Mistress Olympe of the Marais" },
+      "intro": {
+        "fr": "Une analyse muette n'existe pas. Olympe t'apprend à écrire ce que tes chiffres signifient — et à le défendre.",
+        "en": "A silent analysis does not exist. Olympe teaches you to write what your numbers mean — and to defend it."
+      }
+    },
+    "chapter-09-methode-scientifique": {
+      "ville": "Grenoble",
+      "metier": "Méthode",
+      "name": { "fr": "Maître Henri du Vercors", "en": "Master Henri of the Vercors" },
+      "intro": {
+        "fr": "Question, hypothèse, mesure, conclusion. Henri t'apprend l'humilité du protocole : la méthode protège des certitudes.",
+        "en": "Question, hypothesis, measurement, conclusion. Henri teaches you the humility of the protocol: method shields you from certainty."
+      }
+    }
+  },
+  "ranks_compagnonnage": [
+    { "min":     0, "fr": "Aspirant",           "en": "Aspirant" },
+    { "min":   100, "fr": "Postulant",          "en": "Postulant" },
+    { "min":   300, "fr": "Affilié",            "en": "Affiliate" },
+    { "min":   700, "fr": "Compagnon-reçu",     "en": "Received Companion" },
+    { "min":  1500, "fr": "Compagnon-fini",     "en": "Finished Companion" },
+    { "min":  3000, "fr": "Compagnon-passant",  "en": "Passing Companion" },
+    { "min":  6000, "fr": "Maître",             "en": "Master" },
+    { "min": 12000, "fr": "Maître-fondateur",   "en": "Founder Master" },
+    { "min": 25000, "fr": "Légende du Tour",    "en": "Legend of the Tour" }
+  ]
+}
