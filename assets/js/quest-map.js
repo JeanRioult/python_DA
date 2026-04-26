@@ -138,7 +138,10 @@
       const yFromBottom = BOTTOM_PAD + i * SPACING;
       const y = H - yFromBottom;
       const sway = Math.sin((i / Math.max(1, chapters.length - 1)) * Math.PI * 2.2 + 0.4);
-      const x = W / 2 + sway * (W * 0.32);
+      // Reduced amplitude (0.18) so even the longest subtitles like
+      // "Maîtresse Marguerite de la Gironde · Bordeaux" stay inside the
+      // viewBox when their chapter is at the far-left of the wave.
+      const x = W / 2 + sway * (W * 0.18);
       return { ch, x, y };
     });
 
@@ -191,8 +194,15 @@
         ? `${ch.lessons[0].semester}/${ch.lessons[0].chapter}/${ch.lessons[0].lesson}`
         : "";
 
-      if (ch.semester !== prevSemester) {
-        prevSemester = ch.semester;
+      // Semester divider band — drawn between two semesters, on the trail
+      // gap below the first chapter of the new semester. We always record
+      // the semester transition so the next chapter doesn't re-trigger it,
+      // but we suppress drawing for the very first chapter of the whole
+      // map (i === 0), because there's no room for it under chapter 1
+      // (the Départ cartouche lives there).
+      const semChanged = ch.semester !== prevSemester;
+      if (semChanged) prevSemester = ch.semester;
+      if (semChanged && i > 0) {
         const semY = p.y + 110;
         const semTitle = localized(ch.semesterTitle, ch.semester);
         const semLabel = (window.I18N && window.I18N.t && window.I18N.t("semester")) || "Semestre";
