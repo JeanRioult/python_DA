@@ -89,9 +89,34 @@
       .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
   }
-  function truncate(s, n) {
-    s = String(s || "");
-    return s.length > n ? s.slice(0, n - 1) + "…" : s;
+
+  // Greedy word-wrap to at most `maxLines` lines of ≤ ~`maxLen` chars each.
+  // Lines aren't padded; we simply prefer breaking at spaces. If a single
+  // word is longer than maxLen we let it overflow rather than mangle it.
+  function wrapLines(text, maxLen = 22, maxLines = 2) {
+    const words = String(text || "").split(/\s+/).filter(Boolean);
+    const lines = [];
+    let cur = "";
+    for (const w of words) {
+      if (!cur) { cur = w; continue; }
+      if ((cur + " " + w).length <= maxLen) {
+        cur += " " + w;
+      } else {
+        lines.push(cur);
+        cur = w;
+        if (lines.length === maxLines - 1) {
+          // Rest goes onto the last line, even if longer.
+          cur = w;
+          // Append remaining words to the last line.
+        }
+      }
+    }
+    if (cur) lines.push(cur);
+    if (lines.length > maxLines) {
+      const tail = lines.slice(maxLines - 1).join(" ");
+      return lines.slice(0, maxLines - 1).concat([tail]);
+    }
+    return lines;
   }
 
   function render() {
@@ -104,7 +129,7 @@
     // Width is fixed (480) to keep aspect on phones; nodes alternate left/right
     // along a sinusoidal path. Bottom = start, top = end (so finishing climbs).
     const W = 480;
-    const SPACING = 180;       // vertical pixels per chapter
+    const SPACING = 210;       // vertical pixels per chapter (room for 2-line titles)
     const TOP_PAD = 90;        // for the "Sommet" banner
     const BOTTOM_PAD = 110;    // for the "Départ" banner
     const H = TOP_PAD + chapters.length * SPACING + BOTTOM_PAD;
@@ -184,15 +209,24 @@
         ? `${escapeHtml(localized(maitre.name, ""))} · ${escapeHtml(maitre.ville)}`
         : `${status.done}/${status.total}`;
 
+      // Word-wrap the chapter title (max 2 lines, ~22 chars each) so long
+      // names like "Mathématiques fondamentales" are readable.
+      const titleLines = wrapLines(`Ch.${ch.number ?? i + 1} — ${localized(ch.title, ch.id)}`, 22, 2);
+      const titleSvg = titleLines.map((line, li) =>
+        `<tspan x="${p.x}" dy="${li === 0 ? 0 : 13}">${escapeHtml(line)}</tspan>`
+      ).join("");
+      // After title, push subtitle + progress down by the extra line if any.
+      const extraY = (titleLines.length - 1) * 13;
+
       sigils += `
         <g class="qm-node ${status.cls}" data-lesson="${escapeHtml(firstLessonId)}" style="--qm-hue:${hue};">
           <title>${escapeHtml(localized(ch.title, ch.id))}${maitre ? ` — ${escapeHtml(localized(maitre.name, ""))}` : ""}</title>
           <circle cx="${p.x}" cy="${p.y}" r="34" class="qm-node-shape"/>
           <circle cx="${p.x}" cy="${p.y}" r="26" class="qm-node-inner"/>
           <text x="${p.x}" y="${p.y + 8}" class="qm-node-glyph" text-anchor="middle">${glyph}</text>
-          <text x="${p.x}" y="${p.y + 56}" class="qm-node-title" text-anchor="middle">Ch.${ch.number ?? i + 1} — ${escapeHtml(truncate(localized(ch.title, ch.id), 22))}</text>
-          <text x="${p.x}" y="${p.y + 71}" class="qm-node-subtitle" text-anchor="middle">${subTitle}</text>
-          <text x="${p.x}" y="${p.y + 85}" class="qm-node-progress" text-anchor="middle">${status.done}/${status.total}</text>
+          <text class="qm-node-title" text-anchor="middle" y="${p.y + 56}">${titleSvg}</text>
+          <text x="${p.x}" y="${p.y + 73 + extraY}" class="qm-node-subtitle" text-anchor="middle">${subTitle}</text>
+          <text x="${p.x}" y="${p.y + 87 + extraY}" class="qm-node-progress" text-anchor="middle">${status.done}/${status.total}</text>
         </g>
       `;
     });

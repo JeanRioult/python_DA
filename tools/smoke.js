@@ -372,7 +372,7 @@ async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
         const maitre = $(".maitre-card");
         assert(!!maitre, "maître card rendered in cards library");
         const name = $(".maitre-name");
-        assert(name && /Pythagore/i.test(name.textContent), "ch.4 maître name shown (" + (name && name.textContent) + ")");
+        assert(name && /Fermat/i.test(name.textContent), "ch.4 maître name shown (" + (name && name.textContent) + ")");
         $("#cards-close").dispatchEvent(new window.MouseEvent("click", { bubbles: true }));
       }
     }

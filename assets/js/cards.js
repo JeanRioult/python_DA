@@ -344,11 +344,103 @@
       </div>
     `;
   }
+  // Ornate, symmetric SVG card back. Hue is taken from the chapter theme so
+  // a face-down card still hints at where it belongs without revealing
+  // anything about the question or the answer.
+  function cardBackSvg(theme) {
+    const glyph = theme.glyph || "◆";
+    return `
+      <svg class="mtg-back-svg" viewBox="0 0 200 280" preserveAspectRatio="xMidYMid meet"
+           xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <radialGradient id="back-field" cx="50%" cy="40%" r="70%">
+            <stop offset="0%"  stop-color="hsl(${theme.hue} 35% 22%)"/>
+            <stop offset="60%" stop-color="hsl(${theme.hue} 40% 14%)"/>
+            <stop offset="100%" stop-color="hsl(${theme.hue} 50% 6%)"/>
+          </radialGradient>
+          <linearGradient id="back-gold" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"  stop-color="#ffe7a5"/>
+            <stop offset="50%" stop-color="#d9a635"/>
+            <stop offset="100%" stop-color="#8a6a18"/>
+          </linearGradient>
+          <pattern id="back-weave" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="14" stroke="rgba(255,215,130,0.06)" stroke-width="1"/>
+            <line x1="7" y1="0" x2="7" y2="14" stroke="rgba(255,215,130,0.04)" stroke-width="1"/>
+          </pattern>
+        </defs>
+
+        <!-- Field -->
+        <rect width="200" height="280" fill="url(#back-field)"/>
+        <rect width="200" height="280" fill="url(#back-weave)"/>
+
+        <!-- Inner gilded border -->
+        <rect x="10" y="10" width="180" height="260" rx="6" ry="6"
+              fill="none" stroke="url(#back-gold)" stroke-width="2" stroke-opacity="0.85"/>
+        <rect x="14" y="14" width="172" height="252" rx="4" ry="4"
+              fill="none" stroke="url(#back-gold)" stroke-width="0.7" stroke-opacity="0.55"/>
+
+        <!-- Corner flourishes -->
+        <g fill="none" stroke="url(#back-gold)" stroke-width="1.2" stroke-opacity="0.85">
+          <path d="M 24 24 q 12 -6 24 0 M 24 24 q -6 12 0 24"/>
+          <path d="M 176 24 q -12 -6 -24 0 M 176 24 q 6 12 0 24"/>
+          <path d="M 24 256 q 12 6 24 0 M 24 256 q -6 -12 0 -24"/>
+          <path d="M 176 256 q -12 6 -24 0 M 176 256 q 6 -12 0 -24"/>
+        </g>
+
+        <!-- Decorative scrollwork bands above + below the medallion -->
+        <g stroke="url(#back-gold)" stroke-width="0.9" stroke-opacity="0.7" fill="none">
+          <path d="M 30 78  Q 100 60 170 78"/>
+          <path d="M 30 86  Q 100 68 170 86"/>
+          <path d="M 30 202 Q 100 220 170 202"/>
+          <path d="M 30 210 Q 100 228 170 210"/>
+          <circle cx="100" cy="78" r="2.5" fill="url(#back-gold)" stroke="none"/>
+          <circle cx="100" cy="210" r="2.5" fill="url(#back-gold)" stroke="none"/>
+        </g>
+
+        <!-- Central medallion -->
+        <g transform="translate(100 140)">
+          <!-- Outer gilded ring -->
+          <circle r="48" fill="hsl(${theme.hue} 40% 8%)"
+                  stroke="url(#back-gold)" stroke-width="2.4"/>
+          <circle r="48" fill="none"
+                  stroke="hsl(${theme.hue} 70% 60%)" stroke-width="0.5" stroke-opacity="0.7"/>
+          <!-- Star burst -->
+          <g stroke="url(#back-gold)" stroke-width="0.7" stroke-opacity="0.7" fill="none">
+            <path d="M 0 -42 L 0 -34"/>
+            <path d="M 0  42 L 0  34"/>
+            <path d="M -42 0 L -34 0"/>
+            <path d="M  42 0 L  34 0"/>
+            <path d="M -30 -30 L -24 -24"/>
+            <path d="M  30 -30 L  24 -24"/>
+            <path d="M -30  30 L -24  24"/>
+            <path d="M  30  30 L  24  24"/>
+          </g>
+          <!-- Inner ring -->
+          <circle r="30" fill="none" stroke="url(#back-gold)" stroke-width="1" stroke-opacity="0.9"/>
+          <circle r="26" fill="hsl(${theme.hue} 55% 22%)"
+                  stroke="hsl(${theme.hue} 80% 65%)" stroke-width="0.6" stroke-opacity="0.6"/>
+          <!-- Chapter glyph -->
+          <text y="11" font-size="32" text-anchor="middle"
+                fill="url(#back-gold)"
+                style="font-weight:800;letter-spacing:0;">${escapeHtml(glyph)}</text>
+        </g>
+
+        <!-- "Tour du Savoir" footer mark -->
+        <text x="100" y="252" text-anchor="middle"
+              font-size="9" letter-spacing="3" fill="url(#back-gold)"
+              fill-opacity="0.9" style="font-weight:700;">
+          TOUR · DU · SAVOIR
+        </text>
+      </svg>
+    `;
+  }
+
   function makeFacedownHtml(theme = DEFAULT_THEME, extraClass = "") {
     return `
-      <div class="mtg-card mtg-card--facedown ${extraClass}" aria-hidden="true">
+      <div class="mtg-card mtg-card--facedown ${extraClass}"
+           style="--c-hue:${theme.hue};" aria-hidden="true">
         <div class="mtg-frame">
-          <span class="mtg-back-glyph">${theme.glyph}</span>
+          ${cardBackSvg(theme)}
         </div>
       </div>
     `;
@@ -526,7 +618,7 @@
            data-rarity="${rarity.id}">
         <div class="mtg-frame">
           ${badge}
-          <span class="mtg-back-glyph">${theme.glyph}</span>
+          ${cardBackSvg(theme)}
           <span class="facedown-cap">${cap}</span>
         </div>
       </div>
