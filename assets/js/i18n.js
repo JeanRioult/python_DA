@@ -34,6 +34,7 @@
       completed: "✓ Leçon terminée",
       completeHint: "Appuie uniquement quand tu as vraiment fait les exercices.",
       flashcardsLegend: "Flashcards",
+      achievementsLegend: "Hauts faits",
       cardsBtn: (n) => `🗂 Cartes (${n})`,
       cardsReviewBtn: "Réviser les cartes de ce chapitre",
       cardsCountHint: (n) => `Ce chapitre contient ${n} carte${n > 1 ? "s" : ""} à réviser.`,
@@ -79,6 +80,7 @@
       completed: "✓ Lesson finished",
       completeHint: "Only press this once you have actually done the exercises.",
       flashcardsLegend: "Flashcards",
+      achievementsLegend: "Achievements",
       cardsBtn: (n) => `🗂 Cards (${n})`,
       cardsReviewBtn: "Review this chapter's cards",
       cardsCountHint: (n) => `This chapter has ${n} card${n > 1 ? "s" : ""} to review.`,
@@ -147,6 +149,7 @@
         this.t("width"),
         this.t("stimLegend"),
         this.t("flashcardsLegend"),
+        this.t("achievementsLegend"),
         this.t("progress"),
       ];
       fieldsets.forEach((fs, i) => {

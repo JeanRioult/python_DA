@@ -172,6 +172,22 @@ body {
   margin: 0 auto;
   padding: var(--space-5) var(--space-4) var(--space-6);
 }
+.lesson-reading-bar {
+  position: sticky;
+  top: 0;
+  height: 3px;
+  background: transparent;
+  z-index: 30;
+  margin: 0 calc(-1 * var(--space-4)) var(--space-3);
+  pointer-events: none;
+}
+.lesson-reading-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), color-mix(in oklab, var(--accent), white 25%));
+  transition: width 600ms ease;
+  width: 0%;
+  border-radius: 0 999px 999px 0;
+}
 .lesson-content h1 {
   font-size: 2rem;
   line-height: 1.25;
@@ -551,6 +567,19 @@ html[data-theme="dark"] .flashcards-panel { background: rgba(0, 0, 0, 0.55); }
   color: var(--text-soft);
   line-height: 1.5;
 }
+.sr-tag {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  background: var(--accent);
+  color: #fff;
+  padding: 1px 6px;
+  border-radius: 999px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+.search-result--card .sr-title { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
 .search-result mark {
   background: var(--accent-soft);
   color: var(--accent);
