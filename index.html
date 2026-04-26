@@ -146,6 +146,12 @@
     </fieldset>
 
     <fieldset>
+      <legend>Apprentissage</legend>
+      <label><input type="checkbox" id="confiance-mode" checked> Mode confiance (essais doublés sur les cartes)</label>
+      <p class="settings-hint">Active par défaut. Désactive pour un mode strict (5 / 3 / 2 / 1 essai par carte selon la rareté).</p>
+    </fieldset>
+
+    <fieldset>
       <legend>Flashcards</legend>
       <button id="cards-review" class="pill-btn">Réviser les cartes de ce chapitre</button>
       <p id="cards-hint" class="settings-hint"></p>
@@ -190,6 +196,11 @@
       <div class="cta-row">
         <button id="cards-btn" class="pill-btn" hidden>🗂 Cartes</button>
         <button id="complete-btn" class="cta" disabled>Terminer et continuer</button>
+      </div>
+      <div class="cta-row cta-row-secondary">
+        <button id="restart-lesson-btn" class="pill-btn" type="button" hidden>
+          🔄 Réviser cette leçon
+        </button>
       </div>
       <p class="cta-hint">Appuie uniquement quand tu as vraiment fait les exercices.</p>
     </footer>

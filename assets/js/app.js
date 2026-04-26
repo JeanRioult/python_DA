@@ -309,6 +309,40 @@
       btn.classList.remove("done");
       btn.textContent = window.I18N.t("complete");
     }
+    // The "Réviser cette leçon" button is shown only once the lesson is done,
+    // so the user can opt back into another pass at the cards without losing
+    // their mastery (knowledge stays, only try counters are restored).
+    const restartBtn = $("#restart-lesson-btn");
+    if (restartBtn) {
+      restartBtn.hidden = !(
+        state.currentLessonId && window.Progress.isCompleted(state.currentLessonId)
+      );
+    }
+  }
+
+  function wireRestartLessonBtn() {
+    const btn = $("#restart-lesson-btn");
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      if (!state.currentLessonId) return;
+      const ok = confirm(
+        "Réviser cette leçon ?\n\n" +
+        "Les essais des cartes du chapitre seront restaurés.\n" +
+        "Tes maîtrises (étoiles) sont gardées."
+      );
+      if (!ok) return;
+      const ref = chapterIdFromLessonId(state.currentLessonId);
+      if (window.Cards && ref) window.Cards.restartLessonCards(ref);
+      // Reset reading depth on this lesson so the bar re-fills as they re-read.
+      const lessonState = window.Progress._data.lessons[state.currentLessonId];
+      if (lessonState) {
+        lessonState.reading = 0;
+        // markVisited will save; but force a save by re-marking
+        window.Progress.markVisited(state.currentLessonId);
+      }
+      updateProgressBar();
+      updateLessonReadingBar(0);
+    });
   }
 
   // ---------- Lesson rendering ----------
@@ -413,6 +447,15 @@
       document.documentElement.dataset.stim = v;
       window.Progress.setSetting("stim", v);
     });
+
+    // Mode confiance — apply persisted value on init, save on change.
+    const confianceEl = $("#confiance-mode");
+    if (confianceEl) {
+      confianceEl.checked = window.Progress.getSetting("confiance", true) !== false;
+      confianceEl.addEventListener("change", () => {
+        window.Progress.setSetting("confiance", !!confianceEl.checked);
+      });
+    }
 
     $("#progress-export").addEventListener("click", () => {
       const blob = new Blob([window.Progress.exportJson()], { type: "application/json" });
@@ -942,6 +985,7 @@
     wireSettings();
     wireLangToggle();
     wireCompleteBtn();
+    wireRestartLessonBtn();
     wireSearch();
     wireCards();
 

@@ -134,6 +134,42 @@
       return next;
     },
 
+    // ---- Try budget for first-acquisition ----
+    // triesLeft semantics:
+    //   undefined  → fresh card, free first miss available
+    //   N >= 0     → remaining attempts (0 = épuisée until next reset)
+
+    getTriesLeft(cardId) {
+      const c = this.getCardState(cardId);
+      return c.triesLeft;
+    },
+
+    setTriesLeft(cardId, value) {
+      this.setCardState(cardId, { triesLeft: value });
+    },
+
+    // Reset tries for a single card (used by "Réviser cette leçon" / chapter).
+    // Knowledge fields (level, knew, missed, lastSeen) are kept untouched.
+    resetTriesForCard(cardId) {
+      if (!this._data.cards || !this._data.cards[cardId]) return;
+      const { triesLeft, ...rest } = this._data.cards[cardId];
+      this._data.cards[cardId] = rest;
+      save(this._data);
+    },
+
+    resetTriesForCards(cardIds) {
+      if (!this._data.cards) return;
+      let touched = false;
+      for (const id of cardIds) {
+        if (this._data.cards[id] && "triesLeft" in this._data.cards[id]) {
+          const { triesLeft, ...rest } = this._data.cards[id];
+          this._data.cards[id] = rest;
+          touched = true;
+        }
+      }
+      if (touched) save(this._data);
+    },
+
     // True if the card is due for review today (never seen, or interval elapsed).
     isCardDue(cardId, now = new Date()) {
       const c = this.getCardState(cardId);

@@ -252,6 +252,52 @@
     return                 { id: "mythic",   label: "Mythique",    pip: "✦" };
   }
 
+  // Try budget per rarity, doubled in "Mode confiance" (default ON).
+  const TRIES_BASE = { common: 5, uncommon: 3, rare: 2, mythic: 1 };
+  const XP_REWARD  = { common: 5, uncommon: 12, rare: 30, mythic: 100 };
+  function isConfianceMode() {
+    return window.Progress.getSetting("confiance", true) !== false;
+  }
+  function maxTriesFor(rarityId) {
+    return TRIES_BASE[rarityId] * (isConfianceMode() ? 2 : 1);
+  }
+  function chapterNumberFromCardId(cardId) {
+    const m = String(cardId || "").match(/c(\d+)/i);
+    return m ? parseInt(m[1], 10) : 1;
+  }
+  // Chapter "entrance fee" in XP per rarity. Commons/uncommons are always
+  // free; rares and mythics require enough total XP to be unsealed.
+  function chapterFeeXp(chapterNum, rarityId) {
+    if (rarityId === "common" || rarityId === "uncommon") return 0;
+    if (rarityId === "rare")    return Math.max(0, 50  * (chapterNum - 1));
+    if (rarityId === "mythic")  return Math.max(0, 120 * (chapterNum - 1));
+    return 0;
+  }
+  function isOwned(card) {
+    return (window.Progress.getCardState(card.id).knew || 0) > 0;
+  }
+  function isExhausted(card) {
+    if (isOwned(card)) return false;
+    const t = window.Progress.getTriesLeft(card.id);
+    return t === 0;
+  }
+  function isSealed(card) {
+    if (isOwned(card)) return false;
+    const xp = (window.Progress.getGame().xp) || 0;
+    const r = rarityFor(card.id);
+    const fee = chapterFeeXp(chapterNumberFromCardId(card.id), r.id);
+    return fee > xp;
+  }
+  // Status used by the library + queue building.
+  function cardStatus(card) {
+    if (isOwned(card)) return "owned";
+    if (isSealed(card)) return "sealed";
+    if (isExhausted(card)) return "exhausted";
+    const t = window.Progress.getTriesLeft(card.id);
+    if (t == null) return "fresh";       // never tried
+    return "tried";                       // tried but tries left
+  }
+
   function makeCardHtml(card, chapterRef, side, opts = {}) {
     const theme = themeFor(chapterRef.chapter);
     const sideText = side === "back"
@@ -311,12 +357,22 @@
     const label = window.I18N.current === "en"
       ? "Card. Press Space or Enter to flip."
       : "Carte. Appuie sur Espace ou Entrée pour retourner.";
+    // Show a "tries left" pip on the flipper for unowned cards, so the user
+    // knows the stakes before flipping. Owned cards skip it (no try cost).
+    let pip = "";
+    if (!isOwned(card)) {
+      const r = rarityFor(card.id);
+      const cur = window.Progress.getTriesLeft(card.id);
+      const left = cur == null ? maxTriesFor(r.id) : cur;
+      pip = `<span class="tries-pip" title="Essais restants pour gagner cette marque">⚑ ${left}</span>`;
+    }
     return `
       <div class="mtg-card-flipper" data-flipped="${flipped ? "true" : "false"}"
            data-card-id="${escapeHtml(card.id || "")}"
            role="button" tabindex="0"
            aria-pressed="${flipped ? "true" : "false"}"
            aria-label="${label}">
+        ${pip}
         <div class="mtg-card-flipper-inner">
           ${makeCardHtml(card, chapterRef, "front", { large: true })}
           <div class="mtg-card--back-face" style="position:absolute;inset:0;">
@@ -426,50 +482,110 @@
   // it correctly at least once (Progress.cardState.knew > 0). Unowned cards
   // appear face-down in the library — you must practice & succeed to reveal
   // their content. This makes the deck feel like a real collection.
-  function isOwned(card) {
-    return (window.Progress.getCardState(card.id).knew || 0) > 0;
+  // (isOwned() / isExhausted() / isSealed() / cardStatus() defined above.)
+
+  // Build a small face-down placeholder card that visually expresses status.
+  function makeFacedownLibraryCard(card, status) {
+    const theme = themeFor(M.chapterRef.chapter);
+    const rarity = rarityFor(card.id);
+    const tries = window.Progress.getTriesLeft(card.id);
+    const max = maxTriesFor(rarity.id);
+    let cap = "à découvrir";
+    let extraClass = "";
+    let badge = "";
+    if (status === "tried") {
+      cap = `${tries} essai${tries > 1 ? "s" : ""} restant${tries > 1 ? "s" : ""}`;
+      extraClass = "facedown--tried";
+    } else if (status === "exhausted") {
+      cap = "marque tombée";
+      extraClass = "facedown--exhausted";
+      badge = `<span class="facedown-badge" aria-hidden="true">⚠</span>`;
+    } else if (status === "sealed") {
+      const fee = chapterFeeXp(chapterNumberFromCardId(card.id), rarity.id);
+      cap = `scellée — ${fee} XP requis`;
+      extraClass = "facedown--sealed";
+      badge = `<span class="facedown-badge" aria-hidden="true">✜</span>`;
+    } else {
+      // fresh: show max tries available
+      cap = `${max} essai${max > 1 ? "s" : ""}`;
+    }
+    return `
+      <div class="mtg-card mtg-card--mini mtg-card--facedown ${extraClass}"
+           style="--c-hue:${theme.hue};"
+           data-rarity="${rarity.id}">
+        <div class="mtg-frame">
+          ${badge}
+          <span class="mtg-back-glyph">${theme.glyph}</span>
+          <span class="facedown-cap">${cap}</span>
+        </div>
+      </div>
+    `;
   }
 
   function renderLibrary() {
     const view = $("#cards-view");
     if (!view) return;
-    const ownedCount = M.cards.filter(isOwned).length;
     const total = M.cards.length;
+    const ownedCount = M.cards.filter(isOwned).length;
+    const sealedCount = M.cards.filter(isSealed).length;
+    const exhaustedCount = M.cards.filter(isExhausted).length;
+
+    const tagline = ownedCount === total
+      ? `tu as toute la collection ✨`
+      : `joue en mode <strong>Pratique</strong> pour gagner les autres` +
+        (sealedCount    ? ` · ${sealedCount} scellée${sealedCount > 1 ? "s" : ""}`     : "") +
+        (exhaustedCount ? ` · ${exhaustedCount} tombée${exhaustedCount > 1 ? "s" : ""} (reprendre la leçon)` : "");
+
+    const restartBtn = `
+      <button class="pill-btn cards-restart-chapter" type="button">
+        🔄 Réviser ce chapitre
+      </button>
+    `;
+
     const html = `
-      <p class="library-tagline">
-        ${ownedCount} / ${total} carte${total > 1 ? "s" : ""} obtenue${ownedCount > 1 ? "s" : ""} —
-        ${ownedCount < total ? `joue en mode <strong>Pratique</strong> pour révéler les autres` : `tu as toute la collection ✨`}
-      </p>
+      <p class="library-tagline">${ownedCount} / ${total} marque${total > 1 ? "s" : ""} obtenue${ownedCount > 1 ? "s" : ""} — ${tagline}</p>
+      <div class="library-actions">${restartBtn}</div>
       <div class="cards-grid">
         ${M.cards.map((c, i) => {
-          const owned = isOwned(c);
-          if (owned) {
+          const status = cardStatus(c);
+          if (status === "owned") {
             return `<a href="#" class="cards-grid-item" data-idx="${i}" aria-label="Inspecter la carte">
               ${makeCardHtml(c, M.chapterRef, "front", { mini: true })}
             </a>`;
           }
-          // Face-down: no answer revealed, but show a teaser (the type) so
-          // the user has a sense of "what's there".
-          const theme = themeFor(M.chapterRef.chapter);
-          return `<a href="#" class="cards-grid-item cards-grid-item--locked" data-idx="${i}"
-                     aria-label="Carte à découvrir — joue en pratique pour la révéler">
-            <div class="mtg-card mtg-card--mini mtg-card--facedown" style="--c-hue:${theme.hue};">
-              <div class="mtg-frame">
-                <span class="mtg-back-glyph">${theme.glyph}</span>
-                <span class="facedown-cap">à découvrir</span>
-              </div>
-            </div>
+          const ariaLabel =
+            status === "sealed"    ? "Carte scellée — gagne plus d'XP pour l'ouvrir"
+          : status === "exhausted" ? "Marque tombée — reprends la leçon pour retenter"
+          : "Carte à découvrir — joue en pratique pour la révéler";
+          return `<a href="#" class="cards-grid-item cards-grid-item--locked"
+                     data-idx="${i}" data-status="${status}" aria-label="${ariaLabel}">
+            ${makeFacedownLibraryCard(c, status)}
           </a>`;
         }).join("")}
       </div>
     `;
     view.innerHTML = html;
+
+    view.querySelector(".cards-restart-chapter").addEventListener("click", () => {
+      restartChapter();
+    });
+
     view.querySelectorAll(".cards-grid-item").forEach(a => {
       a.addEventListener("click", (e) => {
         e.preventDefault();
         const idx = parseInt(a.dataset.idx, 10) || 0;
         const c = M.cards[idx];
-        if (!isOwned(c)) {
+        const status = cardStatus(c);
+        if (status === "exhausted") {
+          alert("Marque tombée — utilise « Réviser ce chapitre » (ou la leçon) pour retenter.");
+          return;
+        }
+        if (status === "sealed") {
+          const xpNeeded = chapterFeeXp(chapterNumberFromCardId(c.id), rarityFor(c.id).id);
+          alert(`Marque sous serment — atteins ${xpNeeded} XP avant de pouvoir l'attaquer.`);
+          return;
+        }
+        if (status !== "owned") {
           // Jump straight into a single-card practice so they can earn it.
           M.queue = [idx];
           M.qIdx = 0;
@@ -488,6 +604,31 @@
         M.inspectFlipped = false;
         setMode("inspect");
       });
+    });
+  }
+
+  function restartChapter() {
+    if (!M.chapterRef || !M.cards.length) return;
+    const ok = confirm(
+      "Réviser ce chapitre ?\n\n" +
+      "Les essais des cartes tombées seront restaurés.\n" +
+      "Tes maîtrises (étoiles) sont gardées."
+    );
+    if (!ok) return;
+    window.Progress.resetTriesForCards(M.cards.map(c => c.id));
+    if (window.Game) window.Game.toast("Chapitre rouvert — bon courage !", { icon: "🔄", kind: "info" });
+    renderLibrary();
+  }
+  // Exposed so app.js can trigger a single-lesson restart from the lesson UI.
+  function restartLessonCards(lessonRef) {
+    if (!lessonRef) return;
+    // Lesson scope ≈ chapter scope today (cards are chapter-level); we still
+    // accept a lesson-level restart that just resets every card in the chapter.
+    const ref = { semester: lessonRef.semester, chapter: lessonRef.chapter };
+    loadFlashcardsFor(ref).then(data => {
+      if (!data || !data.cards) return;
+      window.Progress.resetTriesForCards(data.cards.map(c => c.id));
+      if (window.Game) window.Game.toast("Leçon réouverte — les essais sont restaurés.", { icon: "🔄", kind: "info" });
     });
   }
 
@@ -546,11 +687,15 @@
   // ----- Practice mode -----
   function buildQueue() {
     // Weight cards by (5 - mastery + 1) so unknown cards come up more.
-    const weighted = M.cards.map((c, idx) => {
-      const lvl = window.Progress.getCardState(c.id).level || 0;
-      return { idx, w: 6 - lvl };
-    });
-    // Weighted shuffle
+    // Skip cards that can't currently be played: épuisée (ran out of tries)
+    // and scellée (chapter XP fee not met).
+    const weighted = M.cards
+      .map((c, idx) => ({ c, idx }))
+      .filter(({ c }) => !isExhausted(c) && !isSealed(c))
+      .map(({ c, idx }) => ({
+        idx,
+        w: 6 - (window.Progress.getCardState(c.id).level || 0),
+      }));
     const out = [];
     const pool = weighted.slice();
     while (pool.length) {
@@ -575,7 +720,43 @@
     M.streak = 0;
     M.sessionKnew = 0;
     M.sessionMissed = 0;
+    if (!M.queue.length) {
+      renderEmptyPractice();
+      return;
+    }
     renderPractice();
+  }
+
+  function renderEmptyPractice() {
+    const view = $("#cards-view");
+    if (!view) return;
+    const sealed    = M.cards.filter(isSealed).length;
+    const exhausted = M.cards.filter(isExhausted).length;
+    const owned     = M.cards.filter(isOwned).length;
+    const total     = M.cards.length;
+    let msg;
+    if (owned === total) {
+      msg = "Tu possèdes déjà toutes les marques de ce chapitre. Va en <strong>Quotidien</strong> pour les entretenir.";
+    } else if (exhausted && !sealed) {
+      msg = `Toutes les marques restantes sont tombées. <br>Clique <strong>Réviser ce chapitre</strong> pour retenter.`;
+    } else if (sealed && !exhausted) {
+      msg = `Les marques restantes sont scellées. <br>Gagne plus d'XP dans les chapitres précédents pour les ouvrir.`;
+    } else {
+      msg = `Plus rien à attaquer ici pour le moment. <br>Revois ce chapitre ou consolide les chapitres précédents.`;
+    }
+    view.innerHTML = `
+      <div class="practice-summary">
+        <h3>Atelier au repos</h3>
+        <div class="grade">🌿</div>
+        <p class="stats">${msg}</p>
+        <div class="cards-controls" style="justify-content:center;">
+          <button class="pill-btn cards-back-to-lib">← Collection</button>
+          <button class="cta-flip cards-restart-chapter">🔄 Réviser ce chapitre</button>
+        </div>
+      </div>
+    `;
+    view.querySelector(".cards-back-to-lib").addEventListener("click", () => setMode("library"));
+    view.querySelector(".cards-restart-chapter").addEventListener("click", restartChapter);
   }
 
   function renderPractice() {
@@ -671,14 +852,37 @@
     const card = M.cards[M.queue[M.qIdx]];
     if (!card) return;
     const before = window.Progress.getCardState(card.id);
+    const wasOwned = (before.knew || 0) > 0;
+    const rarity = rarityFor(card.id);
+
     const after = window.Progress.rateCard(card.id, knewIt);
-    if (window.Game) {
-      if (knewIt) {
-        window.Game.award(5, "card-knew");
-        if ((before.level || 0) < 5 && after.level === 5) {
-          window.Game.award(25, "card-mastered");
-        }
+
+    if (knewIt && !wasOwned) {
+      // First-acquisition: award rarity-scaled XP and freeze the try counter.
+      // 50 % cap on revisits (we mark the card with `earnedXp` once paid).
+      const reward = XP_REWARD[rarity.id] || 5;
+      const alreadyPaid = (before.earnedXp || 0) > 0;
+      const xpGain = alreadyPaid ? Math.round(reward * 0.5) : reward;
+      if (window.Game) window.Game.award(xpGain, "card-earn");
+      window.Progress.setCardState(card.id, { earnedXp: reward });
+    } else if (knewIt) {
+      // Already-owned review: small flat XP + mastery handling.
+      if (window.Game) window.Game.award(5, "card-knew");
+      if ((before.level || 0) < 5 && after.level === 5) {
+        if (window.Game) window.Game.award(25, "card-mastered");
       }
+    } else if (!wasOwned) {
+      // MISS on a not-yet-owned card → consume a try (with free first miss).
+      const cur = window.Progress.getTriesLeft(card.id);
+      if (cur == null) {
+        // Free first miss — initialize counter to max so future misses cost.
+        window.Progress.setTriesLeft(card.id, maxTriesFor(rarity.id));
+      } else {
+        window.Progress.setTriesLeft(card.id, Math.max(0, cur - 1));
+      }
+    }
+
+    if (window.Game) {
       window.Game.recordActivity();
       M.bestStreak = Math.max(M.bestStreak || 0, M.streak + (knewIt ? 1 : 0));
       window.Game.checkAchievements({ bestStreak: M.bestStreak });
@@ -689,9 +893,13 @@
     } else {
       M.streak = 0;
       M.sessionMissed += 1;
-      // Re-insert this card a few cards later so it comes back.
-      const reinsertAt = Math.min(M.queue.length, M.qIdx + 4);
-      M.queue.splice(reinsertAt, 0, M.queue[M.qIdx]);
+      // Only re-insert if the card still has tries (or is already owned, in
+      // which case we're just doing SR review and re-asking is fine).
+      const stillPlayable = wasOwned || !isExhausted(card);
+      if (stillPlayable) {
+        const reinsertAt = Math.min(M.queue.length, M.qIdx + 4);
+        M.queue.splice(reinsertAt, 0, M.queue[M.qIdx]);
+      }
     }
     M.qIdx += 1;
     M.flipped = false;
@@ -749,7 +957,13 @@
   }
 
   function dueCardsFromList(cards, now = new Date()) {
-    return cards.filter(c => window.Progress.isCardDue(c.id, now));
+    // Drop unplayable cards (épuisée / scellée) so the daily review never
+    // proposes a card you can't currently attempt.
+    return cards.filter(c =>
+      window.Progress.isCardDue(c.id, now) &&
+      !isExhausted(c) &&
+      !isSealed(c)
+    );
   }
 
   async function refreshDueCount(getChapters) {
@@ -917,5 +1131,6 @@
     refreshDueCount,
     close,
     setMode: (m) => setMode(m),
+    restartLessonCards,
   };
 })();

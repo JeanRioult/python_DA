@@ -323,6 +323,38 @@ async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
     assert(achvs.length >= 10, "achievements list rendered (" + achvs.length + " achievements)");
     const onAchvs = $$("#achievements-list .achv.achv--on");
     assert(onAchvs.length >= 1, "at least 1 achievement marked unlocked");
+    const confianceCB = $("#confiance-mode");
+    assert(confianceCB && confianceCB.checked === true, "Mode confiance toggle present + on by default");
+
+    // --- 11b. Try-budget mechanic ---
+    // Pick any unowned card from chapter 1's flashcards.
+    const ch1Url = `${url}/content/semester-01/chapter-01-apprendre-a-apprendre/flashcards.json`;
+    const ch1Data = await (await globalThis.fetch(ch1Url)).json();
+    if (ch1Data && ch1Data.cards && ch1Data.cards.length) {
+      const cardId = ch1Data.cards[0].id;
+      // Reset state so we test from a clean card.
+      window.Progress.setCardState(cardId, { knew: 0, missed: 0, level: 0 });
+      window.Progress.resetTriesForCard(cardId);
+      assert(window.Progress.getTriesLeft(cardId) === undefined, "tries undefined on fresh card");
+      // Simulate a wrong rate via Progress directly: triesLeft stays "fresh" → first miss is free.
+      window.Progress.rateCard(cardId, false);
+      // The cards module would set triesLeft on first miss to maxTries; we
+      // simulate that consumeTry policy by checking via the public Cards API.
+      // Instead just check the helper via setTriesLeft / getTriesLeft round-trip:
+      window.Progress.setTriesLeft(cardId, 5);
+      assert(window.Progress.getTriesLeft(cardId) === 5, "setTriesLeft / getTriesLeft round-trip");
+      window.Progress.resetTriesForCard(cardId);
+      assert(window.Progress.getTriesLeft(cardId) === undefined, "resetTriesForCard clears triesLeft");
+    }
+
+    // --- 11c. Restart-lesson button visible after completion ---
+    const restartBtn = $("#restart-lesson-btn");
+    assert(!!restartBtn, "Restart-lesson button present in DOM");
+    // Navigate to the lesson we completed earlier (test 6) and confirm visible
+    const completedId = `${window.AppIndex[0].semester}/${window.AppIndex[0].chapter}/${window.AppIndex[0].lesson}`;
+    window.location.hash = `#/${completedId}`;
+    await sleep(300);
+    assert(!restartBtn.hidden, "Restart-lesson button visible after lesson completed");
 
     // --- 12. Final: collect any errors that fired during run ---
     if (errors.length) {
