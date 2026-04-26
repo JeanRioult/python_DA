@@ -567,6 +567,19 @@ html[data-theme="dark"] .flashcards-panel { background: rgba(0, 0, 0, 0.55); }
   color: var(--text-soft);
   line-height: 1.5;
 }
+.sr-tag {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  background: var(--accent);
+  color: #fff;
+  padding: 1px 6px;
+  border-radius: 999px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+.search-result--card .sr-title { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
 .search-result mark {
   background: var(--accent-soft);
   color: var(--accent);

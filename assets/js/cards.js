@@ -195,13 +195,15 @@
     const cardNum = (collector.match(/f(\d+)/i) || [])[1] || "?";
     const mastery = window.Progress.getCardState(card.id).level || 0;
     const sizeClass = opts.large ? "mtg-card--large" : (opts.mini ? "mtg-card--mini" : "");
+    const foil = mastery >= 4 ? "mtg-card--foil" : "";
     const titleSrc = card.title
       ? localized(card.title, "")
       : (side === "back" ? "Réponse" : (theme.type));
     const title = (window.I18N.current === "en" && side === "back") ? "Answer" : titleSrc;
     return `
-      <div class="mtg-card ${sizeClass}" data-card-id="${escapeHtml(card.id || "")}"
+      <div class="mtg-card ${sizeClass} ${foil}" data-card-id="${escapeHtml(card.id || "")}"
            data-side="${side}"
+           data-mastery="${mastery}"
            style="--c-hue:${theme.hue};">
         <div class="mtg-frame">
           <div class="mtg-title-bar">
@@ -248,8 +250,11 @@
   const M = {
     chapterRef: null,
     chapterTitle: "",
-    cards: [],
-    mode: "library",      // "library" | "inspect" | "practice"
+    cards: [],            // active deck (chapter or cross-chapter for daily)
+    libraryCards: [],     // the chapter's own deck (for restoring after daily)
+    libraryChapterRef: null,
+    libraryChapterTitle: "",
+    mode: "library",      // "library" | "inspect" | "practice" | "daily"
     inspectIdx: 0,
     inspectFlipped: false,
     // Practice
@@ -281,7 +286,10 @@
     if (!data || !data.cards || !data.cards.length) return false;
     M.chapterRef = ref;
     M.cards = data.cards;
-    M.chapterTitle = lessonEntry ? localized(lessonEntry.chapterTitle, "") : "";
+    M.libraryCards = data.cards;
+    M.libraryChapterRef = ref;
+    M.libraryChapterTitle = lessonEntry ? localized(lessonEntry.chapterTitle, "") : "";
+    M.chapterTitle = M.libraryChapterTitle;
     M.mode = mode;
     M.inspectIdx = 0;
     M.inspectFlipped = false;
@@ -302,12 +310,19 @@
 
   function setMode(mode) {
     M.mode = mode;
-    $$("#flashcards .cards-tab").forEach(b => {
+    $$("#flashcards .cards-tab[data-mode]").forEach(b => {
       b.setAttribute("aria-selected", b.dataset.mode === mode ? "true" : "false");
     });
+    // Switching out of daily restores the chapter deck.
+    if (mode !== "daily" && M.libraryCards.length) {
+      M.cards = M.libraryCards;
+      M.chapterRef = M.libraryChapterRef;
+      M.chapterTitle = M.libraryChapterTitle;
+    }
     if (mode === "library") renderLibrary();
     else if (mode === "inspect") renderInspect();
     else if (mode === "practice") startPractice();
+    else if (mode === "daily") startDaily();
     updateChrome();
   }
 
@@ -502,7 +517,19 @@
   function rate(knewIt) {
     const card = M.cards[M.queue[M.qIdx]];
     if (!card) return;
-    window.Progress.rateCard(card.id, knewIt);
+    const before = window.Progress.getCardState(card.id);
+    const after = window.Progress.rateCard(card.id, knewIt);
+    if (window.Game) {
+      if (knewIt) {
+        window.Game.award(5, "card-knew");
+        if ((before.level || 0) < 5 && after.level === 5) {
+          window.Game.award(25, "card-mastered");
+        }
+      }
+      window.Game.recordActivity();
+      M.bestStreak = Math.max(M.bestStreak || 0, M.streak + (knewIt ? 1 : 0));
+      window.Game.checkAchievements({ bestStreak: M.bestStreak });
+    }
     if (knewIt) {
       M.streak += 1;
       M.sessionKnew += 1;
@@ -516,7 +543,8 @@
     M.qIdx += 1;
     M.flipped = false;
     updateChrome();
-    renderPractice();
+    if (M.mode === "daily") renderDaily();
+    else renderPractice();
   }
 
   function renderSummary() {
@@ -540,14 +568,211 @@
     view.querySelector(".cta-practice").addEventListener("click", () => startPractice());
   }
 
+  // ----- Daily review (cross-chapter SR) -----
+
+  // Cache of all chapters' cards so we don't refetch each open.
+  const dailyCache = { byChapter: {}, all: [] };
+
+  async function loadAllCards(getChapters) {
+    if (dailyCache.all.length) return dailyCache.all;
+    const chapters = getChapters ? getChapters() : [];
+    const seen = new Set();
+    const refs = chapters.filter(r => {
+      const k = `${r.semester}/${r.chapter}`;
+      if (seen.has(k)) return false;
+      seen.add(k); return true;
+    });
+    const all = [];
+    await Promise.all(refs.map(async ref => {
+      const data = await loadFlashcardsFor(ref);
+      if (data && data.cards) {
+        const tagged = data.cards.map(c => ({ ...c, _ref: ref }));
+        dailyCache.byChapter[`${ref.semester}/${ref.chapter}`] = tagged;
+        all.push(...tagged);
+      }
+    }));
+    dailyCache.all = all;
+    return all;
+  }
+
+  function dueCardsFromList(cards, now = new Date()) {
+    return cards.filter(c => window.Progress.isCardDue(c.id, now));
+  }
+
+  async function refreshDueCount(getChapters) {
+    const all = await loadAllCards(getChapters);
+    const due = dueCardsFromList(all);
+    const tag = $("#cards-daily-count");
+    if (tag) {
+      tag.textContent = String(due.length);
+      tag.hidden = due.length === 0;
+    }
+    return due.length;
+  }
+
+  let dailyChapterRef = null;     // for the currently-rated card during daily
+
+  async function startDaily() {
+    const view = $("#cards-view");
+    if (!view) return;
+    view.innerHTML = `<p class="loading">Préparation de la révision…</p>`;
+    const all = await loadAllCards(() =>
+      (window.AppIndex || []).map(e => ({ semester: e.semester, chapter: e.chapter }))
+    );
+    const due = dueCardsFromList(all);
+    if (!due.length) {
+      view.innerHTML = `
+        <div class="practice-summary">
+          <h3>Tout est à jour</h3>
+          <div class="grade">🌿</div>
+          <p class="stats">Aucune carte n'est due pour révision aujourd'hui. Reviens demain.</p>
+          <div class="cards-controls" style="justify-content:center;">
+            <button class="pill-btn cards-back-to-lib">← Collection</button>
+          </div>
+        </div>
+      `;
+      view.querySelector(".cards-back-to-lib").addEventListener("click", () => setMode("library"));
+      return;
+    }
+    // Use a synthetic deck: cards is the due list, queue is shuffled indices.
+    M.cards = due;
+    M.queue = [];
+    const idxs = due.map((_, i) => i);
+    while (idxs.length) {
+      const j = Math.floor(Math.random() * idxs.length);
+      M.queue.push(idxs[j]);
+      idxs.splice(j, 1);
+    }
+    M.qIdx = 0;
+    M.flipped = false;
+    M.streak = 0;
+    M.sessionKnew = 0;
+    M.sessionMissed = 0;
+    M.bestStreak = 0;
+    renderDaily();
+  }
+
+  function renderDaily() {
+    if (M.qIdx >= M.queue.length) return renderDailySummary();
+    const card = M.cards[M.queue[M.qIdx]];
+    if (!card) return renderDailySummary();
+    M.chapterRef = card._ref;  // theme follows the card's home chapter
+    M.chapterTitle = "Révision quotidienne";
+    renderPracticeFor(card, true);
+  }
+
+  function renderDailySummary() {
+    const view = $("#cards-view");
+    if (!view) return;
+    view.innerHTML = `
+      <div class="practice-summary">
+        <h3>Révision terminée</h3>
+        <div class="grade">⭐</div>
+        <p class="stats">${M.sessionKnew} sues · ${M.sessionMissed} à revoir · meilleure série ${M.bestStreak || 0}</p>
+        <div class="cards-controls" style="justify-content:center;">
+          <button class="pill-btn cards-back-to-lib">← Collection</button>
+        </div>
+      </div>
+    `;
+    view.querySelector(".cards-back-to-lib").addEventListener("click", () => setMode("library"));
+  }
+
+  // Reuse practice rendering, parameterised by "isDaily" so the back button
+  // returns to library and the deck-back stack reads from M.queue length.
+  function renderPracticeFor(card, isDaily) {
+    const view = $("#cards-view");
+    if (!view) return;
+    const remaining = M.queue.length - M.qIdx - 1;
+    const back1 = remaining >= 1 ? makeFacedownHtml(themeFor(M.chapterRef.chapter), "deck-back-1") : "";
+    const back2 = remaining >= 2 ? makeFacedownHtml(themeFor(M.chapterRef.chapter), "deck-back-2") : "";
+    const back3 = remaining >= 3 ? makeFacedownHtml(themeFor(M.chapterRef.chapter), "deck-back-3") : "";
+    view.innerHTML = `
+      <div class="practice-hud">
+        <span class="hud-progress">Carte ${M.qIdx + 1} / ${M.queue.length}</span>
+        <span class="hud-streak">Série : <strong>${M.streak}</strong></span>
+        <span class="hud-score">✓ ${M.sessionKnew} · ✗ ${M.sessionMissed}</span>
+      </div>
+      <div class="cards-stage">
+        <span></span>
+        <div class="cards-stage-center">
+          <div class="deck-stack">
+            ${back3}${back2}${back1}
+            ${makeFlipperHtml(card, M.chapterRef, M.flipped)}
+          </div>
+        </div>
+        <span></span>
+      </div>
+      <div class="cards-controls">
+        <button class="pill-btn cards-back-to-lib">← Collection</button>
+        <button class="cta-flip" ${M.flipped ? "hidden" : ""}>Montrer la réponse</button>
+      </div>
+      <div class="cards-rate" ${M.flipped ? "" : "hidden"}>
+        <button class="rate rate-bad">À revoir</button>
+        <button class="rate rate-good">Je savais !</button>
+      </div>
+    `;
+    const flipper = view.querySelector(".mtg-card-flipper");
+    flipper.classList.add("animate-draw");
+    const flipBtn = view.querySelector(".cta-flip");
+    const reveal = () => {
+      M.flipped = true;
+      flipper.dataset.flipped = "true";
+      const ctrls = view.querySelector(".cards-controls .cta-flip");
+      if (ctrls) ctrls.hidden = true;
+      const rate = view.querySelector(".cards-rate");
+      if (rate) rate.hidden = false;
+    };
+    flipper.addEventListener("click", () => { if (!M.flipped) reveal(); });
+    if (flipBtn) flipBtn.addEventListener("click", reveal);
+    view.querySelector(".cards-back-to-lib").addEventListener("click", () => setMode("library"));
+    const rateBad = view.querySelector(".rate-bad");
+    const rateGood = view.querySelector(".rate-good");
+    if (rateBad) rateBad.addEventListener("click", () => rate(false));
+    if (rateGood) rateGood.addEventListener("click", () => rate(true));
+    view.tabIndex = -1;
+    view.focus();
+  }
+
+  // ----- Print sheet -----
+
+  function printDeck() {
+    if (!M.cards || !M.cards.length) return;
+    // Render all cards into a hidden container, add a body class so print CSS
+    // shows just that container, then call print() and clean up.
+    let host = document.getElementById("cards-print-host");
+    if (!host) {
+      host = document.createElement("div");
+      host.id = "cards-print-host";
+      document.body.appendChild(host);
+    }
+    const ref = M.chapterRef;
+    host.innerHTML = `
+      <div class="print-sheet">
+        ${M.cards.map(c => `
+          <div class="print-cell">${makeCardHtml(c, c._ref || ref, "front")}</div>
+          <div class="print-cell">${makeCardHtml(c, c._ref || ref, "back")}</div>
+        `).join("")}
+      </div>
+    `;
+    document.body.classList.add("print-mode");
+    const after = () => {
+      document.body.classList.remove("print-mode");
+      window.removeEventListener("afterprint", after);
+    };
+    window.addEventListener("afterprint", after);
+    window.print();
+  }
+
   // ----- Init -----
   function init() {
     // Tab switching
-    $$("#flashcards .cards-tab").forEach(btn => {
+    $$("#flashcards .cards-tab[data-mode]").forEach(btn => {
       btn.addEventListener("click", () => setMode(btn.dataset.mode));
     });
     const closeBtn = $("#cards-close");
     if (closeBtn) closeBtn.addEventListener("click", close);
+    const printBtn = $("#cards-print");
+    if (printBtn) printBtn.addEventListener("click", (e) => { e.preventDefault(); printDeck(); });
     document.addEventListener("keydown", practiceKeys);
   }
 
@@ -555,6 +780,7 @@
     init,
     openForChapter,
     refreshAvailability,
+    refreshDueCount,
     close,
     setMode: (m) => setMode(m),
   };

@@ -209,6 +209,9 @@
     samples: [],     // [{t, d}], oldest first, spanning up to READ_DWELL_MS
     lessonId: null,
     pollTimer: null,
+    sessionStart: 0,        // ms since user started current continuous session
+    sessionLastTick: 0,
+    sessionMinutesAwarded: 0,
   };
 
   function articleScrollDepth() {
@@ -231,6 +234,9 @@
     if (reading.lessonId !== id) {
       reading.lessonId = id;
       reading.samples = [];
+      reading.sessionStart = now;
+      reading.sessionLastTick = now;
+      reading.sessionMinutesAwarded = 0;
     }
     const d = articleScrollDepth();
     reading.samples.push({ t: now, d });
@@ -245,14 +251,33 @@
   function readingTick() {
     const now = Date.now();
     recordSample(now);
+    // Continuous-session timing: only count time if user was idle <10s.
+    if (now - reading.sessionLastTick > 10000) reading.sessionStart = now;
+    reading.sessionLastTick = now;
+    const minutes = Math.floor((now - reading.sessionStart) / 60000);
+    if (window.Game && minutes > reading.sessionMinutesAwarded) {
+      reading.sessionMinutesAwarded = minutes;
+      window.Game.checkAchievements({ lastReadingMinutes: minutes });
+    }
     const id = reading.lessonId;
     if (!id || !reading.samples.length) return;
     if (now - reading.samples[0].t < READ_DWELL_MS) return;
     let minD = 1;
     for (const s of reading.samples) if (s.d < minD) minD = s.d;
+    const before = window.Progress.getReading(id);
     if (window.Progress.setReading(id, minD)) {
       updateProgressBar();
       updateLessonReadingBar(minD);
+      if (window.Game) {
+        const milestones = [0.25, 0.5, 0.75, 1.0];
+        for (const m of milestones) {
+          if (before < m && minD >= m) {
+            window.Game.award(10, "reading");
+            window.Game.recordActivity();
+          }
+        }
+        window.Game.checkAchievements();
+      }
     }
   }
 
@@ -412,6 +437,7 @@
         renderToc();
         updateProgressBar();
         updateCompleteButton();
+        if (window.Game) { window.Game.renderBadges(); window.Game.renderAchievementsList(); }
       } catch (err) {
         alert(err.message);
       }
@@ -420,9 +446,11 @@
     $("#progress-reset").addEventListener("click", () => {
       if (confirm(window.I18N.t("resetConfirm"))) {
         window.Progress.resetAll();
+        window.Progress.init();   // reseed game/cards/achievements containers
         renderToc();
         updateProgressBar();
         updateCompleteButton();
+        if (window.Game) { window.Game.renderBadges(); window.Game.renderAchievementsList(); }
       }
     });
   }
@@ -430,7 +458,7 @@
   // ---------- Panels ----------
 
   function closeAllPanels() {
-    ["#toc", "#settings", "#search", "#flashcards"].forEach(sel => {
+    ["#toc", "#settings", "#search", "#flashcards", "#quest-map"].forEach(sel => {
       const panel = $(sel);
       if (panel) panel.setAttribute("hidden", "");
     });
@@ -466,7 +494,7 @@
 
     // Click anywhere outside an open panel (and outside its toggle) closes panels.
     document.addEventListener("pointerdown", (e) => {
-      const panels = ["#toc", "#settings", "#search", "#flashcards"];
+      const panels = ["#toc", "#settings", "#search", "#flashcards", "#quest-map"];
       const anyOpen = panels.some(s => {
         const p = $(s);
         return p && !p.hasAttribute("hidden");
@@ -476,7 +504,7 @@
       if (e.target.closest(panels.join(","))) return;
       // On any toggle that opens a panel?
       if (e.target.closest(
-        "#toc-toggle, #settings-toggle, #search-toggle, #cards-btn, #cards-review"
+        "#toc-toggle, #settings-toggle, #search-toggle, #map-toggle, #cards-btn, #cards-review"
       )) return;
       closeAllPanels();
     }, true);
@@ -484,7 +512,7 @@
     // Escape closes any open panel.
     document.addEventListener("keydown", (e) => {
       if (e.key !== "Escape") return;
-      const panels = ["#toc", "#settings", "#search", "#flashcards"];
+      const panels = ["#toc", "#settings", "#search", "#flashcards", "#quest-map"];
       const anyOpen = panels.some(s => {
         const p = $(s);
         return p && !p.hasAttribute("hidden");
@@ -510,9 +538,15 @@
   function wireCompleteBtn() {
     $("#complete-btn").addEventListener("click", () => {
       if (!state.currentLessonId) return;
+      const wasCompleted = window.Progress.isCompleted(state.currentLessonId);
       window.Progress.markCompleted(state.currentLessonId);
       updateProgressBar();
       renderToc();
+      if (!wasCompleted && window.Game) {
+        window.Game.award(50, "lesson");
+        window.Game.recordActivity();
+        window.Game.checkAchievements();
+      }
 
       // Navigate to the next lesson in the linear index if one exists.
       const idx = state.index.findIndex(e => lessonKey(e) === state.currentLessonId);
@@ -581,6 +615,72 @@
     return out;
   }
 
+  function openSearchResult(r) {
+    if (r.kind === "card") {
+      const ref = r.card._ref;
+      // Navigate to first lesson of the card's chapter so the bottom card btn matches
+      const lessonEntry = state.index.find(e => e.semester === ref.semester && e.chapter === ref.chapter);
+      if (lessonEntry) {
+        const id = lessonKey(lessonEntry);
+        const sameChapter = chapterIdFromLessonId(state.currentLessonId);
+        if (!sameChapter || sameChapter.chapter !== ref.chapter) {
+          location.hash = `#/${id}`;
+        }
+        // Open the cards panel on this chapter
+        setTimeout(() => {
+          window.Cards.openForChapter(
+            { semester: ref.semester, chapter: ref.chapter },
+            lessonEntry,
+            "library"
+          );
+        }, 80);
+      }
+      closeAllPanels();
+      return;
+    }
+    location.hash = `#/${lessonKey(r.entry)}`;
+    closeAllPanels();
+  }
+
+  // Lazy-loaded cross-chapter card index for search.
+  async function loadAllCardsForSearch() {
+    if (state.cardsForSearch) return state.cardsForSearch;
+    state.cardsForSearch = [];
+    const seen = new Set();
+    const refs = state.index
+      .map(e => ({ semester: e.semester, chapter: e.chapter, chapterTitle: e.chapterTitle }))
+      .filter(r => {
+        const k = `${r.semester}/${r.chapter}`;
+        if (seen.has(k)) return false; seen.add(k); return true;
+      });
+    await Promise.all(refs.map(async ref => {
+      try {
+        const r = await fetch(`${CONTENT_ROOT}/${ref.semester}/${ref.chapter}/flashcards.json`);
+        if (!r.ok) return;
+        const data = await r.json();
+        if (data && data.cards) {
+          for (const c of data.cards) {
+            state.cardsForSearch.push({ ...c, _ref: ref });
+          }
+        }
+      } catch (_) { /* ignore */ }
+    }));
+    return state.cardsForSearch;
+  }
+
+  function scoreCard(card, tokens, lang) {
+    const front = normalize(card.front?.[lang] || card.front?.fr || "");
+    const back  = normalize(card.back?.[lang]  || card.back?.fr  || "");
+    let score = 0;
+    for (const tok of tokens) {
+      if (!tok) continue;
+      if (front.includes(tok)) score += 5;
+      if (back.includes(tok))  score += 2;
+      if (!front.includes(tok) && !back.includes(tok)) return -1;
+    }
+    return score;
+  }
+
   async function runSearch(q) {
     const lang = window.I18N.current;
     const tokens = tokenize(q);
@@ -598,11 +698,22 @@
       if (score > 0) {
         const body = entry.body?.[lang] || entry.body?.fr || "";
         const snippet = snippetAround(body, tokens[0]);
-        results.push({ entry, score, snippet });
+        results.push({ kind: "lesson", entry, score, snippet });
       }
     }
+
+    const cards = await loadAllCardsForSearch();
+    for (const card of cards) {
+      const score = scoreCard(card, tokens, lang);
+      if (score > 0) {
+        const front = card.front?.[lang] || card.front?.fr || "";
+        const back  = card.back?.[lang]  || card.back?.fr  || "";
+        results.push({ kind: "card", card, score, snippet: front + " — " + back });
+      }
+    }
+
     results.sort((a, b) => b.score - a.score);
-    state.searchResults = results.slice(0, 30);
+    state.searchResults = results.slice(0, 40);
     state.searchSelection = state.searchResults.length ? 0 : -1;
     renderSearchResults();
   }
@@ -637,13 +748,26 @@
 
     const lang = window.I18N.current;
     list.innerHTML = results.map((r, i) => {
+      const active = i === state.searchSelection ? " active" : "";
+      if (r.kind === "card") {
+        const ref = r.card._ref || {};
+        const chTitle = localized(ref.chapterTitle, ref.chapter || "");
+        const front = r.card.front?.[lang] || r.card.front?.fr || "";
+        return (
+          `<li class="search-result search-result--card${active}">` +
+          `<a href="#/${ref.semester}/${ref.chapter}" data-idx="${i}" data-kind="card" data-card-id="${escapeHtml(r.card.id || "")}">` +
+          `<div class="sr-title"><span class="sr-tag">CARTE</span> ${highlight(front, tokens)}</div>` +
+          `<div class="sr-meta">${escapeHtml(chTitle)}</div>` +
+          `<div class="sr-snippet">${highlight(r.snippet, tokens)}</div>` +
+          `</a></li>`
+        );
+      }
       const id = lessonKey(r.entry);
       const title = localized(r.entry.title, r.entry.lesson);
       const chTitle = localized(r.entry.chapterTitle, r.entry.chapter);
-      const active = i === state.searchSelection ? " active" : "";
       return (
         `<li class="search-result${active}">` +
-        `<a href="#/${id}" data-idx="${i}">` +
+        `<a href="#/${id}" data-idx="${i}" data-kind="lesson">` +
         `<div class="sr-title">${highlight(title, tokens)}</div>` +
         `<div class="sr-meta">${escapeHtml(chTitle)}</div>` +
         `<div class="sr-snippet">${highlight(r.snippet, tokens)}</div>` +
@@ -677,8 +801,7 @@
           e.preventDefault();
           const r = state.searchResults[state.searchSelection];
           if (r) {
-            location.hash = `#/${lessonKey(r.entry)}`;
-            closeAllPanels();
+            openSearchResult(r);
           }
         } else if (e.key === "Escape") {
           closeAllPanels();
@@ -691,7 +814,14 @@
     $("#search-results").addEventListener("click", (e) => {
       const a = e.target.closest("a");
       if (!a) return;
-      // default href navigation happens; also close panel.
+      const idx = parseInt(a.dataset.idx, 10);
+      const r = state.searchResults[idx];
+      if (r && r.kind === "card") {
+        e.preventDefault();
+        openSearchResult(r);
+        return;
+      }
+      // For lessons: default href navigation happens; also close panel.
       setTimeout(closeAllPanels, 0);
     });
 
@@ -746,6 +876,7 @@
     if (!chapterRef) return;
     const lessonEntry = findEntryById(state.currentLessonId);
     await window.Cards.openForChapter(chapterRef, lessonEntry, mode);
+    window.Cards.refreshDueCount(() => state.index.map(e => ({ semester: e.semester, chapter: e.chapter })));
   }
 
   function wireCards() {
@@ -770,10 +901,23 @@
     wireCards();
 
     state.index = await loadIndex();
+    window.AppIndex = state.index;   // exposed for cards.js daily mode + others
+    if (window.Game) window.Game.init({ getIndex: () => state.index });
+    if (window.QuestMap) window.QuestMap.init({ getIndex: () => state.index });
     renderToc();
     updateProgressBar();
     await renderLesson();
     startReadingTracker();
+
+    // Map button
+    const mapBtn = $("#map-toggle");
+    if (mapBtn) mapBtn.addEventListener("click", () => {
+      if (window.QuestMap) window.QuestMap.toggle();
+    });
+    const mapClose = $("#quest-map-close");
+    if (mapClose) mapClose.addEventListener("click", () => {
+      if (window.QuestMap) window.QuestMap.close();
+    });
 
     window.addEventListener("hashchange", renderLesson);
   }

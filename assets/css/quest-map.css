@@ -1,0 +1,136 @@
+/* Quest map panel */
+
+.quest-map-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: radial-gradient(900px 600px at 20% 10%, rgba(125, 176, 217, 0.12), rgba(8, 10, 18, 0.8) 60%), rgba(8, 10, 18, 0.92);
+  backdrop-filter: blur(6px);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  color: #e8e6e0;
+}
+.quest-map-panel[hidden] { display: none; }
+
+.quest-map-bar {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: var(--space-3);
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.25);
+}
+.quest-map-bar h2 { margin: 0; font-size: 1.15rem; }
+.quest-map-legend { margin: 0; color: #b9b6ad; font-size: 0.85rem; text-align: right; }
+.quest-map-bar .icon-btn {
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #e8e6e0;
+}
+.quest-map-bar .icon-btn:hover { background: rgba(255, 255, 255, 0.08); }
+
+.quest-map-view {
+  overflow: auto;
+  padding: var(--space-3);
+}
+.qm-svg {
+  width: 100%;
+  height: auto;
+  max-height: calc(100vh - 90px);
+  display: block;
+}
+
+/* Edges */
+.qm-edge {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.12);
+  stroke-width: 2;
+  stroke-dasharray: 4 4;
+}
+
+/* Semester labels */
+.qm-sem-label {
+  fill: #b9b6ad;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.qm-sem-title { fill: #e8e6e0; font-size: 16px; font-weight: 700; }
+
+/* Nodes */
+.qm-node { cursor: pointer; }
+.qm-node-shape {
+  fill: hsl(var(--qm-hue), 30%, 16%);
+  stroke: hsl(var(--qm-hue), 50%, 45%);
+  stroke-width: 2;
+  transition: filter 180ms, transform 180ms;
+}
+.qm-node-label {
+  fill: #e8e6e0;
+  font-size: 12px;
+  font-weight: 800;
+  pointer-events: none;
+}
+.qm-node-title {
+  fill: #d6d3cd;
+  font-size: 11px;
+  pointer-events: none;
+}
+.qm-node-progress {
+  fill: #9a978f;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+.qm-node:hover .qm-node-shape {
+  filter: drop-shadow(0 0 8px hsl(var(--qm-hue), 70%, 60%));
+}
+
+.qm-node--locked .qm-node-shape {
+  fill: #1c1f27;
+  stroke: rgba(255, 255, 255, 0.18);
+}
+.qm-node--locked .qm-node-label { fill: #6c6962; }
+
+.qm-node--seen .qm-node-shape {
+  fill: hsl(var(--qm-hue), 25%, 22%);
+  stroke: hsl(var(--qm-hue), 60%, 55%);
+}
+
+.qm-node--in-progress .qm-node-shape {
+  fill: hsl(var(--qm-hue), 50%, 30%);
+  stroke: hsl(var(--qm-hue), 75%, 65%);
+  stroke-width: 2.5;
+}
+
+.qm-node--done .qm-node-shape {
+  fill: hsl(var(--qm-hue), 65%, 38%);
+  stroke: hsl(var(--qm-hue), 80%, 75%);
+  stroke-width: 3;
+  filter: drop-shadow(0 0 6px hsl(var(--qm-hue), 70%, 55%));
+}
+
+/* Pips (lessons) */
+.qm-pip {
+  fill: rgba(255, 255, 255, 0.15);
+  stroke: rgba(255, 255, 255, 0.3);
+  stroke-width: 1;
+  cursor: pointer;
+  transition: r 120ms, fill 120ms;
+}
+.qm-pip:hover { fill: #fff; }
+.qm-pip--seen { fill: hsl(var(--qm-hue, 215), 60%, 60%); }
+.qm-pip--done {
+  fill: hsl(var(--qm-hue, 215), 75%, 70%);
+  stroke: #fff;
+}
+
+@media (max-width: 640px) {
+  .quest-map-bar { grid-template-columns: 1fr auto; }
+  .quest-map-legend { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qm-node:hover .qm-node-shape, .qm-node-shape { filter: none; transition: none; }
+}

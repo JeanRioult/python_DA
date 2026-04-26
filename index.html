@@ -20,6 +20,8 @@
 
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/cards.css">
+  <link rel="stylesheet" href="assets/css/game.css">
+  <link rel="stylesheet" href="assets/css/quest-map.css">
   <link rel="stylesheet" href="assets/css/dark.css">
   <link rel="stylesheet" href="assets/css/dyslexia.css">
   <link rel="stylesheet" href="assets/css/low-stim.css">
@@ -44,6 +46,17 @@
     </div>
 
     <div class="topbar-right">
+      <span id="streak-badge" class="game-badge streak-badge" title="Série quotidienne" hidden>
+        <span class="badge-icon" aria-hidden="true">🔥</span>
+        <span class="badge-value">0</span>
+      </span>
+      <span id="xp-badge" class="game-badge xp-badge" title="Points d'expérience">
+        <span class="badge-icon" aria-hidden="true">✦</span>
+        <span class="badge-value">0</span>
+      </span>
+      <button id="map-toggle" class="icon-btn" aria-label="Carte du parcours" title="Carte du parcours">
+        <span aria-hidden="true">🗺</span>
+      </button>
       <button id="search-toggle" class="icon-btn" aria-label="Rechercher" aria-expanded="false" aria-controls="search" title="/ ou Ctrl+K">
         <span aria-hidden="true">🔍</span>
       </button>
@@ -65,6 +78,8 @@
         <div class="cards-tabs" role="tablist">
           <button class="cards-tab" data-mode="library" role="tab" aria-selected="true">Collection</button>
           <button class="cards-tab" data-mode="practice" role="tab" aria-selected="false">Pratique</button>
+          <button class="cards-tab" data-mode="daily" role="tab" aria-selected="false">Quotidien <span id="cards-daily-count" class="due-count" hidden>0</span></button>
+          <button id="cards-print" class="cards-tab" title="Imprimer le deck" aria-label="Imprimer le deck">🖨</button>
         </div>
         <div class="cards-meta">
           <span id="cards-chapter-label" class="cards-chapter-label" aria-live="polite"></span>
@@ -129,6 +144,11 @@
     </fieldset>
 
     <fieldset>
+      <legend>Hauts faits</legend>
+      <div id="achievements-list" class="achievements-list"></div>
+    </fieldset>
+
+    <fieldset>
       <legend>Progression</legend>
       <button id="progress-export" class="pill-btn">Exporter</button>
       <button id="progress-import" class="pill-btn">Importer</button>
@@ -136,6 +156,19 @@
       <input id="progress-import-file" type="file" accept="application/json" hidden>
     </fieldset>
   </aside>
+
+  <aside id="quest-map" class="quest-map-panel" aria-label="Carte du parcours" hidden>
+    <header class="quest-map-bar">
+      <h2>Carte du parcours</h2>
+      <p id="quest-map-legend" class="quest-map-legend"></p>
+      <button id="quest-map-close" class="icon-btn" aria-label="Fermer">
+        <span aria-hidden="true">×</span>
+      </button>
+    </header>
+    <div id="quest-map-view" class="quest-map-view"></div>
+  </aside>
+
+  <div id="toast-stack" class="toast-stack" aria-live="polite" aria-atomic="false"></div>
 
   <main id="main" class="lesson" tabindex="-1">
     <div class="lesson-reading-bar" aria-hidden="true" title="Lecture de cette leçon (≥ 15 s par palier)">
@@ -159,7 +192,9 @@
   <script src="assets/js/vendor/katex/auto-render.min.js"></script>
   <script src="assets/js/i18n.js"></script>
   <script src="assets/js/progress.js"></script>
+  <script src="assets/js/game.js"></script>
   <script src="assets/js/cards.js"></script>
+  <script src="assets/js/quest-map.js"></script>
   <script src="assets/js/app.js"></script>
   <script src="assets/js/sw-register.js" defer></script>
 </body>
