@@ -125,16 +125,15 @@
     if (!view) return;
     const chapters = buildChain();
 
-    // Layout in viewBox coordinates.
-    // Width is fixed (480) to keep aspect on phones; nodes alternate left/right
-    // along a sinusoidal path. Bottom = start, top = end (so finishing climbs).
+    // Layout in viewBox coordinates. Width fixed (480) for portrait phones;
+    // chapters alternate left/right along a sinusoidal trail. Bottom = start,
+    // top = end (so finishing the journey climbs).
     const W = 480;
-    const SPACING = 210;       // vertical pixels per chapter (room for 2-line titles)
-    const TOP_PAD = 110;       // for the "Sommet" banner
-    const BOTTOM_PAD = 200;    // room for ch.1's 2-line title + the "Départ" banner
+    const SPACING = 210;
+    const TOP_PAD = 110;       // for the "Sommet" cartouche
+    const BOTTOM_PAD = 200;    // room for ch.1's two-line title + the "Départ" cartouche
     const H = TOP_PAD + chapters.length * SPACING + BOTTOM_PAD;
 
-    // Position each chapter; flip Y so chapter 1 sits at the BOTTOM.
     const positions = chapters.map((ch, i) => {
       const yFromBottom = BOTTOM_PAD + i * SPACING;
       const y = H - yFromBottom;
@@ -143,41 +142,43 @@
       return { ch, x, y };
     });
 
-    // The winding trail (Catmull-Rom-ish smoothing via cubic Béziers).
-    let path = "";
+    // Smooth winding trail (Catmull-Rom-ish via cubic Béziers).
+    let trailD = "";
     if (positions.length) {
-      path = `M ${positions[0].x} ${positions[0].y}`;
+      trailD = `M ${positions[0].x} ${positions[0].y}`;
       for (let i = 1; i < positions.length; i++) {
         const p0 = positions[i - 1];
         const p1 = positions[i];
-        const c1x = p0.x;
         const c1y = (p0.y + p1.y) / 2;
-        const c2x = p1.x;
-        const c2y = c1y;
-        path += ` C ${c1x} ${c1y}, ${c2x} ${c2y}, ${p1.x} ${p1.y}`;
+        trailD += ` C ${p0.x} ${c1y}, ${p1.x} ${c1y}, ${p1.x} ${p1.y}`;
       }
     }
 
-    // Lesson pips along the trail edges (small dots between chapter nodes,
-    // representing lessons inside the chapter you're walking through).
+    // ---- Lesson pips around each sigil ----
     let pips = "";
-    positions.forEach((p, i) => {
+    positions.forEach(p => {
       const total = p.ch.lessons.length;
-      // Distribute pips on a small ring around each chapter sigil.
       p.ch.lessons.forEach((e, li) => {
         const ang = -Math.PI / 2 + (li / Math.max(1, total)) * Math.PI * 2;
-        const r = 38;
+        const r = 50;
         const x = p.x + Math.cos(ang) * r;
         const y = p.y + Math.sin(ang) * r;
         const id = `${e.semester}/${e.chapter}/${e.lesson}`;
         const isDone = window.Progress.isCompleted(id);
         const reading = window.Progress.getReading(id);
-        const cls = isDone ? "qm-pip qm-pip--done" : reading > 0 ? "qm-pip qm-pip--seen" : "qm-pip";
-        pips += `<circle cx="${x}" cy="${y}" r="3.6" class="${cls}" data-lesson="${escapeHtml(id)}"><title>${escapeHtml(localized(e.title, e.lesson))}</title></circle>`;
+        const cls = isDone ? "qm-pip qm-pip--done"
+                  : reading > 0 ? "qm-pip qm-pip--seen"
+                  : "qm-pip";
+        // Done pips render as a small 5-pointed star; the rest stay as discs.
+        if (isDone) {
+          pips += `<path class="${cls}" d="${starPath(x, y, 4.6, 1.8, 5)}" data-lesson="${escapeHtml(id)}"><title>${escapeHtml(localized(e.title, e.lesson))}</title></path>`;
+        } else {
+          pips += `<circle cx="${x}" cy="${y}" r="3.6" class="${cls}" data-lesson="${escapeHtml(id)}"><title>${escapeHtml(localized(e.title, e.lesson))}</title></circle>`;
+        }
       });
     });
 
-    // Chapter sigils (clickable groups).
+    // ---- Semester dividers + sigils ----
     let sigils = "";
     let semBands = "";
     let prevSemester = null;
@@ -190,18 +191,24 @@
         ? `${ch.lessons[0].semester}/${ch.lessons[0].chapter}/${ch.lessons[0].lesson}`
         : "";
 
-      // Semester divider band
       if (ch.semester !== prevSemester) {
         prevSemester = ch.semester;
-        const semY = p.y + 80;
+        const semY = p.y + 110;
         const semTitle = localized(ch.semesterTitle, ch.semester);
         const semLabel = (window.I18N && window.I18N.t && window.I18N.t("semester")) || "Semestre";
-        semBands +=
-          `<g class="qm-sem-band">` +
-          `<line x1="40" y1="${semY}" x2="${W - 40}" y2="${semY}" stroke="rgba(120,90,40,0.35)" stroke-width="1" stroke-dasharray="4 5"/>` +
-          `<text x="${W / 2}" y="${semY - 8}" class="qm-sem-label" text-anchor="middle">${escapeHtml(semLabel + " " + (ch.semesterNumber || ""))}</text>` +
-          `<text x="${W / 2}" y="${semY + 18}" class="qm-sem-title" text-anchor="middle">${escapeHtml(semTitle)}</text>` +
-          `</g>`;
+        // Italic engraved label flanked by two scrollwork lines + a center ornament.
+        semBands += `
+          <g class="qm-sem-band">
+            <line x1="40"  y1="${semY}" x2="${W / 2 - 90}" y2="${semY}"
+                  stroke="url(#qm-gold)" stroke-width="0.8" stroke-opacity="0.55"/>
+            <line x1="${W / 2 + 90}" y1="${semY}" x2="${W - 40}" y2="${semY}"
+                  stroke="url(#qm-gold)" stroke-width="0.8" stroke-opacity="0.55"/>
+            <text x="${W / 2 - 96}" y="${semY + 4}" class="qm-sem-orn" text-anchor="middle">❦</text>
+            <text x="${W / 2 + 96}" y="${semY + 4}" class="qm-sem-orn" text-anchor="middle">❦</text>
+            <text x="${W / 2}" y="${semY - 6}" class="qm-sem-label" text-anchor="middle">${escapeHtml(semLabel + " " + (ch.semesterNumber || ""))}</text>
+            <text x="${W / 2}" y="${semY + 14}" class="qm-sem-title" text-anchor="middle">${escapeHtml(semTitle)}</text>
+          </g>
+        `;
       }
 
       const maitre = (window.Compagnonnage && window.Compagnonnage.maitres && window.Compagnonnage.maitres[ch.id]) || null;
@@ -209,70 +216,96 @@
         ? `${escapeHtml(localized(maitre.name, ""))} · ${escapeHtml(maitre.ville)}`
         : `${status.done}/${status.total}`;
 
-      // Word-wrap the chapter title (max 2 lines, ~22 chars each) so long
-      // names like "Mathématiques fondamentales" are readable.
       const titleLines = wrapLines(`Ch.${ch.number ?? i + 1} — ${localized(ch.title, ch.id)}`, 22, 2);
       const titleSvg = titleLines.map((line, li) =>
         `<tspan x="${p.x}" dy="${li === 0 ? 0 : 13}">${escapeHtml(line)}</tspan>`
       ).join("");
-      // After title, push subtitle + progress down by the extra line if any.
       const extraY = (titleLines.length - 1) * 13;
 
+      // Status pip in the upper-right of the sigil:
+      //   done       → 5-point gold star
+      //   in-progress → small filled disc
+      //   seen       → small open ring
+      //   locked     → tiny padlock-like glyph
+      let cornerPip = "";
+      const px = p.x + 24, py = p.y - 26;
+      if (status.cls === "qm-node--done") {
+        cornerPip = `<path d="${starPath(px, py, 6, 2.4, 5)}" fill="url(#qm-gold)" stroke="rgba(80,50,15,0.6)" stroke-width="0.6"/>`;
+      } else if (status.cls === "qm-node--in-progress") {
+        cornerPip = `<circle cx="${px}" cy="${py}" r="4" fill="hsl(${hue} 80% 65%)" stroke="rgba(80,50,15,0.6)" stroke-width="0.6"/>`;
+      } else if (status.cls === "qm-node--seen") {
+        cornerPip = `<circle cx="${px}" cy="${py}" r="4" fill="none" stroke="hsl(${hue} 65% 55%)" stroke-width="1.2"/>`;
+      } else {
+        cornerPip = `<text x="${px}" y="${py + 3}" font-size="9" text-anchor="middle" fill="rgba(80,50,15,0.45)">⛓</text>`;
+      }
+
+      // Three-ring medallion: outer gold ring, mid hue, inner darker hue, glyph.
       sigils += `
-        <g class="qm-node ${status.cls}" data-lesson="${escapeHtml(firstLessonId)}" style="--qm-hue:${hue};">
+        <g class="qm-node ${status.cls}" data-lesson="${escapeHtml(firstLessonId)}"
+           style="--qm-hue:${hue};" filter="url(#qm-shadow)">
           <title>${escapeHtml(localized(ch.title, ch.id))}${maitre ? ` — ${escapeHtml(localized(maitre.name, ""))}` : ""}</title>
-          <circle cx="${p.x}" cy="${p.y}" r="34" class="qm-node-shape"/>
-          <circle cx="${p.x}" cy="${p.y}" r="26" class="qm-node-inner"/>
-          <text x="${p.x}" y="${p.y + 8}" class="qm-node-glyph" text-anchor="middle">${glyph}</text>
-          <text class="qm-node-title" text-anchor="middle" y="${p.y + 56}">${titleSvg}</text>
-          <text x="${p.x}" y="${p.y + 73 + extraY}" class="qm-node-subtitle" text-anchor="middle">${subTitle}</text>
-          <text x="${p.x}" y="${p.y + 87 + extraY}" class="qm-node-progress" text-anchor="middle">${status.done}/${status.total}</text>
+          <!-- Outer gold rim -->
+          <circle cx="${p.x}" cy="${p.y}" r="38" fill="url(#qm-gold)" stroke="rgba(80,50,15,0.7)" stroke-width="1"/>
+          <!-- Mid ring (chapter-tinted) -->
+          <circle cx="${p.x}" cy="${p.y}" r="32" class="qm-node-shape"/>
+          <!-- Inner disc (deeper chapter color) -->
+          <circle cx="${p.x}" cy="${p.y}" r="24" class="qm-node-inner"/>
+          <!-- Hairline ring for craftsmanship -->
+          <circle cx="${p.x}" cy="${p.y}" r="32" fill="none" stroke="rgba(255,240,220,0.35)" stroke-width="0.5"/>
+          <text x="${p.x}" y="${p.y + 9}" class="qm-node-glyph" text-anchor="middle">${glyph}</text>
+          ${cornerPip}
+          <text class="qm-node-title" text-anchor="middle" y="${p.y + 60}">${titleSvg}</text>
+          <text x="${p.x}" y="${p.y + 77 + extraY}" class="qm-node-subtitle" text-anchor="middle">${subTitle}</text>
+          <text x="${p.x}" y="${p.y + 91 + extraY}" class="qm-node-progress" text-anchor="middle">${status.done}/${status.total}</text>
         </g>
       `;
     });
 
-    // Start / Summit banners — anchored to the SVG edges (not to the first/last
-    // chapter) so they never overlap the chapter text underneath them.
-    const topBanner = `
-      <g class="qm-banner">
-        <text x="${W / 2}" y="40" class="qm-banner-title" text-anchor="middle">⛰ Sommet</text>
-        <text x="${W / 2}" y="60" class="qm-banner-sub" text-anchor="middle">— Maître analyste —</text>
-      </g>
-    `;
-    const bottomBanner = `
-      <g class="qm-banner">
-        <text x="${W / 2}" y="${H - 36}" class="qm-banner-title" text-anchor="middle">★ Départ</text>
-        <text x="${W / 2}" y="${H - 18}" class="qm-banner-sub" text-anchor="middle">— ton aventure commence ici —</text>
-      </g>
-    `;
+    // ---- Cartouches for Départ / Sommet (ribbon shape with scroll ends) ----
+    const cartoucheTop = cartouche({ cx: W / 2, cy: 50, w: 260, h: 56,
+      title: "⛰ Sommet",
+      sub:   "— Maître analyste —" });
+    const cartoucheBottom = cartouche({ cx: W / 2, cy: H - 50, w: 280, h: 56,
+      title: "★ Départ",
+      sub:   "— ton aventure commence ici —" });
+
+    // ---- Compass rose (top-right corner) ----
+    const compass = compassRose(W - 56, 92, 32);
 
     view.innerHTML = `
       <svg viewBox="0 0 ${W} ${H}" class="qm-svg" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <pattern id="qm-paper" width="180" height="180" patternUnits="userSpaceOnUse">
-            <rect width="180" height="180" fill="#e7d8b6"/>
-            <circle cx="40" cy="60" r="0.8" fill="rgba(60,40,15,0.2)"/>
-            <circle cx="120" cy="40" r="0.8" fill="rgba(60,40,15,0.18)"/>
-            <circle cx="80" cy="130" r="1" fill="rgba(60,40,15,0.16)"/>
-            <circle cx="155" cy="160" r="0.6" fill="rgba(60,40,15,0.2)"/>
-            <circle cx="20" cy="160" r="0.6" fill="rgba(60,40,15,0.18)"/>
-          </pattern>
-          <radialGradient id="qm-vignette" cx="50%" cy="50%" r="65%">
-            <stop offset="60%" stop-color="rgba(0,0,0,0)"/>
-            <stop offset="100%" stop-color="rgba(70,40,15,0.45)"/>
-          </radialGradient>
-          <filter id="qm-shadow" x="-50%" y="-50%" width="200%" height="200%">
-            <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="rgba(0,0,0,0.35)"/>
-          </filter>
+          ${defsBlock(W, H)}
         </defs>
-        <rect width="${W}" height="${H}" fill="url(#qm-paper)"/>
+
+        <!-- Parchment base + grain + vignette -->
+        <rect width="${W}" height="${H}" fill="#e7d8b6"/>
+        <rect width="${W}" height="${H}" fill="url(#qm-grain-coarse)" opacity="0.65"/>
+        <rect width="${W}" height="${H}" fill="url(#qm-grain-fine)" opacity="0.5"/>
         <rect width="${W}" height="${H}" fill="url(#qm-vignette)"/>
+
+        <!-- Edge frame (ornate inner border) -->
+        <rect x="14" y="14" width="${W - 28}" height="${H - 28}" rx="6" ry="6"
+              fill="none" stroke="url(#qm-gold)" stroke-width="1.4" stroke-opacity="0.65"/>
+        <rect x="20" y="20" width="${W - 40}" height="${H - 40}" rx="4" ry="4"
+              fill="none" stroke="rgba(80,50,15,0.35)" stroke-width="0.6" stroke-dasharray="2 4"/>
+
         ${semBands}
-        ${path ? `<path d="${path}" fill="none" stroke="rgba(80,50,15,0.55)" stroke-width="3" stroke-dasharray="6 6" stroke-linecap="round"/>` : ""}
+
+        <!-- Trail: double stroke for an embossed gold-inlay look -->
+        ${trailD ? `
+          <path d="${trailD}" fill="none" stroke="url(#qm-gold)"
+                stroke-width="6" stroke-opacity="0.9" stroke-linecap="round"/>
+          <path d="${trailD}" fill="none" stroke="rgba(80,50,15,0.85)"
+                stroke-width="2" stroke-linecap="round" stroke-dasharray="3 7"/>
+        ` : ""}
+
         <g class="qm-pips">${pips}</g>
-        <g class="qm-nodes" filter="url(#qm-shadow)">${sigils}</g>
-        ${bottomBanner}
-        ${topBanner}
+        <g class="qm-nodes">${sigils}</g>
+
+        ${cartoucheBottom}
+        ${cartoucheTop}
+        ${compass}
       </svg>
     `;
     if (legend) {
@@ -292,6 +325,119 @@
         if (id) { location.hash = `#/${id}`; close(); }
       });
     });
+  }
+
+  // ----- SVG helpers (kept short, no DOM dependencies) -----
+
+  // <defs> block: gold gradient, paper grain, vignette, drop shadow.
+  function defsBlock() {
+    return `
+      <linearGradient id="qm-gold" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#ffe7a5"/>
+        <stop offset="45%"  stop-color="#e1ad3b"/>
+        <stop offset="100%" stop-color="#7a5a18"/>
+      </linearGradient>
+      <linearGradient id="qm-cartouche" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#f0dba5"/>
+        <stop offset="100%" stop-color="#c89c4a"/>
+      </linearGradient>
+      <pattern id="qm-grain-coarse" width="220" height="220" patternUnits="userSpaceOnUse">
+        <rect width="220" height="220" fill="transparent"/>
+        <circle cx="40"  cy="60"  r="0.9" fill="rgba(60,40,15,0.22)"/>
+        <circle cx="120" cy="40"  r="0.7" fill="rgba(60,40,15,0.18)"/>
+        <circle cx="80"  cy="130" r="1.1" fill="rgba(60,40,15,0.18)"/>
+        <circle cx="155" cy="160" r="0.6" fill="rgba(60,40,15,0.20)"/>
+        <circle cx="20"  cy="180" r="0.6" fill="rgba(60,40,15,0.18)"/>
+        <circle cx="195" cy="20"  r="0.5" fill="rgba(60,40,15,0.15)"/>
+      </pattern>
+      <pattern id="qm-grain-fine" width="60" height="60" patternUnits="userSpaceOnUse">
+        <rect width="60" height="60" fill="transparent"/>
+        <circle cx="13" cy="22" r="0.4" fill="rgba(60,40,15,0.14)"/>
+        <circle cx="48" cy="11" r="0.3" fill="rgba(60,40,15,0.12)"/>
+        <circle cx="32" cy="48" r="0.3" fill="rgba(60,40,15,0.13)"/>
+        <circle cx="6"  cy="55" r="0.4" fill="rgba(60,40,15,0.10)"/>
+      </pattern>
+      <radialGradient id="qm-vignette" cx="50%" cy="50%" r="65%">
+        <stop offset="55%"  stop-color="rgba(0,0,0,0)"/>
+        <stop offset="100%" stop-color="rgba(60,30,10,0.5)"/>
+      </radialGradient>
+      <filter id="qm-shadow" x="-50%" y="-50%" width="200%" height="200%">
+        <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="rgba(0,0,0,0.45)"/>
+      </filter>
+    `;
+  }
+
+  // Star path helper: returns an SVG path "d" string for a centered star.
+  function starPath(cx, cy, ro, ri, points = 5) {
+    const step = Math.PI / points;
+    let d = "";
+    for (let i = 0; i < points * 2; i++) {
+      const r = i % 2 === 0 ? ro : ri;
+      const a = -Math.PI / 2 + i * step;
+      const x = cx + Math.cos(a) * r;
+      const y = cy + Math.sin(a) * r;
+      d += (i === 0 ? "M " : " L ") + x.toFixed(2) + " " + y.toFixed(2);
+    }
+    return d + " Z";
+  }
+
+  // Ribbon-style cartouche with scrolled ends (used for Départ / Sommet).
+  function cartouche({ cx, cy, w, h, title, sub }) {
+    const x = cx - w / 2, y = cy - h / 2;
+    const e = h * 0.55;            // scroll-end depth
+    const path =
+      `M ${x + e} ${y} ` +
+      `L ${x + w - e} ${y} ` +
+      `L ${x + w} ${y + h / 2} ` +
+      `L ${x + w - e} ${y + h} ` +
+      `L ${x + e} ${y + h} ` +
+      `L ${x} ${y + h / 2} Z`;
+    const innerPad = e * 0.55;
+    return `
+      <g class="qm-cartouche">
+        <path d="${path}" fill="url(#qm-cartouche)" stroke="url(#qm-gold)" stroke-width="2" filter="url(#qm-shadow)"/>
+        <path d="${path}" fill="none" stroke="rgba(80,50,15,0.5)" stroke-width="0.7" transform="translate(0 0)"/>
+        <!-- Inner rule -->
+        <rect x="${x + innerPad}" y="${y + 4}" width="${w - 2 * innerPad}" height="${h - 8}"
+              rx="3" ry="3" fill="none" stroke="rgba(80,50,15,0.45)" stroke-width="0.5"/>
+        <text x="${cx}" y="${cy - 4}" class="qm-banner-title" text-anchor="middle">${escapeHtml(title)}</text>
+        <text x="${cx}" y="${cy + 13}" class="qm-banner-sub" text-anchor="middle">${escapeHtml(sub)}</text>
+      </g>
+    `;
+  }
+
+  // 8-point compass rose with N/S/E/W ticks.
+  function compassRose(cx, cy, r) {
+    const long = r;
+    const short = r * 0.45;
+    // Eight rays as filled "kite" diamonds, alternating long/short.
+    let rays = "";
+    for (let i = 0; i < 8; i++) {
+      const len = i % 2 === 0 ? long : short;
+      const a = -Math.PI / 2 + i * Math.PI / 4;
+      const tipX = cx + Math.cos(a) * len;
+      const tipY = cy + Math.sin(a) * len;
+      const sideA = a + Math.PI / 2;
+      const sx = cx + Math.cos(sideA) * (len * 0.18);
+      const sy = cy + Math.sin(sideA) * (len * 0.18);
+      const sx2 = cx - Math.cos(sideA) * (len * 0.18);
+      const sy2 = cy - Math.sin(sideA) * (len * 0.18);
+      rays += `<path d="M ${cx} ${cy} L ${sx} ${sy} L ${tipX.toFixed(2)} ${tipY.toFixed(2)} L ${sx2} ${sy2} Z"
+                     fill="${i % 2 === 0 ? "url(#qm-gold)" : "rgba(80,50,15,0.85)"}"
+                     stroke="rgba(80,50,15,0.6)" stroke-width="0.5"/>`;
+    }
+    return `
+      <g class="qm-compass" transform="translate(0 0)">
+        <circle cx="${cx}" cy="${cy}" r="${r + 4}" fill="rgba(231,216,182,0.85)"
+                stroke="url(#qm-gold)" stroke-width="1.2"/>
+        ${rays}
+        <circle cx="${cx}" cy="${cy}" r="2.5" fill="rgba(80,50,15,0.85)"/>
+        <text x="${cx}" y="${cy - r - 6}" class="qm-compass-letter" text-anchor="middle">N</text>
+        <text x="${cx}" y="${cy + r + 12}" class="qm-compass-letter" text-anchor="middle">S</text>
+        <text x="${cx + r + 8}" y="${cy + 3}" class="qm-compass-letter" text-anchor="middle">E</text>
+        <text x="${cx - r - 8}" y="${cy + 3}" class="qm-compass-letter" text-anchor="middle">O</text>
+      </g>
+    `;
   }
 
   function open() {

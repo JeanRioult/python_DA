@@ -60,13 +60,14 @@
 }
 
 .qm-banner-title {
-  fill: #6b3a1a;
+  fill: #3a200b;
   font-size: 18px;
   font-weight: 800;
   letter-spacing: 0.08em;
+  text-shadow: 0 1px 0 rgba(255, 240, 200, 0.5);
 }
 .qm-banner-sub {
-  fill: rgba(80, 50, 20, 0.75);
+  fill: rgba(80, 50, 20, 0.78);
   font-size: 11px;
   font-style: italic;
 }
@@ -74,10 +75,10 @@
 .qm-sem-label {
   fill: #6b3a1a;
   font-size: 10px;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   font-weight: 800;
-  opacity: 0.75;
+  opacity: 0.8;
 }
 .qm-sem-title {
   fill: #3a200b;
@@ -85,24 +86,37 @@
   font-weight: 700;
   font-style: italic;
 }
+.qm-sem-orn {
+  fill: url(#qm-gold);
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+.qm-compass-letter {
+  fill: #3a200b;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
 
 .qm-node { cursor: pointer; }
 .qm-node-shape {
-  fill: hsl(var(--qm-hue) 30% 30%);
+  fill: hsl(var(--qm-hue) 38% 32%);
   stroke: hsl(var(--qm-hue) 65% 55%);
-  stroke-width: 3;
+  stroke-width: 1.4;
   transition: filter 200ms;
 }
 .qm-node-inner {
-  fill: hsl(var(--qm-hue) 45% 45%);
-  stroke: rgba(255, 240, 220, 0.5);
-  stroke-width: 1;
+  fill: hsl(var(--qm-hue) 50% 22%);
+  stroke: rgba(255, 240, 220, 0.45);
+  stroke-width: 0.8;
 }
 .qm-node-glyph {
   fill: #fff8e6;
   font-size: 22px;
   font-weight: 800;
   pointer-events: none;
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.5));
 }
 .qm-node-title {
   fill: #2a1a0e;
@@ -111,46 +125,67 @@
   pointer-events: none;
 }
 .qm-node-subtitle {
-  fill: rgba(80, 50, 20, 0.85);
-  font-size: 9.5px;
+  fill: rgba(60, 35, 12, 0.92);
+  font-size: 10px;
   font-style: italic;
   pointer-events: none;
 }
 .qm-node-progress {
-  fill: rgba(70, 40, 15, 0.75);
+  fill: rgba(80, 50, 15, 0.85);
   font-size: 10px;
   font-variant-numeric: tabular-nums;
+  font-weight: 700;
   pointer-events: none;
 }
-.qm-node:hover .qm-node-shape {
-  filter: drop-shadow(0 0 12px hsl(var(--qm-hue) 80% 60%));
+.qm-node-title {
+  fill: #2a1a0e;
+  font-size: 11.5px;
+  font-weight: 800;
+  pointer-events: none;
+  text-shadow: 0 1px 0 rgba(255, 240, 200, 0.4);
 }
-
 .qm-node--locked .qm-node-shape  { fill: #5a4a32; stroke: rgba(120, 90, 60, 0.7); }
-.qm-node--locked .qm-node-inner  { fill: #6b5840; stroke: rgba(255, 240, 220, 0.2); }
-.qm-node--locked .qm-node-glyph  { fill: rgba(255, 240, 220, 0.4); }
-.qm-node--seen .qm-node-shape    { stroke: hsl(var(--qm-hue) 70% 60%); }
-.qm-node--in-progress .qm-node-shape { stroke: hsl(var(--qm-hue) 80% 65%); stroke-width: 4; }
-.qm-node--done .qm-node-shape {
-  fill: hsl(var(--qm-hue) 65% 45%);
-  stroke: #ffd96a;
-  stroke-width: 4;
-  filter: drop-shadow(0 0 10px hsl(var(--qm-hue) 70% 55%));
+.qm-node--locked .qm-node-inner  { fill: #463925; stroke: rgba(255, 240, 220, 0.18); }
+.qm-node--locked .qm-node-glyph  { fill: rgba(255, 240, 220, 0.42); }
+.qm-node--seen .qm-node-shape    { stroke: hsl(var(--qm-hue) 70% 58%); stroke-width: 1.8; }
+.qm-node--in-progress .qm-node-shape {
+  stroke: hsl(var(--qm-hue) 82% 65%);
+  stroke-width: 2.2;
 }
-.qm-node--done .qm-node-inner { fill: hsl(var(--qm-hue) 70% 60%); }
+.qm-node--in-progress .qm-node-inner {
+  fill: hsl(var(--qm-hue) 55% 30%);
+}
+.qm-node--done .qm-node-shape {
+  fill: hsl(var(--qm-hue) 65% 38%);
+  stroke: hsl(var(--qm-hue) 80% 70%);
+  stroke-width: 2.4;
+}
+.qm-node--done .qm-node-inner {
+  fill: hsl(var(--qm-hue) 70% 50%);
+}
+.qm-node:hover .qm-node-shape {
+  filter: drop-shadow(0 0 6px hsl(var(--qm-hue) 80% 60%));
+}
+.qm-node--done:hover .qm-node-shape {
+  filter: drop-shadow(0 0 10px hsl(var(--qm-hue) 80% 65%));
+}
 
 .qm-pip {
-  fill: rgba(255, 245, 215, 0.6);
-  stroke: rgba(80, 50, 15, 0.5);
-  stroke-width: 0.7;
+  fill: rgba(255, 245, 215, 0.7);
+  stroke: rgba(80, 50, 15, 0.7);
+  stroke-width: 0.8;
   cursor: pointer;
+  transition: fill 120ms;
 }
 .qm-pip:hover { fill: #fff8e6; }
-.qm-pip--seen { fill: hsl(var(--qm-hue, 215) 60% 55%); }
+.qm-pip--seen {
+  fill: hsl(var(--qm-hue, 215) 60% 55%);
+  stroke: rgba(80, 50, 15, 0.6);
+}
 .qm-pip--done {
-  fill: hsl(var(--qm-hue, 215) 75% 65%);
-  stroke: #ffd96a;
-  stroke-width: 1;
+  fill: url(#qm-gold);
+  stroke: rgba(80, 50, 15, 0.7);
+  stroke-width: 0.7;
 }
 
 @media (max-width: 640px) {
