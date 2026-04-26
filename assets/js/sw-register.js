@@ -8,10 +8,13 @@
 
   window.addEventListener("load", () => {
     navigator.serviceWorker
-      .register("sw.js", { scope: "./" })
+      // updateViaCache: "none" tells the browser to always fetch sw.js from
+      // the network (skipping the HTTP cache), so deployed updates are
+      // detected immediately on next page load.
+      .register("sw.js", { scope: "./", updateViaCache: "none" })
       .then((reg) => {
-        // When a new SW is installed, prompt the user (silently, via console for now)
-        // to reload so they pick up updates. Silent because MVP — can become a banner later.
+        // Force an update check on every page load.
+        try { reg.update(); } catch (_) {}
         reg.addEventListener("updatefound", () => {
           const newWorker = reg.installing;
           if (!newWorker) return;
@@ -20,9 +23,9 @@
               newWorker.state === "installed" &&
               navigator.serviceWorker.controller
             ) {
-              console.info(
-                "[PyDA] A new version is available. Close the app or reload to apply."
-              );
+              // New SW is ready; tell it to take over immediately.
+              try { newWorker.postMessage("SKIP_WAITING"); } catch (_) {}
+              console.info("[PyDA] Update installed — activating now.");
             }
           });
         });

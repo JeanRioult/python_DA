@@ -5,7 +5,7 @@
 //     so learners see updates when online but the app still works offline.
 //   - Version bumps invalidate old caches on activate.
 
-const VERSION = "v3-2026-04-19";
+const VERSION = "v4-2026-04-26-mtg";
 const CORE_CACHE = `pyda-core-${VERSION}`;
 const RUNTIME_CACHE = `pyda-runtime-${VERSION}`;
 
@@ -14,10 +14,16 @@ const CORE_ASSETS = [
   "index.html",
   "manifest.json",
   "assets/css/base.css",
+  "assets/css/cards.css",
+  "assets/css/game.css",
+  "assets/css/quest-map.css",
   "assets/css/dark.css",
   "assets/css/dyslexia.css",
   "assets/css/low-stim.css",
   "assets/js/app.js",
+  "assets/js/cards.js",
+  "assets/js/game.js",
+  "assets/js/quest-map.js",
   "assets/js/i18n.js",
   "assets/js/progress.js",
   "assets/js/sw-register.js",
