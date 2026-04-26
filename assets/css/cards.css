@@ -484,6 +484,11 @@
 .mtg-card-flipper[data-flipped="true"] .mtg-card-flipper-inner {
   transform: rotateY(180deg);
 }
+.mtg-card-flipper:focus-visible {
+  outline: 3px solid #ffd96a;
+  outline-offset: 6px;
+  border-radius: 14px;
+}
 .mtg-card-flipper .mtg-card {
   position: absolute;
   inset: 0;

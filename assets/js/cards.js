@@ -234,8 +234,15 @@
     `;
   }
   function makeFlipperHtml(card, chapterRef, flipped) {
+    const label = window.I18N.current === "en"
+      ? "Card. Press Space or Enter to flip."
+      : "Carte. Appuie sur Espace ou Entrée pour retourner.";
     return `
-      <div class="mtg-card-flipper" data-flipped="${flipped ? "true" : "false"}" data-card-id="${escapeHtml(card.id || "")}">
+      <div class="mtg-card-flipper" data-flipped="${flipped ? "true" : "false"}"
+           data-card-id="${escapeHtml(card.id || "")}"
+           role="button" tabindex="0"
+           aria-pressed="${flipped ? "true" : "false"}"
+           aria-label="${label}">
         <div class="mtg-card-flipper-inner">
           ${makeCardHtml(card, chapterRef, "front", { large: true })}
           <div class="mtg-card--back-face" style="position:absolute;inset:0;">
@@ -388,12 +395,22 @@
     const flip = () => {
       M.inspectFlipped = !M.inspectFlipped;
       flipper.dataset.flipped = M.inspectFlipped ? "true" : "false";
+      flipper.setAttribute("aria-pressed", M.inspectFlipped ? "true" : "false");
       flipBtn.textContent = M.inspectFlipped
         ? (window.I18N.current === "en" ? "Hide answer" : "Cacher la réponse")
         : (window.I18N.current === "en" ? "Show answer" : "Montrer la réponse");
     };
     flipper.addEventListener("click", flip);
+    flipper.addEventListener("keydown", (e) => {
+      if (e.key === " " || e.key === "Enter") { e.preventDefault(); flip(); }
+      else if (e.key === "ArrowLeft") {
+        if (M.inspectIdx > 0) { M.inspectIdx--; M.inspectFlipped = false; renderInspect(); }
+      } else if (e.key === "ArrowRight") {
+        if (M.inspectIdx < M.cards.length - 1) { M.inspectIdx++; M.inspectFlipped = false; renderInspect(); }
+      }
+    });
     flipBtn.addEventListener("click", flip);
+    flipper.focus();
     view.querySelector(".cards-nav-prev").addEventListener("click", () => {
       if (M.inspectIdx > 0) { M.inspectIdx--; M.inspectFlipped = false; renderInspect(); }
     });
@@ -476,18 +493,32 @@
         <button class="rate rate-good">Je savais !</button>
       </div>
     `;
+    wirePracticeCard(view);
+  }
+
+  // Shared: wire up the practice/daily flipper + rate buttons + focus.
+  function wirePracticeCard(view) {
     const flipper = view.querySelector(".mtg-card-flipper");
+    if (!flipper) return;
     flipper.classList.add("animate-draw");
     const flipBtn = view.querySelector(".cta-flip");
     const reveal = () => {
       M.flipped = true;
       flipper.dataset.flipped = "true";
+      flipper.setAttribute("aria-pressed", "true");
       const ctrls = view.querySelector(".cards-controls .cta-flip");
       if (ctrls) ctrls.hidden = true;
-      const rate = view.querySelector(".cards-rate");
-      if (rate) rate.hidden = false;
+      const rateRow = view.querySelector(".cards-rate");
+      if (rateRow) rateRow.hidden = false;
+      const goodBtn = view.querySelector(".rate-good");
+      if (goodBtn) goodBtn.focus();
     };
     flipper.addEventListener("click", () => { if (!M.flipped) reveal(); });
+    flipper.addEventListener("keydown", (e) => {
+      if ((e.key === " " || e.key === "Enter") && !M.flipped) {
+        e.preventDefault(); reveal();
+      }
+    });
     if (flipBtn) flipBtn.addEventListener("click", reveal);
     view.querySelector(".cards-back-to-lib").addEventListener("click", () => setMode("library"));
     const rateBad = view.querySelector(".rate-bad");
@@ -496,10 +527,10 @@
     if (rateGood) rateGood.addEventListener("click", () => rate(true));
 
     view.tabIndex = -1;
-    view.focus();
+    flipper.focus();
   }
   function practiceKeys(e) {
-    if (M.mode !== "practice") return;
+    if (M.mode !== "practice" && M.mode !== "daily") return;
     const panel = $("#flashcards");
     if (!panel || panel.hasAttribute("hidden")) return;
     if (e.key === " " || e.key === "Enter") {
@@ -711,26 +742,7 @@
         <button class="rate rate-good">Je savais !</button>
       </div>
     `;
-    const flipper = view.querySelector(".mtg-card-flipper");
-    flipper.classList.add("animate-draw");
-    const flipBtn = view.querySelector(".cta-flip");
-    const reveal = () => {
-      M.flipped = true;
-      flipper.dataset.flipped = "true";
-      const ctrls = view.querySelector(".cards-controls .cta-flip");
-      if (ctrls) ctrls.hidden = true;
-      const rate = view.querySelector(".cards-rate");
-      if (rate) rate.hidden = false;
-    };
-    flipper.addEventListener("click", () => { if (!M.flipped) reveal(); });
-    if (flipBtn) flipBtn.addEventListener("click", reveal);
-    view.querySelector(".cards-back-to-lib").addEventListener("click", () => setMode("library"));
-    const rateBad = view.querySelector(".rate-bad");
-    const rateGood = view.querySelector(".rate-good");
-    if (rateBad) rateBad.addEventListener("click", () => rate(false));
-    if (rateGood) rateGood.addEventListener("click", () => rate(true));
-    view.tabIndex = -1;
-    view.focus();
+    wirePracticeCard(view);
   }
 
   // ----- Print sheet -----
