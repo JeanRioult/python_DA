@@ -458,6 +458,21 @@
       const left = cur == null ? maxTriesFor(r.id) : cur;
       pip = `<span class="tries-pip" title="Essais restants pour gagner cette marque">⚑ ${left}</span>`;
     }
+    // Back face: real ornate card-back design + a parchment overlay carrying
+    // the answer. No "mirror" of the front frame.
+    const theme = themeFor(chapterRef.chapter);
+    const answerLabel = (window.I18N && window.I18N.current === "en") ? "Answer" : "Réponse";
+    const backFace = `
+      <div class="mtg-card-back-face">
+        <div class="mtg-card mtg-card--facedown" style="--c-hue:${theme.hue};">
+          <div class="mtg-frame">${cardBackSvg(theme)}</div>
+        </div>
+        <div class="mtg-answer-scroll" role="region" aria-label="${escapeHtml(answerLabel)}">
+          <div class="mtg-answer-label">${escapeHtml(answerLabel)}</div>
+          <div class="mtg-answer-body">${bodyText(localized(card.back, ""))}</div>
+        </div>
+      </div>
+    `;
     return `
       <div class="mtg-card-flipper" data-flipped="${flipped ? "true" : "false"}"
            data-card-id="${escapeHtml(card.id || "")}"
@@ -467,9 +482,7 @@
         ${pip}
         <div class="mtg-card-flipper-inner">
           ${makeCardHtml(card, chapterRef, "front", { large: true })}
-          <div class="mtg-card--back-face" style="position:absolute;inset:0;">
-            ${makeCardHtml(card, chapterRef, "back", { large: true })}
-          </div>
+          ${backFace}
         </div>
       </div>
     `;

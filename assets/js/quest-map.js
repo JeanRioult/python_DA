@@ -130,8 +130,8 @@
     // along a sinusoidal path. Bottom = start, top = end (so finishing climbs).
     const W = 480;
     const SPACING = 210;       // vertical pixels per chapter (room for 2-line titles)
-    const TOP_PAD = 90;        // for the "Sommet" banner
-    const BOTTOM_PAD = 110;    // for the "Départ" banner
+    const TOP_PAD = 110;       // for the "Sommet" banner
+    const BOTTOM_PAD = 200;    // room for ch.1's 2-line title + the "Départ" banner
     const H = TOP_PAD + chapters.length * SPACING + BOTTOM_PAD;
 
     // Position each chapter; flip Y so chapter 1 sits at the BOTTOM.
@@ -231,19 +231,18 @@
       `;
     });
 
-    // Start / Summit banners
-    const lastY = positions.length ? positions[positions.length - 1].y : H / 2;
-    const firstY = positions.length ? positions[0].y : H / 2;
+    // Start / Summit banners — anchored to the SVG edges (not to the first/last
+    // chapter) so they never overlap the chapter text underneath them.
     const topBanner = `
       <g class="qm-banner">
-        <text x="${W / 2}" y="${Math.max(40, lastY - 60)}" class="qm-banner-title" text-anchor="middle">⛰ Sommet</text>
-        <text x="${W / 2}" y="${Math.max(60, lastY - 42)}" class="qm-banner-sub" text-anchor="middle">— Maître analyste —</text>
+        <text x="${W / 2}" y="40" class="qm-banner-title" text-anchor="middle">⛰ Sommet</text>
+        <text x="${W / 2}" y="60" class="qm-banner-sub" text-anchor="middle">— Maître analyste —</text>
       </g>
     `;
     const bottomBanner = `
       <g class="qm-banner">
-        <text x="${W / 2}" y="${Math.min(H - 30, firstY + 80)}" class="qm-banner-title" text-anchor="middle">★ Départ</text>
-        <text x="${W / 2}" y="${Math.min(H - 14, firstY + 98)}" class="qm-banner-sub" text-anchor="middle">— ton aventure commence ici —</text>
+        <text x="${W / 2}" y="${H - 36}" class="qm-banner-title" text-anchor="middle">★ Départ</text>
+        <text x="${W / 2}" y="${H - 18}" class="qm-banner-sub" text-anchor="middle">— ton aventure commence ici —</text>
       </g>
     `;
 
