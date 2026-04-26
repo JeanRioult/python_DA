@@ -35,6 +35,7 @@
       completed: "✓ Leçon terminée",
       completeHint: "Appuie uniquement quand tu as vraiment fait les exercices.",
       flashcardsLegend: "Flashcards",
+      voiesLegend: "Voies (long terme)",
       achievementsLegend: "Hauts faits",
       cardsBtn: (n) => `🗂 Cartes (${n})`,
       cardsReviewBtn: "Réviser les cartes de ce chapitre",
@@ -82,6 +83,7 @@
       completed: "✓ Lesson finished",
       completeHint: "Only press this once you have actually done the exercises.",
       flashcardsLegend: "Flashcards",
+      voiesLegend: "Long quests",
       achievementsLegend: "Achievements",
       cardsBtn: (n) => `🗂 Cards (${n})`,
       cardsReviewBtn: "Review this chapter's cards",
@@ -152,6 +154,7 @@
         this.t("stimLegend"),
         this.t("learningLegend"),
         this.t("flashcardsLegend"),
+        this.t("voiesLegend"),
         this.t("achievementsLegend"),
         this.t("progress"),
       ];

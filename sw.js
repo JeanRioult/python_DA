@@ -5,7 +5,7 @@
 //     so learners see updates when online but the app still works offline.
 //   - Version bumps invalidate old caches on activate.
 
-const VERSION = "v8-2026-04-26-oeuvres";
+const VERSION = "v9-2026-04-26-voies";
 const CORE_CACHE = `pyda-core-${VERSION}`;
 const RUNTIME_CACHE = `pyda-runtime-${VERSION}`;
 
@@ -23,11 +23,13 @@ const CORE_ASSETS = [
   "assets/css/low-stim.css",
   "assets/data/compagnonnage.json",
   "assets/data/oeuvres.json",
+  "assets/data/constellations.json",
   "assets/js/app.js",
   "assets/js/cards.js",
   "assets/js/game.js",
   "assets/js/quest-map.js",
   "assets/js/oeuvres.js",
+  "assets/js/constellations.js",
   "assets/js/i18n.js",
   "assets/js/progress.js",
   "assets/js/sw-register.js",

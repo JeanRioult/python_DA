@@ -1,0 +1,77 @@
+{
+  "_meta": {
+    "doc": "Voies — long-running cross-chapter quests. Mastering every card in a Voie (level >= 5) earns the corresponding mythic 'marque fondatrice'.",
+    "rule": "A Voie is completed once every member card reaches mastery level 5."
+  },
+  "voies": [
+    {
+      "id": "voie-honnete",
+      "name": { "fr": "La Voie de la Donnée Honnête", "en": "The Way of Honest Data" },
+      "flavor": {
+        "fr": "Pour qui sait que les chiffres ne mentent pas, mais ceux qui les présentent souvent oui.",
+        "en": "For those who know that numbers don't lie — but those who present them often do."
+      },
+      "icon": "⚖",
+      "hue": 215,
+      "members": [
+        "c01-f02", "c02-f02", "c03-f10", "c04-f04",
+        "c05-f05", "c06-f09", "c07-f09", "c08-f08",
+        "c09-f08"
+      ],
+      "reward": {
+        "marqueId": "fondatrice-honnete",
+        "title": { "fr": "L'Œil Juste", "en": "The Just Eye" },
+        "flavor": {
+          "fr": "« Voir le chiffre tel qu'il est, et non tel qu'on voudrait qu'il soit. »",
+          "en": "“See the number as it is, not as we wish it were.”"
+        }
+      }
+    },
+    {
+      "id": "voie-causale",
+      "name": { "fr": "La Voie de la Causalité", "en": "The Way of Causation" },
+      "flavor": {
+        "fr": "Distinguer la coïncidence du lien, et le lien de la cause.",
+        "en": "Telling coincidence from link, and link from cause."
+      },
+      "icon": "⚗",
+      "hue": 270,
+      "members": [
+        "c01-f05", "c02-f10", "c03-f12", "c04-f12",
+        "c05-f03", "c06-f08", "c07-f08", "c08-f04",
+        "c09-f03"
+      ],
+      "reward": {
+        "marqueId": "fondatrice-causale",
+        "title": { "fr": "Le Fil de Cause", "en": "The Causal Thread" },
+        "flavor": {
+          "fr": "« Avant d'expliquer, élimine. »",
+          "en": "“Before you explain, eliminate.”"
+        }
+      }
+    },
+    {
+      "id": "voie-autonome",
+      "name": { "fr": "La Voie de l'Autonomie", "en": "The Way of Autonomy" },
+      "flavor": {
+        "fr": "Aller du début à la fin sans tenir la main de personne.",
+        "en": "From start to finish, holding no one's hand."
+      },
+      "icon": "✦",
+      "hue": 28,
+      "members": [
+        "c01-f12", "c02-f11", "c03-f01", "c04-f05",
+        "c05-f02", "c06-f11", "c07-f01", "c08-f02",
+        "c09-f01"
+      ],
+      "reward": {
+        "marqueId": "fondatrice-autonome",
+        "title": { "fr": "L'Atelier sans Maître", "en": "The Masterless Atelier" },
+        "flavor": {
+          "fr": "« Tu es désormais ton propre maître — et ton plus exigeant.»",
+          "en": "“You are now your own master — and your most demanding.”"
+        }
+      }
+    }
+  ]
+}

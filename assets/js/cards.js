@@ -912,6 +912,8 @@
       M.bestStreak = Math.max(M.bestStreak || 0, M.streak + (knewIt ? 1 : 0));
       window.Game.checkAchievements({ bestStreak: M.bestStreak });
     }
+    // Mastery may have changed — check if any Voie just completed.
+    if (window.Voies) window.Voies.checkProgress();
     if (knewIt) {
       M.streak += 1;
       M.sessionKnew += 1;

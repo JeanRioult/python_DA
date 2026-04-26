@@ -124,6 +124,75 @@ html[data-theme="dark"] .rank-badge {
 .rank-ladder li.off { color: var(--text-soft); }
 .rank-ladder li .rank-min { font-variant-numeric: tabular-nums; }
 
+/* Voies strip — cross-chapter long quests */
+.voies-strip {
+  display: grid;
+  gap: var(--space-2);
+}
+.voie {
+  --voie-hue: 215;
+  background: hsl(var(--voie-hue) 30% 12%);
+  border: 1px solid hsl(var(--voie-hue) 50% 35%);
+  border-radius: 8px;
+  padding: var(--space-2);
+  color: #f0e8d2;
+  position: relative;
+  overflow: hidden;
+}
+.voie::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 90% 0%, hsl(var(--voie-hue) 70% 60% / 0.2), transparent 60%);
+}
+.voie-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
+.voie-icon {
+  font-size: 1.2rem;
+  width: 1.6em; height: 1.6em;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: hsl(var(--voie-hue) 50% 30%);
+  color: hsl(var(--voie-hue) 70% 80%);
+  flex: 0 0 auto;
+}
+.voie-name { flex: 1; font-style: italic; }
+.voie-progress {
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  color: hsl(var(--voie-hue) 50% 70%);
+}
+.voie-flavor {
+  margin: 4px 0;
+  color: #b9b6ad;
+  font-size: 0.82rem;
+  font-style: italic;
+}
+.voie-bar {
+  height: 6px;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.voie-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, hsl(var(--voie-hue) 60% 55%), hsl(var(--voie-hue) 80% 70%));
+  transition: width 600ms ease;
+}
+.voie--complete { box-shadow: 0 0 12px hsl(var(--voie-hue) 70% 50% / 0.45); }
+.voie--owned .voie-bar-fill { background: linear-gradient(90deg, #ffd96a, #d97a3a); }
+.voie-reward {
+  margin-top: var(--space-1);
+  font-size: 0.85rem;
+  color: #ffd96a;
+}
+.voie-reward em { font-style: italic; font-weight: 700; }
+
 /* Achievements list (in settings panel) */
 .achievements-list {
   display: grid;

@@ -215,6 +215,7 @@
     if (newly.length) {
       renderBadges();
       renderAchievementsList();
+      if (window.Voies) window.Voies.renderStrip();
     }
     return newly;
   }
@@ -356,6 +357,7 @@
     G.indexProvider = getIndex || (() => []);
     renderBadges();
     renderAchievementsList();
+    if (window.Voies) window.Voies.renderStrip();
   }
 
   window.Game = {

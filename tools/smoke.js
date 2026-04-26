@@ -392,6 +392,29 @@ async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
     assert(/verrouillée|maître/i.test(oeuvreBtn.textContent),
       "Œuvre button shows correct state (" + oeuvreBtn.textContent + ")");
 
+    // --- 11f. Constellations / Voies ---
+    assert(!!window.Voies, "Voies module exposed");
+    const voiesData = await window.Voies.loadData();
+    assert(voiesData && voiesData.voies && voiesData.voies.length >= 3,
+      "constellations data loaded with ≥ 3 voies");
+    // Strip is rendered on init; settings panel was opened earlier.
+    await window.Voies.renderStrip();
+    await sleep(50);
+    const strip = $$("#voies-strip .voie");
+    assert(strip.length === voiesData.voies.length,
+      "voies strip renders all voies (" + strip.length + ")");
+    // Progress bars present
+    assert($("#voies-strip .voie-bar-fill"), "voies progress bars rendered");
+    // Award flow: simulate completing every member of the first voie.
+    const v0 = voiesData.voies[0];
+    for (const id of v0.members) {
+      window.Progress.setCardState(id, { level: 5, knew: 1 });
+    }
+    const newly = await window.Voies.checkProgress();
+    assert(newly.length === 1, "completing all members awards the voie (" + newly.length + ")");
+    assert(window.Voies.isMarqueOwned(v0.reward.marqueId),
+      "marque fondatrice persisted in progress");
+
     // --- 12. Final: collect any errors that fired during run ---
     if (errors.length) {
       fail("no console/page errors during full run", errors.join(" || "));
