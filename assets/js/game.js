@@ -131,9 +131,32 @@
     },
   ];
 
+  // XP → rank thresholds. Rank is a *title* shown next to the XP badge.
+  // The progression doubles each tier (cheap to design, generous early on).
+  const RANKS = [
+    { min:    0, fr: "Néophyte",  en: "Neophyte" },
+    { min:  100, fr: "Apprenti",  en: "Apprentice" },
+    { min:  300, fr: "Initié",    en: "Initiate" },
+    { min:  700, fr: "Adepte",    en: "Adept" },
+    { min: 1500, fr: "Compagnon", en: "Companion" },
+    { min: 3000, fr: "Artisan",   en: "Artisan" },
+    { min: 6000, fr: "Maître",    en: "Master" },
+    { min:12000, fr: "Sage",      en: "Sage" },
+    { min:25000, fr: "Archonte",  en: "Archon" },
+  ];
+  function rankFor(xp) {
+    let r = RANKS[0];
+    for (const tier of RANKS) if (xp >= tier.min) r = tier;
+    return r;
+  }
+  function nextRank(xp) {
+    return RANKS.find(r => r.min > xp) || null;
+  }
+
   const G = {
     indexProvider: null,
     achvCtx: { sessionBest: 0 },
+    lastRankIdx: -1,
   };
 
   function localized(obj, fb = "") {
@@ -196,10 +219,21 @@
   }
 
   function addXp(n, reason) {
+    const before = window.Progress.getGame().xp || 0;
     const xp = window.Progress.addXp(n);
+    const beforeRank = rankFor(before);
+    const afterRank  = rankFor(xp);
     renderBadges();
     if (n > 0 && reason !== "silent") {
       toast(`+${n} XP`, { icon: "✦", kind: "xp" });
+    }
+    if (afterRank.min > beforeRank.min) {
+      const titleFr = afterRank.fr;
+      const titleEn = afterRank.en;
+      const t = (window.I18N && window.I18N.current === "en")
+        ? `Rank up: ${titleEn}`
+        : `Nouveau rang : ${titleFr}`;
+      toast(t, { icon: "🏵", kind: "achv", sub: `+${n} XP` });
     }
     return xp;
   }
@@ -220,8 +254,22 @@
   function renderBadges() {
     const xpEl = $("#xp-badge");
     const streakEl = $("#streak-badge");
+    const rankEl = $("#rank-badge");
     const g = window.Progress.getGame();
-    if (xpEl) xpEl.querySelector(".badge-value").textContent = String(g.xp || 0);
+    const xp = g.xp || 0;
+    if (xpEl) {
+      xpEl.querySelector(".badge-value").textContent = String(xp);
+      const next = nextRank(xp);
+      xpEl.title = next
+        ? `${xp} XP — ${next.min - xp} jusqu'au rang « ${next.fr} »`
+        : `${xp} XP — rang maximal atteint`;
+    }
+    if (rankEl) {
+      const r = rankFor(xp);
+      rankEl.querySelector(".badge-value").textContent =
+        (window.I18N && window.I18N.current === "en") ? r.en : r.fr;
+      rankEl.title = `Rang actuel — ${r.fr}`;
+    }
     const s = window.Progress.liveStreak();
     if (streakEl) {
       streakEl.querySelector(".badge-value").textContent = String(s);
@@ -253,7 +301,42 @@
   function renderAchievementsList(rootEl) {
     const root = rootEl || $("#achievements-list");
     if (!root) return;
-    const html = ACHIEVEMENTS.map(a => {
+    const xp = (window.Progress.getGame().xp) || 0;
+    const cur = rankFor(xp);
+    const next = nextRank(xp);
+    const lang = (window.I18N && window.I18N.current) || "fr";
+    const tName = (r) => (lang === "en" ? r.en : r.fr);
+
+    // Rank ladder (compact)
+    const ladder = `
+      <div class="rank-summary">
+        <div class="rank-summary-cur">
+          <span class="rank-icon">🏵</span>
+          <span class="rank-name">${tName(cur)}</span>
+          <span class="rank-xp">${xp} XP</span>
+        </div>
+        ${next ? `
+          <div class="rank-summary-next">
+            <div class="rank-bar">
+              <div class="rank-bar-fill" style="width:${Math.min(100, Math.round((xp - cur.min) / (next.min - cur.min) * 100))}%"></div>
+            </div>
+            <div class="rank-summary-hint">${next.min - xp} XP jusqu'à <strong>${tName(next)}</strong></div>
+          </div>` : `<div class="rank-summary-hint">Rang maximal atteint ✨</div>`
+        }
+        <details class="rank-ladder-details">
+          <summary>Voir tous les rangs</summary>
+          <ol class="rank-ladder">
+            ${RANKS.map(r => `
+              <li class="${xp >= r.min ? "on" : "off"}">
+                <span class="rank-name">${tName(r)}</span>
+                <span class="rank-min">${r.min} XP</span>
+              </li>`).join("")}
+          </ol>
+        </details>
+      </div>
+    `;
+
+    const achvs = ACHIEVEMENTS.map(a => {
       const unlocked = window.Progress.isUnlocked(a.id);
       return `
         <div class="achv ${unlocked ? "achv--on" : "achv--off"}" title="${unlocked ? "Débloqué" : "Verrouillé"}">
@@ -265,7 +348,7 @@
         </div>
       `;
     }).join("");
-    root.innerHTML = html;
+    root.innerHTML = ladder + achvs;
   }
 
   function init({ getIndex } = {}) {

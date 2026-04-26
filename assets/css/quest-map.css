@@ -1,14 +1,15 @@
-/* Quest map panel */
+/* Quest map panel — parchment-style scrollable journey, bottom-to-top. */
 
 .quest-map-panel {
   position: fixed;
   inset: 0;
   z-index: 60;
-  background: radial-gradient(900px 600px at 20% 10%, rgba(125, 176, 217, 0.12), rgba(8, 10, 18, 0.8) 60%), rgba(8, 10, 18, 0.92);
-  backdrop-filter: blur(6px);
+  background:
+    radial-gradient(900px 600px at 50% 10%, rgba(255, 200, 120, 0.12), transparent 60%),
+    #2a1a0e;
   display: grid;
   grid-template-rows: auto 1fr;
-  color: #e8e6e0;
+  color: #f0e8d2;
 }
 .quest-map-panel[hidden] { display: none; }
 
@@ -17,118 +18,141 @@
   grid-template-columns: 1fr auto auto;
   gap: var(--space-3);
   align-items: center;
-  padding: var(--space-3) var(--space-4);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(0, 0, 0, 0.25);
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid rgba(255, 215, 130, 0.18);
+  background:
+    linear-gradient(180deg, rgba(60, 40, 18, 0.8), rgba(40, 24, 10, 0.8));
 }
-.quest-map-bar h2 { margin: 0; font-size: 1.15rem; }
-.quest-map-legend { margin: 0; color: #b9b6ad; font-size: 0.85rem; text-align: right; }
+.quest-map-bar h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #ffd96a;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+}
+.quest-map-legend {
+  margin: 0;
+  color: #d6c7a3;
+  font-size: 0.82rem;
+  text-align: right;
+}
 .quest-map-bar .icon-btn {
-  border-color: rgba(255, 255, 255, 0.12);
-  color: #e8e6e0;
+  border-color: rgba(255, 215, 130, 0.3);
+  color: #ffd96a;
 }
-.quest-map-bar .icon-btn:hover { background: rgba(255, 255, 255, 0.08); }
+.quest-map-bar .icon-btn:hover { background: rgba(255, 215, 130, 0.1); }
 
 .quest-map-view {
   overflow: auto;
-  padding: var(--space-3);
+  padding: var(--space-2);
 }
 .qm-svg {
+  display: block;
   width: 100%;
   height: auto;
-  max-height: calc(100vh - 90px);
-  display: block;
+  max-width: 720px;
+  margin: 0 auto;
+  border-radius: 6px;
+  box-shadow:
+    0 0 0 1px rgba(255, 215, 130, 0.18),
+    0 12px 30px rgba(0, 0, 0, 0.45);
 }
 
-/* Edges */
-.qm-edge {
-  fill: none;
-  stroke: rgba(255, 255, 255, 0.12);
-  stroke-width: 2;
-  stroke-dasharray: 4 4;
+.qm-banner-title {
+  fill: #6b3a1a;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+.qm-banner-sub {
+  fill: rgba(80, 50, 20, 0.75);
+  font-size: 11px;
+  font-style: italic;
 }
 
-/* Semester labels */
 .qm-sem-label {
-  fill: #b9b6ad;
-  font-size: 12px;
-  letter-spacing: 0.1em;
+  fill: #6b3a1a;
+  font-size: 10px;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 800;
+  opacity: 0.75;
 }
-.qm-sem-title { fill: #e8e6e0; font-size: 16px; font-weight: 700; }
+.qm-sem-title {
+  fill: #3a200b;
+  font-size: 13px;
+  font-weight: 700;
+  font-style: italic;
+}
 
-/* Nodes */
 .qm-node { cursor: pointer; }
 .qm-node-shape {
-  fill: hsl(var(--qm-hue), 30%, 16%);
-  stroke: hsl(var(--qm-hue), 50%, 45%);
-  stroke-width: 2;
-  transition: filter 180ms, transform 180ms;
+  fill: hsl(var(--qm-hue) 30% 30%);
+  stroke: hsl(var(--qm-hue) 65% 55%);
+  stroke-width: 3;
+  transition: filter 200ms;
 }
-.qm-node-label {
-  fill: #e8e6e0;
-  font-size: 12px;
+.qm-node-inner {
+  fill: hsl(var(--qm-hue) 45% 45%);
+  stroke: rgba(255, 240, 220, 0.5);
+  stroke-width: 1;
+}
+.qm-node-glyph {
+  fill: #fff8e6;
+  font-size: 22px;
   font-weight: 800;
   pointer-events: none;
 }
 .qm-node-title {
-  fill: #d6d3cd;
+  fill: #2a1a0e;
   font-size: 11px;
+  font-weight: 700;
   pointer-events: none;
 }
 .qm-node-progress {
-  fill: #9a978f;
+  fill: rgba(70, 40, 15, 0.75);
   font-size: 10px;
   font-variant-numeric: tabular-nums;
   pointer-events: none;
 }
 .qm-node:hover .qm-node-shape {
-  filter: drop-shadow(0 0 8px hsl(var(--qm-hue), 70%, 60%));
+  filter: drop-shadow(0 0 12px hsl(var(--qm-hue) 80% 60%));
 }
 
-.qm-node--locked .qm-node-shape {
-  fill: #1c1f27;
-  stroke: rgba(255, 255, 255, 0.18);
-}
-.qm-node--locked .qm-node-label { fill: #6c6962; }
-
-.qm-node--seen .qm-node-shape {
-  fill: hsl(var(--qm-hue), 25%, 22%);
-  stroke: hsl(var(--qm-hue), 60%, 55%);
-}
-
-.qm-node--in-progress .qm-node-shape {
-  fill: hsl(var(--qm-hue), 50%, 30%);
-  stroke: hsl(var(--qm-hue), 75%, 65%);
-  stroke-width: 2.5;
-}
-
+.qm-node--locked .qm-node-shape  { fill: #5a4a32; stroke: rgba(120, 90, 60, 0.7); }
+.qm-node--locked .qm-node-inner  { fill: #6b5840; stroke: rgba(255, 240, 220, 0.2); }
+.qm-node--locked .qm-node-glyph  { fill: rgba(255, 240, 220, 0.4); }
+.qm-node--seen .qm-node-shape    { stroke: hsl(var(--qm-hue) 70% 60%); }
+.qm-node--in-progress .qm-node-shape { stroke: hsl(var(--qm-hue) 80% 65%); stroke-width: 4; }
 .qm-node--done .qm-node-shape {
-  fill: hsl(var(--qm-hue), 65%, 38%);
-  stroke: hsl(var(--qm-hue), 80%, 75%);
-  stroke-width: 3;
-  filter: drop-shadow(0 0 6px hsl(var(--qm-hue), 70%, 55%));
+  fill: hsl(var(--qm-hue) 65% 45%);
+  stroke: #ffd96a;
+  stroke-width: 4;
+  filter: drop-shadow(0 0 10px hsl(var(--qm-hue) 70% 55%));
 }
+.qm-node--done .qm-node-inner { fill: hsl(var(--qm-hue) 70% 60%); }
 
-/* Pips (lessons) */
 .qm-pip {
-  fill: rgba(255, 255, 255, 0.15);
-  stroke: rgba(255, 255, 255, 0.3);
-  stroke-width: 1;
+  fill: rgba(255, 245, 215, 0.6);
+  stroke: rgba(80, 50, 15, 0.5);
+  stroke-width: 0.7;
   cursor: pointer;
-  transition: r 120ms, fill 120ms;
 }
-.qm-pip:hover { fill: #fff; }
-.qm-pip--seen { fill: hsl(var(--qm-hue, 215), 60%, 60%); }
+.qm-pip:hover { fill: #fff8e6; }
+.qm-pip--seen { fill: hsl(var(--qm-hue, 215) 60% 55%); }
 .qm-pip--done {
-  fill: hsl(var(--qm-hue, 215), 75%, 70%);
-  stroke: #fff;
+  fill: hsl(var(--qm-hue, 215) 75% 65%);
+  stroke: #ffd96a;
+  stroke-width: 1;
 }
 
 @media (max-width: 640px) {
-  .quest-map-bar { grid-template-columns: 1fr auto; }
+  .qm-svg { max-width: 100%; border-radius: 0; box-shadow: none; }
+  .quest-map-bar { grid-template-columns: 1fr auto; padding: var(--space-2); }
+  .quest-map-bar h2 { font-size: 1rem; }
   .quest-map-legend { display: none; }
+  .quest-map-view { padding: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

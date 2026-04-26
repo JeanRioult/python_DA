@@ -1,5 +1,6 @@
-/* Quest map: roguelike-style SVG view of the curriculum.
-   Semesters → chapters (nodes) → lessons (pips inside each node).
+/* Quest map — vertical, bottom-to-top journey on a parchment.
+   Each semester is a section; chapters are sigils on a winding path.
+   Click a sigil (or a small lesson dot along the path) to jump there.
 
    Public API:
      window.QuestMap.init({ getIndex })
@@ -20,7 +21,7 @@
     return obj[lang] || obj.fr || obj.en || fb;
   }
 
-  // Chapter color hues (mirror cards.js so it stays cohesive).
+  // Mirror cards.js theme so the map feels coherent.
   const HUES = {
     "chapter-01-apprendre-a-apprendre":      48,
     "chapter-02-qu-est-ce-qu-une-donnee":    215,
@@ -32,141 +33,212 @@
     "chapter-08-ecrire-argumenter":          320,
     "chapter-09-methode-scientifique":       195,
   };
+  const GLYPHS = {
+    "chapter-01-apprendre-a-apprendre":      "✦",
+    "chapter-02-qu-est-ce-qu-une-donnee":    "◈",
+    "chapter-03-logique-raisonnement":       "✶",
+    "chapter-04-mathematiques-fondamentales":"✺",
+    "chapter-05-premiers-pas-python":        "❋",
+    "chapter-06-controle-du-flux":           "❖",
+    "chapter-07-tableurs":                   "▦",
+    "chapter-08-ecrire-argumenter":          "✎",
+    "chapter-09-methode-scientifique":       "⚛",
+  };
 
-  function buildTree() {
+  function buildChain() {
+    // Flat list of chapters in course order, each with its lessons.
     const idx = Q.indexProvider ? Q.indexProvider() : [];
-    const tree = new Map();
+    const chapters = [];
+    const seen = new Set();
     for (const e of idx) {
-      if (!tree.has(e.semester)) {
-        tree.set(e.semester, {
-          id: e.semester,
-          number: e.semesterNumber,
-          title: e.semesterTitle,
-          chapters: new Map(),
-        });
-      }
-      const sem = tree.get(e.semester);
-      if (!sem.chapters.has(e.chapter)) {
-        sem.chapters.set(e.chapter, {
+      const k = `${e.semester}/${e.chapter}`;
+      if (!seen.has(k)) {
+        seen.add(k);
+        chapters.push({
+          key: k,
           id: e.chapter,
           number: e.chapterNumber,
           title: e.chapterTitle,
+          semester: e.semester,
+          semesterNumber: e.semesterNumber,
+          semesterTitle: e.semesterTitle,
           lessons: [],
         });
       }
-      sem.chapters.get(e.chapter).lessons.push(e);
+      chapters[chapters.length - 1].lessons.push(e);
     }
-    return tree;
+    return chapters;
   }
 
-  function chapterStatus(chapter) {
-    const total = chapter.lessons.length;
-    const done = chapter.lessons.filter(e =>
+  function chapterStatus(ch) {
+    const total = ch.lessons.length;
+    const done = ch.lessons.filter(e =>
       window.Progress.isCompleted(`${e.semester}/${e.chapter}/${e.lesson}`)
     ).length;
-    const reading = chapter.lessons.reduce((s, e) =>
+    const reading = ch.lessons.reduce((s, e) =>
       s + window.Progress.getReading(`${e.semester}/${e.chapter}/${e.lesson}`), 0) / Math.max(1, total);
-    return { total, done, ratio: done / Math.max(1, total), reading };
+    let cls = "qm-node--locked";
+    if (done === total && total > 0) cls = "qm-node--done";
+    else if (done > 0) cls = "qm-node--in-progress";
+    else if (reading > 0) cls = "qm-node--seen";
+    return { total, done, reading, cls };
+  }
+
+  function escapeHtml(s) {
+    return String(s ?? "")
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+  function truncate(s, n) {
+    s = String(s || "");
+    return s.length > n ? s.slice(0, n - 1) + "…" : s;
   }
 
   function render() {
     const view = $("#quest-map-view");
     const legend = $("#quest-map-legend");
     if (!view) return;
-    const tree = buildTree();
+    const chapters = buildChain();
 
-    // Layout: each semester is a horizontal row; chapters spaced along it.
-    const semesters = Array.from(tree.values());
-    const W = 1000;            // viewBox width
-    const ROW_H = 200;
-    const PADX = 70;
-    const H = Math.max(420, semesters.length * ROW_H + 100);
+    // Layout in viewBox coordinates.
+    // Width is fixed (480) to keep aspect on phones; nodes alternate left/right
+    // along a sinusoidal path. Bottom = start, top = end (so finishing climbs).
+    const W = 480;
+    const SPACING = 180;       // vertical pixels per chapter
+    const TOP_PAD = 90;        // for the "Sommet" banner
+    const BOTTOM_PAD = 110;    // for the "Départ" banner
+    const H = TOP_PAD + chapters.length * SPACING + BOTTOM_PAD;
 
-    let nodes = "";
-    let edges = "";
-    let labels = "";
+    // Position each chapter; flip Y so chapter 1 sits at the BOTTOM.
+    const positions = chapters.map((ch, i) => {
+      const yFromBottom = BOTTOM_PAD + i * SPACING;
+      const y = H - yFromBottom;
+      const sway = Math.sin((i / Math.max(1, chapters.length - 1)) * Math.PI * 2.2 + 0.4);
+      const x = W / 2 + sway * (W * 0.32);
+      return { ch, x, y };
+    });
 
-    semesters.forEach((sem, sIdx) => {
-      const y = 80 + sIdx * ROW_H;
-      const chapters = Array.from(sem.chapters.values());
-      const usable = W - PADX * 2;
-      const dx = chapters.length > 1 ? usable / (chapters.length - 1) : 0;
+    // The winding trail (Catmull-Rom-ish smoothing via cubic Béziers).
+    let path = "";
+    if (positions.length) {
+      path = `M ${positions[0].x} ${positions[0].y}`;
+      for (let i = 1; i < positions.length; i++) {
+        const p0 = positions[i - 1];
+        const p1 = positions[i];
+        const c1x = p0.x;
+        const c1y = (p0.y + p1.y) / 2;
+        const c2x = p1.x;
+        const c2y = c1y;
+        path += ` C ${c1x} ${c1y}, ${c2x} ${c2y}, ${p1.x} ${p1.y}`;
+      }
+    }
 
-      // Semester label
-      labels += `<text x="${PADX}" y="${y - 50}" class="qm-sem-label">${escapeHtml((window.I18N?.t?.("semester") || "Semestre") + " " + (sem.number || ""))}</text>`;
-      labels += `<text x="${PADX}" y="${y - 32}" class="qm-sem-title">${escapeHtml(localized(sem.title, sem.id))}</text>`;
-
-      // Edges + nodes
-      let prev = null;
-      chapters.forEach((ch, cIdx) => {
-        const cx = PADX + dx * cIdx;
-        const cy = y;
-        const status = chapterStatus(ch);
-        const hue = HUES[ch.id] != null ? HUES[ch.id] : 215;
-        const stateClass =
-          status.done === status.total ? "qm-node--done"
-          : status.done > 0 ? "qm-node--in-progress"
-          : status.reading > 0 ? "qm-node--seen"
-          : "qm-node--locked";
-
-        // Edge
-        if (prev) {
-          edges += `<path d="M ${prev.cx} ${prev.cy} C ${prev.cx + dx/2} ${prev.cy}, ${cx - dx/2} ${cy}, ${cx} ${cy}" class="qm-edge" />`;
-        }
-        prev = { cx, cy };
-
-        // Node (group is clickable)
-        const firstLessonId = ch.lessons[0]
-          ? `${ch.lessons[0].semester}/${ch.lessons[0].chapter}/${ch.lessons[0].lesson}`
-          : null;
-
-        // Lesson pips around the node
-        const pipR = 4;
-        const ringR = 38;
-        let pips = "";
-        ch.lessons.forEach((e, li) => {
-          const total = ch.lessons.length;
-          const ang = -Math.PI / 2 + (li / Math.max(1, total)) * Math.PI * 2;
-          const px = cx + Math.cos(ang) * ringR;
-          const py = cy + Math.sin(ang) * ringR;
-          const id = `${e.semester}/${e.chapter}/${e.lesson}`;
-          const isDone = window.Progress.isCompleted(id);
-          const reading = window.Progress.getReading(id);
-          const cls = isDone ? "qm-pip qm-pip--done" : reading > 0 ? "qm-pip qm-pip--seen" : "qm-pip";
-          pips += `<circle cx="${px}" cy="${py}" r="${pipR}" class="${cls}" data-lesson="${escapeHtml(id)}"><title>${escapeHtml(localized(e.title, e.lesson))}</title></circle>`;
-        });
-
-        nodes += `
-          <g class="qm-node ${stateClass}" data-chapter="${escapeHtml(ch.id)}" data-lesson="${escapeHtml(firstLessonId || "")}" style="--qm-hue:${hue};">
-            <circle cx="${cx}" cy="${cy}" r="28" class="qm-node-shape"/>
-            <text x="${cx}" y="${cy + 5}" class="qm-node-label" text-anchor="middle">Ch.${ch.number ?? cIdx + 1}</text>
-            ${pips}
-            <text x="${cx}" y="${cy + 60}" class="qm-node-title" text-anchor="middle">${escapeHtml(truncate(localized(ch.title, ch.id), 26))}</text>
-            <text x="${cx}" y="${cy + 76}" class="qm-node-progress" text-anchor="middle">${status.done}/${status.total}</text>
-          </g>
-        `;
+    // Lesson pips along the trail edges (small dots between chapter nodes,
+    // representing lessons inside the chapter you're walking through).
+    let pips = "";
+    positions.forEach((p, i) => {
+      const total = p.ch.lessons.length;
+      // Distribute pips on a small ring around each chapter sigil.
+      p.ch.lessons.forEach((e, li) => {
+        const ang = -Math.PI / 2 + (li / Math.max(1, total)) * Math.PI * 2;
+        const r = 38;
+        const x = p.x + Math.cos(ang) * r;
+        const y = p.y + Math.sin(ang) * r;
+        const id = `${e.semester}/${e.chapter}/${e.lesson}`;
+        const isDone = window.Progress.isCompleted(id);
+        const reading = window.Progress.getReading(id);
+        const cls = isDone ? "qm-pip qm-pip--done" : reading > 0 ? "qm-pip qm-pip--seen" : "qm-pip";
+        pips += `<circle cx="${x}" cy="${y}" r="3.6" class="${cls}" data-lesson="${escapeHtml(id)}"><title>${escapeHtml(localized(e.title, e.lesson))}</title></circle>`;
       });
     });
+
+    // Chapter sigils (clickable groups).
+    let sigils = "";
+    let semBands = "";
+    let prevSemester = null;
+    positions.forEach((p, i) => {
+      const ch = p.ch;
+      const status = chapterStatus(ch);
+      const hue = HUES[ch.id] != null ? HUES[ch.id] : 215;
+      const glyph = GLYPHS[ch.id] || "◆";
+      const firstLessonId = ch.lessons[0]
+        ? `${ch.lessons[0].semester}/${ch.lessons[0].chapter}/${ch.lessons[0].lesson}`
+        : "";
+
+      // Semester divider band
+      if (ch.semester !== prevSemester) {
+        prevSemester = ch.semester;
+        const semY = p.y + 80;
+        const semTitle = localized(ch.semesterTitle, ch.semester);
+        const semLabel = (window.I18N && window.I18N.t && window.I18N.t("semester")) || "Semestre";
+        semBands +=
+          `<g class="qm-sem-band">` +
+          `<line x1="40" y1="${semY}" x2="${W - 40}" y2="${semY}" stroke="rgba(120,90,40,0.35)" stroke-width="1" stroke-dasharray="4 5"/>` +
+          `<text x="${W / 2}" y="${semY - 8}" class="qm-sem-label" text-anchor="middle">${escapeHtml(semLabel + " " + (ch.semesterNumber || ""))}</text>` +
+          `<text x="${W / 2}" y="${semY + 18}" class="qm-sem-title" text-anchor="middle">${escapeHtml(semTitle)}</text>` +
+          `</g>`;
+      }
+
+      sigils += `
+        <g class="qm-node ${status.cls}" data-lesson="${escapeHtml(firstLessonId)}" style="--qm-hue:${hue};">
+          <circle cx="${p.x}" cy="${p.y}" r="34" class="qm-node-shape"/>
+          <circle cx="${p.x}" cy="${p.y}" r="26" class="qm-node-inner"/>
+          <text x="${p.x}" y="${p.y + 8}" class="qm-node-glyph" text-anchor="middle">${glyph}</text>
+          <text x="${p.x}" y="${p.y + 56}" class="qm-node-title" text-anchor="middle">Ch.${ch.number ?? i + 1} — ${escapeHtml(truncate(localized(ch.title, ch.id), 22))}</text>
+          <text x="${p.x}" y="${p.y + 71}" class="qm-node-progress" text-anchor="middle">${status.done}/${status.total}</text>
+        </g>
+      `;
+    });
+
+    // Start / Summit banners
+    const lastY = positions.length ? positions[positions.length - 1].y : H / 2;
+    const firstY = positions.length ? positions[0].y : H / 2;
+    const topBanner = `
+      <g class="qm-banner">
+        <text x="${W / 2}" y="${Math.max(40, lastY - 60)}" class="qm-banner-title" text-anchor="middle">⛰ Sommet</text>
+        <text x="${W / 2}" y="${Math.max(60, lastY - 42)}" class="qm-banner-sub" text-anchor="middle">— Maître analyste —</text>
+      </g>
+    `;
+    const bottomBanner = `
+      <g class="qm-banner">
+        <text x="${W / 2}" y="${Math.min(H - 30, firstY + 80)}" class="qm-banner-title" text-anchor="middle">★ Départ</text>
+        <text x="${W / 2}" y="${Math.min(H - 14, firstY + 98)}" class="qm-banner-sub" text-anchor="middle">— ton aventure commence ici —</text>
+      </g>
+    `;
 
     view.innerHTML = `
       <svg viewBox="0 0 ${W} ${H}" class="qm-svg" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <pattern id="qm-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <pattern id="qm-paper" width="180" height="180" patternUnits="userSpaceOnUse">
+            <rect width="180" height="180" fill="#e7d8b6"/>
+            <circle cx="40" cy="60" r="0.8" fill="rgba(60,40,15,0.2)"/>
+            <circle cx="120" cy="40" r="0.8" fill="rgba(60,40,15,0.18)"/>
+            <circle cx="80" cy="130" r="1" fill="rgba(60,40,15,0.16)"/>
+            <circle cx="155" cy="160" r="0.6" fill="rgba(60,40,15,0.2)"/>
+            <circle cx="20" cy="160" r="0.6" fill="rgba(60,40,15,0.18)"/>
           </pattern>
+          <radialGradient id="qm-vignette" cx="50%" cy="50%" r="65%">
+            <stop offset="60%" stop-color="rgba(0,0,0,0)"/>
+            <stop offset="100%" stop-color="rgba(70,40,15,0.45)"/>
+          </radialGradient>
+          <filter id="qm-shadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="rgba(0,0,0,0.35)"/>
+          </filter>
         </defs>
-        <rect width="${W}" height="${H}" fill="url(#qm-grid)"/>
-        <g class="qm-edges">${edges}</g>
-        <g class="qm-labels">${labels}</g>
-        <g class="qm-nodes">${nodes}</g>
+        <rect width="${W}" height="${H}" fill="url(#qm-paper)"/>
+        <rect width="${W}" height="${H}" fill="url(#qm-vignette)"/>
+        ${semBands}
+        ${path ? `<path d="${path}" fill="none" stroke="rgba(80,50,15,0.55)" stroke-width="3" stroke-dasharray="6 6" stroke-linecap="round"/>` : ""}
+        <g class="qm-pips">${pips}</g>
+        <g class="qm-nodes" filter="url(#qm-shadow)">${sigils}</g>
+        ${bottomBanner}
+        ${topBanner}
       </svg>
     `;
     if (legend) {
-      legend.textContent =
-        "🌑 verrouillé · 👁 entamé · ⚙ en cours · ✓ terminé — clique un chapitre pour y aller";
+      legend.textContent = "Du Départ ↑ vers le Sommet — touche un sceau pour y aller";
     }
 
-    // Events
     view.querySelectorAll(".qm-node").forEach(g => {
       g.addEventListener("click", () => {
         const id = g.dataset.lesson;
@@ -182,21 +254,17 @@
     });
   }
 
-  function escapeHtml(s) {
-    return String(s ?? "")
-      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
-  }
-  function truncate(s, n) {
-    s = String(s || "");
-    return s.length > n ? s.slice(0, n - 1) + "…" : s;
-  }
-
   function open() {
     render();
     const panel = $("#quest-map");
     if (panel) panel.removeAttribute("hidden");
     if (window.PanelLock) window.PanelLock.lock();
+    // Auto-scroll to the bottom (start of the journey) so the user sees
+    // where they are now, and can scroll up to discover the path ahead.
+    requestAnimationFrame(() => {
+      const view = $("#quest-map-view");
+      if (view) view.scrollTop = view.scrollHeight;
+    });
   }
   function close() {
     const panel = $("#quest-map");

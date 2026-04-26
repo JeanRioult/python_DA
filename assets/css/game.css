@@ -47,6 +47,83 @@ html[data-theme="dark"] .xp-badge {
   color: #cfe6ff;
 }
 
+.rank-badge {
+  border-color: #b97a14;
+  background: linear-gradient(180deg, #ffe9a8, #ffd96a);
+  color: #5a3a0a;
+  font-style: italic;
+}
+html[data-theme="dark"] .rank-badge {
+  background: linear-gradient(180deg, #6b5018, #3f2f08);
+  color: #ffe9a8;
+}
+
+/* Hide rank badge text on narrow phones (icon stays as a tappable hint) */
+@media (max-width: 480px) {
+  .rank-badge .badge-value { display: none; }
+}
+
+/* Rank summary inside the achievements fieldset */
+.rank-summary {
+  background: var(--accent-soft);
+  padding: var(--space-2);
+  border-radius: var(--radius);
+  margin-bottom: var(--space-2);
+  border: 1px solid var(--border);
+}
+.rank-summary-cur {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.rank-summary-cur .rank-icon { font-size: 1.2rem; }
+.rank-summary-cur .rank-name { flex: 1; }
+.rank-summary-cur .rank-xp {
+  color: var(--text-soft);
+  font-variant-numeric: tabular-nums;
+}
+.rank-summary-next { display: flex; flex-direction: column; gap: 4px; }
+.rank-bar {
+  background: rgba(0, 0, 0, 0.08);
+  height: 6px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.rank-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ffd96a, #d97a3a);
+  transition: width 400ms;
+}
+.rank-summary-hint {
+  font-size: 0.8rem;
+  color: var(--text-soft);
+}
+.rank-ladder-details summary {
+  cursor: pointer;
+  font-size: 0.82rem;
+  color: var(--text-soft);
+  margin-top: 4px;
+}
+.rank-ladder {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-1) 0 0;
+  display: grid;
+  gap: 2px;
+  font-size: 0.85rem;
+}
+.rank-ladder li {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.rank-ladder li.on  { background: rgba(255, 215, 130, 0.2); font-weight: 700; }
+.rank-ladder li.off { color: var(--text-soft); }
+.rank-ladder li .rank-min { font-variant-numeric: tabular-nums; }
+
 /* Achievements list (in settings panel) */
 .achievements-list {
   display: grid;

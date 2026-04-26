@@ -96,6 +96,14 @@
 }
 
 /* ---------- Library: grid of cards ---------- */
+.library-tagline {
+  margin: 0 0 var(--space-3);
+  color: #b9b6ad;
+  font-size: 0.9rem;
+  text-align: center;
+}
+.library-tagline strong { color: #ffd96a; }
+
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -103,6 +111,19 @@
   align-items: start;
 }
 .cards-grid .mtg-card { cursor: pointer; }
+.cards-grid-item--locked .mtg-card--facedown { cursor: pointer; }
+.cards-grid-item--locked .mtg-frame { position: relative; }
+.cards-grid-item--locked .facedown-cap {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.65rem;
+  color: rgba(255, 215, 130, 0.85);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
 
 /* ---------- Inspect / Practice stage ---------- */
 .cards-stage {
@@ -254,6 +275,11 @@
   height: 100%;
   border-radius: 9px;
   background:
+    /* subtle aged-paper speckle */
+    radial-gradient(circle at 22% 18%, rgba(0,0,0,0.05) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 78% 62%, rgba(0,0,0,0.04) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 35% 88%, rgba(0,0,0,0.04) 0 1px, transparent 1.5px),
+    /* paper layering */
     linear-gradient(180deg,
       var(--c-paper) 0%,
       var(--c-paper) 38%,
@@ -263,6 +289,7 @@
       var(--c-paper-shade) 71.4%,
       var(--c-paper) 72%,
       var(--c-paper) 100%);
+  background-size: 220px 220px, 180px 180px, 260px 260px, auto;
   box-shadow:
     0 0 0 1px rgba(0, 0, 0, 0.25) inset,
     0 1px 0 rgba(255, 255, 255, 0.6) inset;
@@ -272,6 +299,21 @@
   color: var(--c-ink);
   overflow: hidden;
 }
+
+/* Filigree corners (CSS-only flourish) */
+.mtg-corner {
+  position: absolute;
+  font-size: 11px;
+  color: hsl(var(--c-hue) 40% 35%);
+  opacity: 0.55;
+  pointer-events: none;
+  line-height: 1;
+}
+.mtg-corner-tl { top: 4px;    left: 6px;   transform: rotate(-45deg); }
+.mtg-corner-tr { top: 4px;    right: 6px;  transform: rotate(45deg); }
+.mtg-corner-bl { bottom: 4px; left: 6px;   transform: rotate(-135deg); }
+.mtg-corner-br { bottom: 4px; right: 6px;  transform: rotate(135deg); }
+.mtg-card--mini .mtg-corner { font-size: 9px; }
 
 /* Title bar */
 .mtg-title-bar {
@@ -340,6 +382,43 @@
   gap: 6px;
 }
 .mtg-type .glyph { color: var(--c2); font-size: 0.95em; }
+.mtg-type .mtg-type-name { flex: 1; }
+.mtg-type .mtg-set {
+  flex: 0 0 auto;
+  font-size: 0.95em;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: hsl(var(--c-hue) 30% 30%);
+}
+
+/* Rarity tiers — set-symbol color + frame embellishment */
+.mtg-card--common   .mtg-set { color: hsl(var(--c-hue) 25% 35%); }
+.mtg-card--uncommon .mtg-set { color: hsl(var(--c-hue) 60% 50%); text-shadow: 0 1px 0 rgba(255,255,255,.5); }
+.mtg-card--rare {
+  background:
+    radial-gradient(120% 80% at 50% 0%, var(--c1), transparent 55%),
+    linear-gradient(180deg,
+      hsl(var(--c-hue) 60% 58%) 0%,
+      hsl(var(--c-hue) 70% 38%) 100%);
+}
+.mtg-card--rare .mtg-set { color: #b97a14; text-shadow: 0 1px 0 rgba(255,255,255,.7); }
+.mtg-card--rare .mtg-frame { box-shadow:
+  0 0 0 1px rgba(185, 122, 20, 0.55) inset,
+  0 1px 0 rgba(255, 255, 255, 0.6) inset; }
+
+.mtg-card--mythic {
+  background:
+    radial-gradient(120% 80% at 50% 0%, #ffd96a, transparent 55%),
+    linear-gradient(180deg, #d97a3a 0%, #6b1d1d 100%);
+}
+.mtg-card--mythic .mtg-set { color: #c4503e; text-shadow: 0 1px 0 rgba(255,255,255,.7); }
+.mtg-card--mythic .mtg-frame {
+  box-shadow:
+    0 0 0 1px rgba(196, 80, 62, 0.7) inset,
+    0 0 0 2px rgba(255, 215, 130, 0.35) inset,
+    0 1px 0 rgba(255, 255, 255, 0.6) inset;
+}
+.mtg-card--mythic .mtg-corner { color: #c4503e; opacity: 0.85; }
 
 /* Body */
 .mtg-text {
@@ -558,17 +637,68 @@
   100% { box-shadow: 0 0 0 rgba(255, 215, 130, 0); }
 }
 
-/* Mobile tweaks */
+/* Mobile tweaks — narrow portrait phones */
 @media (max-width: 640px) {
-  .cards-shell { border-radius: 0; height: 100%; }
-  .cards-bar { grid-template-columns: auto 1fr auto; gap: var(--space-2); padding: var(--space-2); }
-  .cards-tab { padding: 4px 10px; font-size: 0.85rem; }
-  .cards-meta { font-size: 0.75rem; }
-  .cards-view { padding: var(--space-3); }
-  .cards-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: var(--space-2); }
-  .cards-stage { grid-template-columns: 1fr; }
+  .cards-panel { padding: 0; align-items: stretch; }
+  .cards-shell {
+    border-radius: 0;
+    height: 100dvh;          /* dvh handles iOS dynamic toolbar */
+    max-height: 100dvh;
+    width: 100%;
+    grid-template-rows: auto auto 1fr;  /* meta wraps to its own row */
+  }
+
+  /* Stack the bar: row 1 = tabs + close, row 2 = meta (centered, smaller) */
+  .cards-bar {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "tabs   close"
+      "meta   meta";
+    gap: var(--space-1);
+    padding: var(--space-2);
+  }
+  .cards-tabs   { grid-area: tabs;  flex-wrap: wrap; }
+  .cards-meta   { grid-area: meta;  font-size: 0.75rem; align-items: center; }
+  .cards-bar > .icon-btn { grid-area: close; }
+
+  .cards-tab { padding: 4px 9px; font-size: 0.78rem; }
+  .cards-tab .due-count { font-size: 0.65rem; }
+  #cards-print { padding: 4px 8px; }
+
+  .cards-view { padding: var(--space-2); }
+  .cards-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: var(--space-2);
+  }
+
+  /* The single-card stage on phones */
+  .cards-stage {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    padding: var(--space-2) 0;
+  }
+  .cards-stage-center { min-height: 0; }
   .cards-nav { display: none; }
-  .mtg-card--large, .mtg-card-flipper, .deck-stack { width: min(280px, 80vw); }
+  .mtg-card--large,
+  .mtg-card-flipper,
+  .deck-stack { width: min(78vw, 320px); }
+
+  /* Tighten the deck-stack offsets so back cards don't push off-screen */
+  .deck-stack > .deck-back-1 { transform: translate(4px, 4px) rotate(0.6deg); }
+  .deck-stack > .deck-back-2 { transform: translate(8px, 8px) rotate(1.2deg); }
+  .deck-stack > .deck-back-3 { transform: translate(12px, 12px) rotate(1.8deg); }
+
+  .cards-controls { padding: var(--space-2) 0; }
+  .cards-controls .cta-flip,
+  .cards-controls .cta-practice { padding: var(--space-2) var(--space-3); font-size: 0.92rem; }
+
+  .practice-hud { font-size: 0.85rem; gap: var(--space-3); padding: var(--space-1) 0 var(--space-2); }
+}
+
+/* Very narrow phones (iPhone SE etc.) */
+@media (max-width: 380px) {
+  .cards-tab { padding: 3px 7px; font-size: 0.72rem; }
+  .mtg-card--large, .mtg-card-flipper, .deck-stack { width: min(82vw, 280px); }
 }
 
 @media (prefers-reduced-motion: reduce) {

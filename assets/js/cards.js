@@ -10,17 +10,19 @@
 
   const CONTENT_ROOT = "content";
 
-  // Chapter color identity (MTG-style "mana" identity)
+  // Chapter color identity (MTG-style "mana" identity).
+  // Each chapter also has a *signature motif* used by the procedural art
+  // generator so its cards feel coherent (instead of random per card).
   const CHAPTER_THEMES = {
-    "chapter-01-apprendre-a-apprendre":      { hue:  48, glyph: "✦", type: "Discipline" },
-    "chapter-02-qu-est-ce-qu-une-donnee":    { hue: 215, glyph: "◈", type: "Donnée" },
-    "chapter-03-logique-raisonnement":       { hue: 270, glyph: "✶", type: "Logique" },
-    "chapter-04-mathematiques-fondamentales":{ hue:   8, glyph: "✺", type: "Mathématiques" },
-    "chapter-05-premiers-pas-python":        { hue: 145, glyph: "❋", type: "Python" },
-    "chapter-06-controle-du-flux":           { hue:  28, glyph: "❖", type: "Algorithme" },
-    "chapter-07-tableurs":                   { hue: 175, glyph: "▦", type: "Tableur" },
-    "chapter-08-ecrire-argumenter":          { hue: 320, glyph: "✎", type: "Rhétorique" },
-    "chapter-09-methode-scientifique":       { hue: 195, glyph: "⚛", type: "Science" },
+    "chapter-01-apprendre-a-apprendre":      { hue:  48, glyph: "✦", type: "Discipline",    motif: "constellation" },
+    "chapter-02-qu-est-ce-qu-une-donnee":    { hue: 215, glyph: "◈", type: "Donnée",        motif: "hexgrid" },
+    "chapter-03-logique-raisonnement":       { hue: 270, glyph: "✶", type: "Logique",       motif: "rings" },
+    "chapter-04-mathematiques-fondamentales":{ hue:   8, glyph: "✺", type: "Mathématiques", motif: "triangulated" },
+    "chapter-05-premiers-pas-python":        { hue: 145, glyph: "❋", type: "Python",        motif: "spiral" },
+    "chapter-06-controle-du-flux":           { hue:  28, glyph: "❖", type: "Algorithme",    motif: "waves" },
+    "chapter-07-tableurs":                   { hue: 175, glyph: "▦", type: "Tableur",       motif: "grid" },
+    "chapter-08-ecrire-argumenter":          { hue: 320, glyph: "✎", type: "Rhétorique",    motif: "rings" },
+    "chapter-09-methode-scientifique":       { hue: 195, glyph: "⚛", type: "Science",       motif: "orbits" },
   };
   const TYPE_EN = {
     "Discipline":"Discipline","Donnée":"Data","Logique":"Logic","Mathématiques":"Mathematics",
@@ -63,13 +65,20 @@
   }
 
   // ----- Procedural SVG art -----
-  // Five styles, picked by hash. Uses card hue (light variants).
-  const ART_STYLES = ["constellation", "rings", "triangulated", "hexgrid", "waves"];
+  // Eight motifs. The chapter's signature motif is used by default; some
+  // cards (1 in 4, deterministic by id) get a "wild" motif for variety.
+  const ART_STYLES = ["constellation", "rings", "triangulated", "hexgrid",
+                      "waves", "spiral", "grid", "orbits"];
 
   function svgArt(card, theme) {
     const seed = strHash(card.id || "x");
     const rand = mulberry32(seed);
-    const style = ART_STYLES[Math.floor(rand() * ART_STYLES.length)];
+    // 1-in-4 cards break from the chapter motif for variety; the rest
+    // share the chapter's signature for visual cohesion.
+    const useWild = rand() < 0.25;
+    const style = useWild
+      ? ART_STYLES[Math.floor(rand() * ART_STYLES.length)]
+      : (theme.motif || "constellation");
     const w = 200, h = 130;
     const hue = theme.hue;
     const stroke = `hsl(${hue}, 55%, 22%)`;
@@ -153,6 +162,54 @@
         const f = layer === 2 ? accent : (layer % 2 ? fillA : fillB);
         body += `<path d="${d}" fill="${f}" fill-opacity="${0.18 + layer * 0.07}"/>`;
       }
+    } else if (style === "spiral") {
+      const cx = w * 0.55, cy = h * 0.55;
+      const turns = 4.5;
+      const steps = 220;
+      let d = `M ${cx} ${cy}`;
+      for (let i = 1; i <= steps; i++) {
+        const t = i / steps;
+        const a = t * turns * Math.PI * 2;
+        const r = t * 60;
+        d += ` L ${cx + Math.cos(a) * r} ${cy + Math.sin(a) * r}`;
+      }
+      body += `<path d="${d}" fill="none" stroke="${stroke}" stroke-opacity="0.55" stroke-width="1"/>`;
+      // Sparkle dots along the spiral
+      for (let i = 0; i < 8; i++) {
+        const t = (i + 0.5) / 8;
+        const a = t * turns * Math.PI * 2;
+        const r = t * 60;
+        body += `<circle cx="${cx + Math.cos(a) * r}" cy="${cy + Math.sin(a) * r}" r="2" fill="${i === 4 ? accent : fillB}"/>`;
+      }
+    } else if (style === "grid") {
+      // Spreadsheet-style: rows + columns with one highlighted cell.
+      const cols = 8, rows = 5;
+      const cw = w / cols, rh = h / rows;
+      for (let i = 1; i < cols; i++) {
+        body += `<line x1="${i * cw}" y1="0" x2="${i * cw}" y2="${h}" stroke="${stroke}" stroke-opacity="0.25" stroke-width="0.6"/>`;
+      }
+      for (let j = 1; j < rows; j++) {
+        body += `<line x1="0" y1="${j * rh}" x2="${w}" y2="${j * rh}" stroke="${stroke}" stroke-opacity="0.25" stroke-width="0.6"/>`;
+      }
+      const hi = 1 + Math.floor(rand() * (cols - 2));
+      const hj = 1 + Math.floor(rand() * (rows - 2));
+      body += `<rect x="${hi * cw}" y="${hj * rh}" width="${cw}" height="${rh}" fill="${accent}" fill-opacity="0.7"/>`;
+      body += `<rect x="${hi * cw + cw}" y="${hj * rh}" width="${cw}" height="${rh}" fill="${fillB}" fill-opacity="0.45"/>`;
+    } else if (style === "orbits") {
+      const cx = w * 0.5, cy = h * 0.55;
+      body += `<circle cx="${cx}" cy="${cy}" r="6" fill="${accent}"/>`;
+      const orbits = 4;
+      for (let o = 0; o < orbits; o++) {
+        const rx = 18 + o * 14;
+        const ry = (12 + o * 10) * (0.5 + rand() * 0.5);
+        const tilt = -20 + rand() * 40;
+        body += `<g transform="rotate(${tilt} ${cx} ${cy})">`;
+        body += `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="none" stroke="${stroke}" stroke-opacity="0.4" stroke-width="0.7"/>`;
+        // satellite on each orbit
+        const a = rand() * Math.PI * 2;
+        body += `<circle cx="${cx + Math.cos(a) * rx}" cy="${cy + Math.sin(a) * ry}" r="${1.5 + o * 0.4}" fill="${fillB}"/>`;
+        body += `</g>`;
+      }
     }
 
     // Decorative corner glyph
@@ -185,6 +242,16 @@
     }
     return escapeHtml(raw);
   }
+  // Rarity is deterministic per card and acts as a visual reward.
+  // Distribution: ~55% commune, 30% peu commune, 12% rare, 3% mythique.
+  function rarityFor(cardId) {
+    const r = (strHash(cardId + "rarity") % 1000) / 1000;
+    if (r < 0.55) return { id: "common",   label: "Commune",     pip: "●" };
+    if (r < 0.85) return { id: "uncommon", label: "Peu commune", pip: "◆" };
+    if (r < 0.97) return { id: "rare",     label: "Rare",        pip: "★" };
+    return                 { id: "mythic",   label: "Mythique",    pip: "✦" };
+  }
+
   function makeCardHtml(card, chapterRef, side, opts = {}) {
     const theme = themeFor(chapterRef.chapter);
     const sideText = side === "back"
@@ -192,20 +259,26 @@
       : localized(card.front, "");
     const collector = card.id || "—";
     const chNum = (collector.match(/c(\d+)/i) || [])[1] || "?";
-    const cardNum = (collector.match(/f(\d+)/i) || [])[1] || "?";
     const mastery = window.Progress.getCardState(card.id).level || 0;
     const sizeClass = opts.large ? "mtg-card--large" : (opts.mini ? "mtg-card--mini" : "");
     const foil = mastery >= 4 ? "mtg-card--foil" : "";
+    const rarity = rarityFor(card.id || "x");
     const titleSrc = card.title
       ? localized(card.title, "")
       : (side === "back" ? "Réponse" : (theme.type));
     const title = (window.I18N.current === "en" && side === "back") ? "Answer" : titleSrc;
     return `
-      <div class="mtg-card ${sizeClass} ${foil}" data-card-id="${escapeHtml(card.id || "")}"
+      <div class="mtg-card ${sizeClass} ${foil} mtg-card--${rarity.id}"
+           data-card-id="${escapeHtml(card.id || "")}"
            data-side="${side}"
            data-mastery="${mastery}"
+           data-rarity="${rarity.id}"
            style="--c-hue:${theme.hue};">
         <div class="mtg-frame">
+          <span class="mtg-corner mtg-corner-tl" aria-hidden="true">❦</span>
+          <span class="mtg-corner mtg-corner-tr" aria-hidden="true">❦</span>
+          <span class="mtg-corner mtg-corner-bl" aria-hidden="true">❦</span>
+          <span class="mtg-corner mtg-corner-br" aria-hidden="true">❦</span>
           <div class="mtg-title-bar">
             <span class="mtg-title">${escapeHtml(title)}</span>
             <span class="mtg-pip" aria-hidden="true">${theme.glyph}</span>
@@ -213,7 +286,8 @@
           <div class="mtg-art">${svgArt(card, theme)}</div>
           <div class="mtg-type">
             <span class="glyph">${theme.glyph}</span>
-            <span>${escapeHtml(typeText(theme))} · Ch.${chNum}</span>
+            <span class="mtg-type-name">${escapeHtml(typeText(theme))} · Ch.${chNum}</span>
+            <span class="mtg-set" title="${rarity.label}">${rarity.pip}</span>
           </div>
           <div class="mtg-text">${bodyText(sideText)}</div>
           <div class="mtg-footer">
@@ -348,23 +422,69 @@
   }
 
   // ----- Library mode -----
+  // Card ownership rule: a card is "owned" only after the user has answered
+  // it correctly at least once (Progress.cardState.knew > 0). Unowned cards
+  // appear face-down in the library — you must practice & succeed to reveal
+  // their content. This makes the deck feel like a real collection.
+  function isOwned(card) {
+    return (window.Progress.getCardState(card.id).knew || 0) > 0;
+  }
+
   function renderLibrary() {
     const view = $("#cards-view");
     if (!view) return;
+    const ownedCount = M.cards.filter(isOwned).length;
+    const total = M.cards.length;
     const html = `
+      <p class="library-tagline">
+        ${ownedCount} / ${total} carte${total > 1 ? "s" : ""} obtenue${ownedCount > 1 ? "s" : ""} —
+        ${ownedCount < total ? `joue en mode <strong>Pratique</strong> pour révéler les autres` : `tu as toute la collection ✨`}
+      </p>
       <div class="cards-grid">
-        ${M.cards.map((c, i) => `
-          <a href="#" class="cards-grid-item" data-idx="${i}" aria-label="Inspecter la carte">
-            ${makeCardHtml(c, M.chapterRef, "front", { mini: true })}
-          </a>
-        `).join("")}
+        ${M.cards.map((c, i) => {
+          const owned = isOwned(c);
+          if (owned) {
+            return `<a href="#" class="cards-grid-item" data-idx="${i}" aria-label="Inspecter la carte">
+              ${makeCardHtml(c, M.chapterRef, "front", { mini: true })}
+            </a>`;
+          }
+          // Face-down: no answer revealed, but show a teaser (the type) so
+          // the user has a sense of "what's there".
+          const theme = themeFor(M.chapterRef.chapter);
+          return `<a href="#" class="cards-grid-item cards-grid-item--locked" data-idx="${i}"
+                     aria-label="Carte à découvrir — joue en pratique pour la révéler">
+            <div class="mtg-card mtg-card--mini mtg-card--facedown" style="--c-hue:${theme.hue};">
+              <div class="mtg-frame">
+                <span class="mtg-back-glyph">${theme.glyph}</span>
+                <span class="facedown-cap">à découvrir</span>
+              </div>
+            </div>
+          </a>`;
+        }).join("")}
       </div>
     `;
     view.innerHTML = html;
     view.querySelectorAll(".cards-grid-item").forEach(a => {
       a.addEventListener("click", (e) => {
         e.preventDefault();
-        M.inspectIdx = parseInt(a.dataset.idx, 10) || 0;
+        const idx = parseInt(a.dataset.idx, 10) || 0;
+        const c = M.cards[idx];
+        if (!isOwned(c)) {
+          // Jump straight into a single-card practice so they can earn it.
+          M.queue = [idx];
+          M.qIdx = 0;
+          M.flipped = false;
+          M.streak = 0;
+          M.sessionKnew = 0;
+          M.sessionMissed = 0;
+          M.bestStreak = 0;
+          M.mode = "practice";
+          $$("#flashcards .cards-tab[data-mode]").forEach(b =>
+            b.setAttribute("aria-selected", b.dataset.mode === "practice" ? "true" : "false"));
+          renderPractice();
+          return;
+        }
+        M.inspectIdx = idx;
         M.inspectFlipped = false;
         setMode("inspect");
       });
