@@ -320,6 +320,15 @@
     }
   }
 
+  function wireOeuvreBtn() {
+    const btn = $("#oeuvre-btn");
+    if (!btn || !window.Oeuvres) return;
+    btn.addEventListener("click", () => {
+      if (btn.disabled) return;
+      window.Oeuvres.openForCurrentChapter();
+    });
+  }
+
   function wireRestartLessonBtn() {
     const btn = $("#restart-lesson-btn");
     if (!btn) return;
@@ -395,6 +404,7 @@
     updateProgressBar();
     updateCompleteButton();
     refreshCardsAvailability();
+    if (window.Oeuvres) window.Oeuvres.refreshAvailability();
     window.scrollTo({ top: 0, behavior: "instant" });
     $("#main").focus();
     // Reset reading tracker for the new lesson and reflect saved depth.
@@ -628,6 +638,7 @@
         window.Game.recordActivity();
         window.Game.checkAchievements();
       }
+      if (window.Oeuvres) window.Oeuvres.refreshAvailability();
 
       // Navigate to the next lesson in the linear index if one exists.
       const idx = state.index.findIndex(e => lessonKey(e) === state.currentLessonId);
@@ -986,6 +997,7 @@
     wireLangToggle();
     wireCompleteBtn();
     wireRestartLessonBtn();
+    wireOeuvreBtn();
     wireSearch();
     wireCards();
 
@@ -1006,6 +1018,9 @@
 
     if (window.Game) window.Game.init({ getIndex: () => state.index });
     if (window.QuestMap) window.QuestMap.init({ getIndex: () => state.index });
+    if (window.Oeuvres) window.Oeuvres.init({ getIndex: () => state.index });
+    // Expose current lesson id for oeuvres.js
+    window.AppCurrentLessonId = () => state.currentLessonId;
     renderToc();
     updateProgressBar();
     await renderLesson();

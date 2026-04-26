@@ -1,0 +1,154 @@
+/* Œuvre de compagnon — modal panel for chapter-end synthesis exercises. */
+
+#oeuvre-btn {
+  background: linear-gradient(180deg, #5a3a18, #2a1a08);
+  color: #ffe9a8;
+  border: 1px solid rgba(255, 215, 130, 0.4);
+}
+#oeuvre-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+#oeuvre-btn.oeuvre-ready {
+  background: linear-gradient(180deg, #8a5818, #4a2a08);
+  border-color: #ffd96a;
+  box-shadow: 0 0 12px rgba(255, 215, 130, 0.35);
+  animation: oeuvre-pulse 2.4s ease-in-out infinite;
+}
+#oeuvre-btn.oeuvre-done {
+  background: linear-gradient(180deg, #2e7d52, #1a4a30);
+  color: #fff;
+  border-color: rgba(160, 220, 180, 0.6);
+}
+@keyframes oeuvre-pulse {
+  0%, 100% { box-shadow: 0 0 12px rgba(255, 215, 130, 0.35); }
+  50%      { box-shadow: 0 0 22px rgba(255, 215, 130, 0.7); }
+}
+
+.oeuvre-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background:
+    radial-gradient(900px 600px at 30% 10%, rgba(255, 215, 130, 0.08), transparent 60%),
+    rgba(8, 6, 12, 0.92);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  color: #f0e8d2;
+  padding: var(--space-3);
+  align-items: stretch;
+  justify-content: center;
+}
+.oeuvre-panel[hidden] { display: none; }
+
+.oeuvre-shell {
+  width: min(720px, 100%);
+  max-height: 100%;
+  background: linear-gradient(180deg, #2a1d0e, #16100a);
+  border: 1px solid rgba(255, 215, 130, 0.35);
+  border-radius: 12px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+}
+
+.oeuvre-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3);
+  border-bottom: 1px solid rgba(255, 215, 130, 0.2);
+  background: linear-gradient(180deg, rgba(60, 40, 18, 0.6), transparent);
+}
+.oeuvre-bar h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: #ffd96a;
+  letter-spacing: 0.05em;
+  font-weight: 800;
+}
+.oeuvre-bar .icon-btn {
+  border-color: rgba(255, 215, 130, 0.3);
+  color: #ffd96a;
+}
+.oeuvre-bar .icon-btn:hover { background: rgba(255, 215, 130, 0.1); }
+
+.oeuvre-view {
+  overflow-y: auto;
+  padding: var(--space-4);
+}
+
+.oeuvre-head {
+  text-align: center;
+  margin-bottom: var(--space-4);
+}
+.oeuvre-maitre {
+  margin: 0 0 var(--space-2);
+  font-style: italic;
+  color: #d6c7a3;
+  font-size: 0.92rem;
+}
+.oeuvre-title {
+  margin: 0;
+  font-size: 1.6rem;
+  color: #ffe9a8;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.oeuvre-prompt {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 215, 130, 0.18);
+  border-radius: 8px;
+  padding: var(--space-4);
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: #f0e8d2;
+}
+.oeuvre-prompt p, .oeuvre-prompt li { color: #f0e8d2; }
+.oeuvre-prompt strong { color: #ffd96a; }
+.oeuvre-prompt em { color: #ffe9a8; }
+.oeuvre-prompt code {
+  background: rgba(255, 215, 130, 0.1);
+  color: #ffe9a8;
+  padding: 0.05em 0.4em;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+}
+.oeuvre-prompt pre {
+  background: rgba(0, 0, 0, 0.4);
+  padding: var(--space-2) var(--space-3);
+  border-radius: 6px;
+  overflow-x: auto;
+}
+.oeuvre-view hr {
+  border: none;
+  border-top: 1px solid rgba(255, 215, 130, 0.2);
+  margin: var(--space-4) 0;
+}
+
+.oeuvre-grade-q {
+  font-weight: 700;
+  color: #ffd96a;
+  margin: 0 0 4px;
+}
+.oeuvre-grade-h {
+  margin: 0 0 var(--space-3);
+  color: #b9b6ad;
+  font-size: 0.88rem;
+  font-style: italic;
+}
+.oeuvre-grade-row {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .oeuvre-panel { padding: 0; }
+  .oeuvre-shell { border-radius: 0; height: 100dvh; max-height: 100dvh; }
+  .oeuvre-title { font-size: 1.3rem; }
+  .oeuvre-prompt { padding: var(--space-3); font-size: 0.95rem; }
+}

@@ -1,0 +1,86 @@
+{
+  "_meta": {
+    "doc": "Œuvres de compagnon — synthèses de fin de chapitre. Données réelles INSEE (Recensement, Comptes nationaux, Bilan démographique). Chaque œuvre demande d'APPLIQUER les marques du chapitre, pas seulement de les réciter.",
+    "sources": [
+      "INSEE — Bilan démographique (population, naissances, décès)",
+      "INSEE — Recensement de la population (population par commune et par âge)",
+      "INSEE — Tableaux de l'économie française (TEF)",
+      "INSEE — Enquête Emploi en continu",
+      "INSEE — Comptes nationaux"
+    ]
+  },
+  "oeuvres": {
+    "chapter-01-apprendre-a-apprendre": {
+      "title": { "fr": "Le carnet d'apprentissage", "en": "The learning journal" },
+      "rewardXp": 200,
+      "prompt": {
+        "fr": "Pendant 14 jours, note chaque soir : (a) combien de minutes tu as étudié, (b) une chose que tu as comprise, (c) une chose qui résiste encore. Au bout des 14 jours, écris 200 mots qui répondent à : *quelles deux stratégies des sciences de l'apprentissage as-tu utilisées sans le savoir, et laquelle veux-tu mieux pratiquer ?*\n\nLa donnée à comparer : selon l'enquête INSEE *Emploi du temps* 2010, un actif consacre en moyenne **3h26 par jour aux loisirs** et **environ 30 min à l'instruction et la formation** (hors temps scolaire pour les étudiants). Place-toi par rapport à ces ordres de grandeur.",
+        "en": "For 14 days, write each evening: (a) how many minutes you studied, (b) one thing you understood, (c) one thing that still resists. After 14 days, write 200 words answering: *which two learning-science strategies did you use without knowing, and which one do you want to practise more?*\n\nReference data: INSEE Time-Use Survey 2010, an employed adult spends ~3h26/day on leisure and ~30 min on instruction/training (excluding study time for students). Place yourself against these orders of magnitude."
+      }
+    },
+    "chapter-02-qu-est-ce-qu-une-donnee": {
+      "title": { "fr": "Le revenu médian, vraiment ?", "en": "Median income, really?" },
+      "rewardXp": 250,
+      "prompt": {
+        "fr": "**Donnée brute (INSEE, *Revenus et patrimoine des ménages* 2021)** : revenu disponible **médian** par unité de consommation = **23 160 €/an**. Revenu **moyen** = **27 110 €/an**.\n\nÉcris 200 à 300 mots qui répondent à *trois* questions :\n\n1. Pourquoi la moyenne dépasse-t-elle la médiane ? Que dit cet écart de la distribution ?\n2. Donne deux choix de construction faits par l'INSEE (ex. unité de consommation, période de référence, périmètre des ménages exclus). Pour chacun, explique en une phrase comment un autre choix changerait le chiffre.\n3. Si un journal titrait *« Les Français gagnent en moyenne 27 110 € par an »*, où serait l'imprécision ?",
+        "en": "**Raw data (INSEE, *Household Income and Wealth* 2021)**: median disposable income per consumption unit = €23,160/year. Mean = €27,110/year.\n\nWrite 200–300 words answering three questions:\n\n1. Why does the mean exceed the median? What does the gap reveal about the distribution?\n2. Name two construction choices made by INSEE (e.g. consumption unit, reference period, excluded households). For each, explain in one sentence how another choice would change the number.\n3. If a newspaper wrote *«The French earn an average of €27,110 a year»*, where would the imprecision lie?"
+      }
+    },
+    "chapter-03-logique-raisonnement": {
+      "title": { "fr": "Corrélation ≠ causalité", "en": "Correlation ≠ causation" },
+      "rewardXp": 250,
+      "prompt": {
+        "fr": "**Donnée (INSEE, Recensement 2020)** : les départements français qui comptent le plus de médecins par habitant sont aussi ceux où l'**espérance de vie est la plus élevée** (corrélation positive, ~0,4).\n\nUn lecteur conclut : *« Plus il y a de médecins dans un département, plus on y vit longtemps. Donc augmenter le nombre de médecins augmente l'espérance de vie. »*\n\nEn 200 mots, identifie **deux** failles logiques distinctes dans ce raisonnement (par leur nom : ex. *cum hoc ergo propter hoc*, *ecological fallacy*, *variable confondante*…) et propose une **troisième variable** plausible qui pourrait expliquer la corrélation sans qu'il y ait causalité directe.",
+        "en": "**Data (INSEE, 2020 Census)**: French départements with the most doctors per inhabitant also have the highest life expectancy (positive correlation, ~0.4).\n\nA reader concludes: *«The more doctors in a département, the longer people live there. Therefore increasing the number of doctors increases life expectancy.»*\n\nIn 200 words, name **two** distinct logical flaws in this reasoning (e.g. *cum hoc ergo propter hoc*, *ecological fallacy*, *confounding variable*) and propose a **third variable** that could plausibly explain the correlation without direct causation."
+      }
+    },
+    "chapter-04-mathematiques-fondamentales": {
+      "title": { "fr": "La PME et le journaliste pressé", "en": "The SME and the rushed journalist" },
+      "rewardXp": 300,
+      "prompt": {
+        "fr": "**Donnée** : chiffre d'affaires d'une PME française sur 5 ans, en milliers d'euros : **100 / 110 / 99 / 121 / 145**. (Inspiré des trajectoires médianes de PME, INSEE *Esane* 2018-2022.)\n\nUn journal titre : *« +45 % en 5 ans, soit +9 % par an pour la PME X. »*\n\n1. **Calcule** la variation relative annuelle moyenne *correcte* (taux de croissance annuel composé). Donne le résultat à 0,1 %.\n2. **Explique** en deux phrases pourquoi diviser une variation cumulée par 5 est faux mathématiquement.\n3. **Calcule** ce que devraient être les 5 années si la PME avait *vraiment* fait +9 % chaque année à partir de 100 — pour montrer ce que le « 9 % » du journaliste devrait donner.\n4. **Rédige** la correction en une phrase, comme tu l'écrirais à la rédaction du journal.",
+        "en": "**Data**: SME revenue over 5 years, in thousands of euros: **100 / 110 / 99 / 121 / 145**. (Inspired by median SME trajectories, INSEE Esane 2018-2022.)\n\nA newspaper writes: *«+45 % in 5 years, that's +9 %/year for SME X.»*\n\n1. **Compute** the correct compound annual growth rate to 0.1 %.\n2. **Explain** in two sentences why dividing cumulative change by 5 is mathematically wrong.\n3. **Compute** what the 5-year series would be if the SME really grew +9 % per year from 100, to show what the journalist's 9 % implies.\n4. **Write** the correction as a single sentence to the editor."
+      }
+    },
+    "chapter-05-premiers-pas-python": {
+      "title": { "fr": "Le top 10 des départements", "en": "Top 10 départements" },
+      "rewardXp": 300,
+      "prompt": {
+        "fr": "**Donnée** : un fichier CSV de l'INSEE *Recensement 2020* contient une ligne par département avec deux colonnes : `code_dep` (string, ex. \"75\") et `population` (entier).\n\nÉcris un programme Python qui :\n\n1. Lit le fichier CSV (utilise `csv` ou `pandas`, au choix).\n2. Calcule la population totale de la France métropolitaine (somme des populations).\n3. Affiche les **10 départements les plus peuplés**, du plus peuplé au moins peuplé, sous la forme `75 — 2 165 423`.\n4. Calcule et affiche **quelle proportion** de la population française vit dans ces 10 départements (avec un pourcentage à 0,1 %).\n\nTon code doit tourner sans erreur sur un fichier de 96 lignes, gérer un encodage UTF-8, et — bonus — résister à un fichier vide ou à des lignes mal formées.\n\nRéponds : (a) ton code, (b) une phrase qui interprète le résultat (\"~30 % de la population vit dans 10 départements sur 96\" — ou ce que tu trouves).",
+        "en": "**Data**: an INSEE 2020 Census CSV with one row per département: `code_dep` (string, e.g. \"75\") and `population` (integer).\n\nWrite a Python program that:\n\n1. Reads the CSV (use `csv` or `pandas`).\n2. Computes total metropolitan French population.\n3. Prints the **top 10 départements** by population, e.g. `75 — 2,165,423`.\n4. Prints **what share** of the population lives in those 10 départements (percent to 0.1 %).\n\nIt must run on a 96-line file, handle UTF-8, and — bonus — survive an empty file or malformed rows.\n\nProvide: (a) the code, (b) one sentence interpreting the result."
+      }
+    },
+    "chapter-06-controle-du-flux": {
+      "title": { "fr": "Rural, périurbain, urbain", "en": "Rural, peri-urban, urban" },
+      "rewardXp": 300,
+      "prompt": {
+        "fr": "**Donnée** : l'INSEE classe les communes selon leur densité (grille communale de densité 2022) en 4 catégories. Pour cet exercice, on simplifie en 3 :\n\n- *rurale* : population < 2 000\n- *intermédiaire* : 2 000 ≤ population < 50 000\n- *urbaine* : population ≥ 50 000\n\nÉcris une fonction Python `classer(communes)` qui prend une liste de dictionnaires `{ \"nom\": str, \"population\": int }` et retourne un dictionnaire qui compte combien de communes de chaque catégorie il y a.\n\nContraintes :\n1. Utilise `if / elif / else`, pas une lib externe.\n2. Utilise une boucle `for` pour parcourir la liste.\n3. Si la population est manquante (`None` ou absente), saute la commune sans planter.\n\nDémontre que ça marche en testant sur 10 communes inventées dont au moins une mal formée. Réponds avec : (a) le code, (b) le résultat affiché, (c) une phrase qui décrit comment tu as testé.",
+        "en": "**Data**: INSEE classifies municipalities by density (2022 communal density grid) in 4 tiers. For this exercise we simplify to 3:\n\n- *rural*: population < 2,000\n- *intermediate*: 2,000 ≤ pop < 50,000\n- *urban*: ≥ 50,000\n\nWrite a Python function `classify(communes)` that takes a list of `{ \"name\": str, \"population\": int }` and returns a dictionary counting communes per tier.\n\nConstraints:\n1. Use `if / elif / else`, no external library.\n2. Iterate with `for`.\n3. If population is missing (`None` or absent), skip the commune without crashing.\n\nDemonstrate it on 10 invented communes including at least one malformed. Provide: (a) the code, (b) the printed result, (c) one sentence describing your test."
+      }
+    },
+    "chapter-07-tableurs": {
+      "title": { "fr": "Pyramide des âges, tableau croisé", "en": "Age pyramid, pivot table" },
+      "rewardXp": 300,
+      "prompt": {
+        "fr": "**Donnée** : INSEE *Bilan démographique* 2024 — population française au 1er janvier 2024 par tranche d'âge × sexe (extrait) :\n\n```\nÂge       | Hommes  | Femmes\n0-14 ans  | 5 850   | 5 580\n15-29 ans | 6 200   | 5 970\n30-44 ans | 6 320   | 6 280\n45-59 ans | 6 420   | 6 600\n60-74 ans | 5 690   | 6 320\n75 ans +  | 2 720   | 4 480\n```\n(En milliers de personnes.)\n\nDans un tableur (LibreOffice Calc, Excel, ou Google Sheets) :\n\n1. Recopie ces données.\n2. Construis un **tableau croisé dynamique** ou des formules qui calculent : (a) total par tranche d'âge, (b) total par sexe, (c) ratio femmes/hommes par tranche d'âge.\n3. **Trace** un graphique en barres horizontales empilées (la « pyramide ») qui visualise la répartition.\n4. **Écris** trois phrases : (i) à partir de quelle tranche d'âge le ratio femmes/hommes dépasse-t-il 1 ? (ii) qu'est-ce qui peut expliquer le déséquilibre 75 ans + ? (iii) pourquoi exclure le ratio absolu et regarder la pyramide est plus honnête ?\n\nLivre ta solution sous forme d'une capture du tableau croisé, du graphique, et de tes trois phrases.",
+        "en": "**Data**: INSEE *Demographic Balance* 2024 — French population on Jan 1, 2024 by age × sex (excerpt, in thousands):\n\n```\nAge       | Men     | Women\n0-14      | 5,850   | 5,580\n15-29     | 6,200   | 5,970\n30-44     | 6,320   | 6,280\n45-59     | 6,420   | 6,600\n60-74     | 5,690   | 6,320\n75+       | 2,720   | 4,480\n```\n\nIn a spreadsheet (LibreOffice Calc / Excel / Google Sheets):\n\n1. Reproduce the table.\n2. Build a **pivot table** or formulas computing: total per age band, total per sex, women/men ratio per age band.\n3. **Plot** a stacked horizontal bar chart (the pyramid).\n4. **Write** three sentences: (i) from which age band does women/men exceed 1? (ii) what can explain the 75+ imbalance? (iii) why is showing the pyramid more honest than the absolute ratio?\n\nDeliver: a screenshot of the pivot, the chart, and your three sentences."
+      }
+    },
+    "chapter-08-ecrire-argumenter": {
+      "title": { "fr": "Une note de 300 mots", "en": "A 300-word memo" },
+      "rewardXp": 250,
+      "prompt": {
+        "fr": "**Donnée (INSEE, *L'état de la santé de la population en France* 2022)** : à 35 ans, l'espérance de vie d'un cadre supérieur masculin dépasse de **6,4 ans** celle d'un ouvrier masculin. Pour les femmes, l'écart est de **3,2 ans**. Cet écart est resté **stable** sur les 30 dernières années malgré les progrès médicaux.\n\nÉcris une **note de 300 mots** (pas plus) destinée à un décideur public, qui :\n\n1. Présente le fait sans dramatiser ni minimiser.\n2. Distingue **explicitement** ce qui relève de la corrélation et ce qui pourrait relever de la causalité (cf. ch. 3).\n3. Propose **une** action publique qui aurait du sens à la lumière de cette donnée — et **une** réserve méthodologique sur cette action.\n4. Termine par une phrase qui dit ce que cette donnée *ne* permet *pas* de conclure.\n\nExigences de forme : un titre, trois paragraphes, ton neutre, pas de jargon non défini.",
+        "en": "**Data (INSEE, *State of Health* 2022)**: at age 35, a male senior executive's life expectancy exceeds a male manual worker's by **6.4 years**. For women the gap is **3.2 years**. The gap has remained **stable** over 30 years despite medical progress.\n\nWrite a **300-word memo** (max) for a public decision-maker that:\n\n1. Presents the fact without drama or minimisation.\n2. **Explicitly** distinguishes correlation from possible causation (cf. ch.3).\n3. Proposes **one** public action that would make sense given this data — and **one** methodological reservation about that action.\n4. Ends with a sentence stating what this data does *not* allow you to conclude.\n\nForm: one title, three paragraphs, neutral tone, no undefined jargon."
+      }
+    },
+    "chapter-09-methode-scientifique": {
+      "title": { "fr": "Une question, un protocole", "en": "A question, a protocol" },
+      "rewardXp": 400,
+      "prompt": {
+        "fr": "**Question** : *Le télétravail a-t-il fait baisser la consommation d'essence des Français en 2020-2024 ?*\n\nDonnées disponibles : INSEE *Comptes des transports* 2024 (consommation de carburants, en millions de litres, par mois) ; INSEE *Enquête Emploi* (part des actifs en télétravail au moins 1 jour/semaine, par trimestre).\n\nLivre un dossier de 1 page contenant **les 6 étapes** du protocole scientifique appliquées à cette question :\n\n1. **Question** précise (qui ? quand ? selon quelle mesure ?).\n2. **Hypothèse** falsifiable (ex. *si le télétravail a fait baisser la consommation, alors la consommation 2024 doit être < 2019 toutes choses égales par ailleurs*).\n3. **Variables confondantes** à neutraliser (prix de l'essence, hiver doux, télétravail vs voiture pour autre chose, etc.) — au moins 3.\n4. **Méthode** : quelle comparaison fais-tu ? Sur quelle période ? Avec quelle référence ?\n5. **Résultat** attendu si l'hypothèse est vraie ; résultat attendu si elle est fausse.\n6. **Limites** que tu connais d'avance : ce que ton protocole ne saura pas dire, et pourquoi.\n\nTon livrable est cette page écrite, **avant** d'avoir regardé les chiffres réels. Le but n'est pas la vérité ; c'est la rigueur.",
+        "en": "**Question**: *Did telework lower French gasoline consumption in 2020-2024?*\n\nAvailable data: INSEE *Transport Accounts* 2024 (fuel consumption, monthly, ML); INSEE *Employment Survey* (share of employees teleworking ≥1 day/week, quarterly).\n\nDeliver a 1-page protocol with **the 6 steps** of scientific method:\n\n1. Precise **question** (who? when? by what measure?).\n2. Falsifiable **hypothesis**.\n3. **Confounders** to neutralise (gasoline price, mild winters, telework substituting other car uses…) — at least 3.\n4. **Method**: what comparison? Over what period? Reference?\n5. Expected result if the hypothesis is true; if false.\n6. **Limits** known in advance: what your protocol cannot answer, and why.\n\nThis page is your deliverable, written **before** looking at the real numbers. The point is not truth; it is rigour."
+      }
+    }
+  }
+}

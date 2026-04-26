@@ -381,6 +381,17 @@ async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
     assert(rankBadge && /Aspirant|Postulant|Affilié|Compagnon|Maître|Légende/.test(rankBadge.textContent),
       "rank badge uses compagnonnage titles (" + rankBadge.textContent + ")");
 
+    // --- 11e. Œuvres de compagnon ---
+    assert(!!window.Oeuvres, "Oeuvres module exposed");
+    const oeuvreBtn = $("#oeuvre-btn");
+    assert(!!oeuvreBtn, "Œuvre button present in lesson footer");
+    // Button should be visible (locked text) since lesson 1 is completed but
+    // 80 % of cards aren't owned. Refresh to be sure.
+    await window.Oeuvres.refreshAvailability();
+    assert(!oeuvreBtn.hidden, "Œuvre button visible (locked or ready)");
+    assert(/verrouillée|maître/i.test(oeuvreBtn.textContent),
+      "Œuvre button shows correct state (" + oeuvreBtn.textContent + ")");
+
     // --- 12. Final: collect any errors that fired during run ---
     if (errors.length) {
       fail("no console/page errors during full run", errors.join(" || "));
