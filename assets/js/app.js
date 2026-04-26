@@ -457,6 +457,24 @@
 
   // ---------- Panels ----------
 
+  let _savedScrollY = 0;
+
+  function lockBodyScroll() {
+    if (document.body.classList.contains("panel-open")) return;
+    _savedScrollY = window.scrollY || window.pageYOffset || 0;
+    document.body.classList.add("panel-open");
+    document.body.style.top = `-${_savedScrollY}px`;
+  }
+  function unlockBodyScroll() {
+    if (!document.body.classList.contains("panel-open")) return;
+    document.body.classList.remove("panel-open");
+    document.body.style.top = "";
+    window.scrollTo(0, _savedScrollY);
+  }
+  // Exposed so cards.js / quest-map.js (which open their own modals
+  // bypassing openPanel) can also lock the background.
+  window.PanelLock = { lock: lockBodyScroll, unlock: unlockBodyScroll };
+
   function closeAllPanels() {
     ["#toc", "#settings", "#search", "#flashcards", "#quest-map"].forEach(sel => {
       const panel = $(sel);
@@ -466,12 +484,24 @@
       const b = $(sel);
       if (b) b.setAttribute("aria-expanded", "false");
     });
+    const bd = $("#panel-backdrop");
+    if (bd) bd.setAttribute("hidden", "");
+    unlockBodyScroll();
   }
 
   function openPanel(panelSel, btnSel) {
     closeAllPanels();
     $(panelSel).removeAttribute("hidden");
-    $(btnSel).setAttribute("aria-expanded", "true");
+    if (btnSel && $(btnSel)) $(btnSel).setAttribute("aria-expanded", "true");
+    // Show backdrop for side panels (TOC / settings / search). Modal panels
+    // (flashcards / quest-map) are already full-screen and supply their own
+    // background.
+    const sidePanel = panelSel === "#toc" || panelSel === "#settings" || panelSel === "#search";
+    if (sidePanel) {
+      const bd = $("#panel-backdrop");
+      if (bd) bd.removeAttribute("hidden");
+    }
+    lockBodyScroll();
   }
 
   function togglePanel(panelSel, btnSel) {
@@ -492,7 +522,17 @@
       }
     });
 
-    // Click anywhere outside an open panel (and outside its toggle) closes panels.
+    // Tap on the visible backdrop = close.
+    const bd = $("#panel-backdrop");
+    if (bd) {
+      bd.addEventListener("click", closeAllPanels);
+      bd.addEventListener("touchend", (e) => { e.preventDefault(); closeAllPanels(); }, { passive: false });
+    }
+
+    // Belt-and-braces: tap anywhere outside an open panel closes it. Useful
+    // for the modal panels (flashcards / quest-map) that don't use the
+    // backdrop. (Side panels also covered, but the backdrop catches them
+    // first since it has a higher z-index than the body content.)
     document.addEventListener("pointerdown", (e) => {
       const panels = ["#toc", "#settings", "#search", "#flashcards", "#quest-map"];
       const anyOpen = panels.some(s => {
@@ -500,11 +540,9 @@
         return p && !p.hasAttribute("hidden");
       });
       if (!anyOpen) return;
-      // Inside any panel?
       if (e.target.closest(panels.join(","))) return;
-      // On any toggle that opens a panel?
       if (e.target.closest(
-        "#toc-toggle, #settings-toggle, #search-toggle, #map-toggle, #cards-btn, #cards-review"
+        "#toc-toggle, #settings-toggle, #search-toggle, #map-toggle, #cards-btn, #cards-review, #cards-topbar-btn, #panel-backdrop"
       )) return;
       closeAllPanels();
     }, true);
@@ -857,11 +895,16 @@
       ? await window.Cards.refreshAvailability(chapterRef)
       : { count: 0 };
     const btn = $("#cards-btn");
+    const topbarBtn = $("#cards-topbar-btn");
     const reviewBtn = $("#cards-review");
     const hint = $("#cards-hint");
     if (btn) {
       btn.hidden = count === 0;
       if (count) btn.textContent = window.I18N.t("cardsBtn", count);
+    }
+    if (topbarBtn) {
+      topbarBtn.hidden = count === 0;
+      if (count) topbarBtn.title = `Cartes du chapitre (${count})`;
     }
     if (reviewBtn) reviewBtn.disabled = count === 0;
     if (hint) {
@@ -882,9 +925,11 @@
   function wireCards() {
     window.Cards.init();
     const cardsBtn = $("#cards-btn");
+    const topbarBtn = $("#cards-topbar-btn");
     const reviewBtn = $("#cards-review");
-    if (cardsBtn) cardsBtn.addEventListener("click", () => openCardsForCurrentChapter("library"));
-    if (reviewBtn) reviewBtn.addEventListener("click", () => openCardsForCurrentChapter("library"));
+    if (cardsBtn)   cardsBtn.addEventListener("click",   () => openCardsForCurrentChapter("library"));
+    if (topbarBtn)  topbarBtn.addEventListener("click",  () => openCardsForCurrentChapter("library"));
+    if (reviewBtn)  reviewBtn.addEventListener("click",  () => openCardsForCurrentChapter("library"));
   }
 
   // ---------- Boot ----------

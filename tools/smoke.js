@@ -141,21 +141,35 @@ async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
     assert(!window.Progress.isCompleted("semester-01/chapter-01-apprendre-a-apprendre/lesson-01"),
       "resetAll wipes completion");
 
-    // --- 3. Outside-click closes menu ---
+    // --- 3. Outside-click closes menu + backdrop + scroll lock ---
     $("#toc-toggle").dispatchEvent(new window.MouseEvent("click", { bubbles: true }));
     assert(!$("#toc").hasAttribute("hidden"), "TOC opens on toggle click");
-    // Pointerdown outside the panel
-    $("#main").dispatchEvent(new window.Event("pointerdown", { bubbles: true }));
-    assert($("#toc").hasAttribute("hidden"), "TOC closes on outside pointerdown");
-    // Pointerdown on toggle should re-open via click, not close
+    assert(!$("#panel-backdrop").hasAttribute("hidden"), "backdrop appears with TOC");
+    assert(window.document.body.classList.contains("panel-open"), "body scroll-locked when TOC open");
+    // Tap on backdrop closes the panel
+    $("#panel-backdrop").dispatchEvent(new window.MouseEvent("click", { bubbles: true }));
+    assert($("#toc").hasAttribute("hidden"), "tap on backdrop closes TOC");
+    assert($("#panel-backdrop").hasAttribute("hidden"), "backdrop hidden after close");
+    assert(!window.document.body.classList.contains("panel-open"), "body scroll restored");
+    // Pointerdown outside still works as backup
     $("#toc-toggle").dispatchEvent(new window.MouseEvent("click", { bubbles: true }));
-    assert(!$("#toc").hasAttribute("hidden"), "TOC reopens via toggle");
-    // Click inside panel doesn't close it
+    $("#main").dispatchEvent(new window.Event("pointerdown", { bubbles: true }));
+    assert($("#toc").hasAttribute("hidden"), "pointerdown outside also closes TOC");
+    // Reopen, click inside doesn't close
+    $("#toc-toggle").dispatchEvent(new window.MouseEvent("click", { bubbles: true }));
     $("#toc-nav").dispatchEvent(new window.Event("pointerdown", { bubbles: true }));
     assert(!$("#toc").hasAttribute("hidden"), "click inside TOC keeps it open");
     // Escape closes
     window.document.dispatchEvent(new window.KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
     assert($("#toc").hasAttribute("hidden"), "Escape closes TOC");
+
+    // --- 3b. Topbar cards button + game badge visibility ---
+    await sleep(200);
+    const topCards = $("#cards-topbar-btn");
+    assert(topCards && !topCards.hidden, "topbar cards button visible when chapter has cards");
+    const streakBadge = $("#streak-badge");
+    assert(streakBadge && !streakBadge.hidden, "streak badge always visible (dimmed at 0)");
+    assert(streakBadge.classList.contains("game-badge--zero"), "streak badge dimmed when 0");
 
     // --- 4. TOC navigation: chapters list, active highlighting ---
     $("#toc-toggle").dispatchEvent(new window.MouseEvent("click", { bubbles: true }));

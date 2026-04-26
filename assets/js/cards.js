@@ -309,10 +309,12 @@
     const panel = $("#flashcards");
     if (!panel) return;
     panel.removeAttribute("hidden");
+    if (window.PanelLock) window.PanelLock.lock();
   }
   function close() {
     const panel = $("#flashcards");
     if (panel) panel.setAttribute("hidden", "");
+    if (window.PanelLock) window.PanelLock.unlock();
   }
 
   function setMode(mode) {

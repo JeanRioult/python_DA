@@ -23,6 +23,11 @@
   color: #5a2a0e;
   animation: streak-glow 2.4s ease-in-out infinite;
 }
+.game-badge--zero {
+  opacity: 0.55;
+  filter: grayscale(0.5);
+  animation: none !important;
+}
 .xp-badge {
   border-color: var(--accent);
   background: linear-gradient(180deg, var(--accent-soft), color-mix(in oklab, var(--accent), white 75%));
@@ -119,6 +124,9 @@ html[data-theme="dark"] .xp-badge {
 }
 
 @media (max-width: 640px) {
+  .game-badge { padding: 3px 7px; font-size: 0.82rem; }
+}
+@media (max-width: 380px) {
+  /* very narrow phones: drop the value, keep the icon as a tappable chip */
   .game-badge .badge-value { display: none; }
-  .game-badge { padding: 4px 8px; }
 }

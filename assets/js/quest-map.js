@@ -196,10 +196,12 @@
     render();
     const panel = $("#quest-map");
     if (panel) panel.removeAttribute("hidden");
+    if (window.PanelLock) window.PanelLock.lock();
   }
   function close() {
     const panel = $("#quest-map");
     if (panel) panel.setAttribute("hidden", "");
+    if (window.PanelLock) window.PanelLock.unlock();
   }
   function toggle() {
     const panel = $("#quest-map");

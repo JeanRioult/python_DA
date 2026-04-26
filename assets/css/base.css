@@ -73,6 +73,27 @@ body {
 }
 .skip-link:focus { left: var(--space-3); top: var(--space-3); }
 
+/* Backdrop + body scroll lock used by side panels (TOC / settings / search) */
+.panel-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 35;            /* below side panels (40) */
+  background: rgba(0, 0, 0, 0.45);
+  -webkit-tap-highlight-color: transparent;
+  animation: backdrop-in 180ms ease-out;
+}
+.panel-backdrop[hidden] { display: none; }
+html[data-theme="dark"] .panel-backdrop { background: rgba(0, 0, 0, 0.6); }
+@keyframes backdrop-in { from { opacity: 0; } to { opacity: 1; } }
+
+body.panel-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  left: 0;
+  right: 0;
+}
+
 /* Topbar */
 .topbar {
   position: sticky;

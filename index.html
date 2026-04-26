@@ -29,6 +29,7 @@
 </head>
 <body>
   <a class="skip-link" href="#main">Aller au contenu principal</a>
+  <div id="panel-backdrop" class="panel-backdrop" hidden></div>
 
   <header class="topbar" role="banner">
     <div class="topbar-left">
@@ -46,7 +47,7 @@
     </div>
 
     <div class="topbar-right">
-      <span id="streak-badge" class="game-badge streak-badge" title="Série quotidienne" hidden>
+      <span id="streak-badge" class="game-badge streak-badge game-badge--zero" title="Série quotidienne — termine une leçon ou une carte chaque jour pour la garder vivante">
         <span class="badge-icon" aria-hidden="true">🔥</span>
         <span class="badge-value">0</span>
       </span>
@@ -54,6 +55,9 @@
         <span class="badge-icon" aria-hidden="true">✦</span>
         <span class="badge-value">0</span>
       </span>
+      <button id="cards-topbar-btn" class="icon-btn" aria-label="Cartes du chapitre" title="Cartes du chapitre" hidden>
+        <span aria-hidden="true">🗂</span>
+      </button>
       <button id="map-toggle" class="icon-btn" aria-label="Carte du parcours" title="Carte du parcours">
         <span aria-hidden="true">🗺</span>
       </button>

@@ -225,7 +225,8 @@
     const s = window.Progress.liveStreak();
     if (streakEl) {
       streakEl.querySelector(".badge-value").textContent = String(s);
-      streakEl.hidden = s === 0;
+      streakEl.hidden = false;
+      streakEl.classList.toggle("game-badge--zero", s === 0);
     }
   }
 
