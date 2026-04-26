@@ -15,11 +15,6 @@
     searchDebounce: null,
     searchResults: [],
     searchSelection: -1,
-    // Flashcards
-    cards: [],
-    cardsChapter: null,
-    cardIdx: 0,
-    cardRevealed: false,
   };
 
   const $ = (sel) => document.querySelector(sel);
@@ -181,12 +176,101 @@
 
   function updateProgressBar() {
     const total = state.index.length || 1;
-    const done = state.index.filter(
-      e => window.Progress.isCompleted(lessonKey(e))
-    ).length;
-    const pct = Math.round((done / total) * 100);
-    $("#progress-fill").style.width = `${pct}%`;
-    $("#progress-label").textContent = `${pct} %`;
+    let sum = 0;
+    let done = 0;
+    for (const e of state.index) {
+      const id = lessonKey(e);
+      if (window.Progress.isCompleted(id)) {
+        sum += 1;
+        done += 1;
+      } else {
+        sum += window.Progress.getReading(id);
+      }
+    }
+    const pct = Math.round((sum / total) * 100);
+    const fill = $("#progress-fill");
+    const label = $("#progress-label");
+    if (fill) fill.style.width = `${pct}%`;
+    if (label) {
+      label.textContent = `${pct} %`;
+      label.title = `${done}/${total} ${window.I18N.t("completed").replace("✓ ", "")}`;
+    }
+  }
+
+  // ---------- Reading tracker ----------
+  // Credits a depth `d` only if the user has been at-or-below `d` continuously
+  // for at least READ_DWELL_MS. Going back upward never reduces credit.
+  // Implementation: keep a sliding window of (timestamp, depth) samples covering
+  // the last READ_DWELL_MS. The credited depth is the MIN depth in that window
+  // — which is the lowest position the user has held continuously for that long.
+
+  const READ_DWELL_MS = 15000;
+  const reading = {
+    samples: [],     // [{t, d}], oldest first, spanning up to READ_DWELL_MS
+    lessonId: null,
+    pollTimer: null,
+  };
+
+  function articleScrollDepth() {
+    const article = $("#lesson-content");
+    if (!article) return 0;
+    const rect = article.getBoundingClientRect();
+    const total = article.scrollHeight || article.offsetHeight || 0;
+    if (total <= 0) return 0;
+    const viewBottom = window.innerHeight || document.documentElement.clientHeight;
+    let d = (viewBottom - rect.top) / total;
+    if (!Number.isFinite(d)) d = 0;
+    if (d < 0) d = 0;
+    if (d > 1) d = 1;
+    return d;
+  }
+
+  function recordSample(now) {
+    const id = state.currentLessonId;
+    if (!id) return;
+    if (reading.lessonId !== id) {
+      reading.lessonId = id;
+      reading.samples = [];
+    }
+    const d = articleScrollDepth();
+    reading.samples.push({ t: now, d });
+    while (
+      reading.samples.length > 1 &&
+      reading.samples[0].t < now - READ_DWELL_MS
+    ) {
+      reading.samples.shift();
+    }
+  }
+
+  function readingTick() {
+    const now = Date.now();
+    recordSample(now);
+    const id = reading.lessonId;
+    if (!id || !reading.samples.length) return;
+    if (now - reading.samples[0].t < READ_DWELL_MS) return;
+    let minD = 1;
+    for (const s of reading.samples) if (s.d < minD) minD = s.d;
+    if (window.Progress.setReading(id, minD)) {
+      updateProgressBar();
+      updateLessonReadingBar(minD);
+    }
+  }
+
+  function updateLessonReadingBar(value) {
+    const bar = $("#lesson-reading-fill");
+    if (!bar) return;
+    const id = state.currentLessonId;
+    const v = typeof value === "number"
+      ? value
+      : (id ? window.Progress.getReading(id) : 0);
+    bar.style.width = `${Math.round(v * 100)}%`;
+  }
+
+  function startReadingTracker() {
+    if (reading.pollTimer) clearInterval(reading.pollTimer);
+    reading.pollTimer = setInterval(readingTick, 1000);
+    window.addEventListener("scroll", () => recordSample(Date.now()), { passive: true });
+    window.addEventListener("resize", () => recordSample(Date.now()), { passive: true });
   }
 
   function updateCompleteButton() {
@@ -254,6 +338,10 @@
     refreshCardsAvailability();
     window.scrollTo({ top: 0, behavior: "instant" });
     $("#main").focus();
+    // Reset reading tracker for the new lesson and reflect saved depth.
+    reading.lessonId = id;
+    reading.samples = [];
+    updateLessonReadingBar();
   }
 
   // ---------- Settings ----------
@@ -375,6 +463,34 @@
         input.select();
       }
     });
+
+    // Click anywhere outside an open panel (and outside its toggle) closes panels.
+    document.addEventListener("pointerdown", (e) => {
+      const panels = ["#toc", "#settings", "#search", "#flashcards"];
+      const anyOpen = panels.some(s => {
+        const p = $(s);
+        return p && !p.hasAttribute("hidden");
+      });
+      if (!anyOpen) return;
+      // Inside any panel?
+      if (e.target.closest(panels.join(","))) return;
+      // On any toggle that opens a panel?
+      if (e.target.closest(
+        "#toc-toggle, #settings-toggle, #search-toggle, #cards-btn, #cards-review"
+      )) return;
+      closeAllPanels();
+    }, true);
+
+    // Escape closes any open panel.
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      const panels = ["#toc", "#settings", "#search", "#flashcards"];
+      const anyOpen = panels.some(s => {
+        const p = $(s);
+        return p && !p.hasAttribute("hidden");
+      });
+      if (anyOpen) closeAllPanels();
+    });
   }
 
   // ---------- Language toggle & completion ----------
@@ -388,7 +504,6 @@
       updateCompleteButton();
       renderSearchResults();  // re-render search with new language snippets
       refreshCardsAvailability();
-      if (state.cards.length) renderCard();  // re-render any open card in new lang
     });
   }
 
@@ -597,7 +712,7 @@
     });
   }
 
-  // ---------- Flashcards ----------
+  // ---------- Flashcards (delegates to window.Cards) ----------
 
   function chapterIdFromLessonId(lessonId) {
     if (!lessonId) return null;
@@ -606,36 +721,17 @@
     return { semester: parts[0], chapter: parts[1] };
   }
 
-  async function loadFlashcardsFor(chapterRef) {
-    if (!chapterRef) return null;
-    const url = `${CONTENT_ROOT}/${chapterRef.semester}/${chapterRef.chapter}/flashcards.json`;
-    try {
-      const r = await fetch(url);
-      if (!r.ok) return null;
-      return await r.json();
-    } catch (_) {
-      return null;
-    }
-  }
-
-  // Refresh the "🗂 Cartes" button at the bottom of the lesson and the
-  // settings-panel button + hint, based on whether the current chapter
-  // actually has any flashcards.
   async function refreshCardsAvailability() {
     const chapterRef = chapterIdFromLessonId(state.currentLessonId);
-    const data = await loadFlashcardsFor(chapterRef);
+    const { count } = chapterRef
+      ? await window.Cards.refreshAvailability(chapterRef)
+      : { count: 0 };
     const btn = $("#cards-btn");
     const reviewBtn = $("#cards-review");
     const hint = $("#cards-hint");
-    const count = data?.cards?.length || 0;
-
     if (btn) {
-      if (count > 0) {
-        btn.hidden = false;
-        btn.textContent = window.I18N.t("cardsBtn", count);
-      } else {
-        btn.hidden = true;
-      }
+      btn.hidden = count === 0;
+      if (count) btn.textContent = window.I18N.t("cardsBtn", count);
     }
     if (reviewBtn) reviewBtn.disabled = count === 0;
     if (hint) {
@@ -645,106 +741,19 @@
     }
   }
 
-  async function openCardsForCurrentChapter() {
+  async function openCardsForCurrentChapter(mode = "library") {
     const chapterRef = chapterIdFromLessonId(state.currentLessonId);
-    const data = await loadFlashcardsFor(chapterRef);
-    if (!data || !data.cards || !data.cards.length) return;
-
-    state.cards = data.cards;
-    state.cardsChapter = chapterRef.chapter;
-    state.cardIdx = 0;
-    state.cardRevealed = false;
-
-    // Find chapter + semester titles for the header
+    if (!chapterRef) return;
     const lessonEntry = findEntryById(state.currentLessonId);
-    const chapterTitle = lessonEntry ? localized(lessonEntry.chapterTitle, "") : "";
-    const chapterLabel = $("#card-chapter");
-    if (chapterLabel) chapterLabel.textContent = chapterTitle;
-
-    renderCard();
-    openPanel("#flashcards", "#cards-btn");
-  }
-
-  function renderCard() {
-    const card = state.cards[state.cardIdx];
-    if (!card) return;
-    const lang = window.I18N.current;
-    const front = localized(card.front, "");
-    const back = localized(card.back, "");
-
-    const frontEl = $("#card-front");
-    const backEl = $("#card-back");
-    if (frontEl) frontEl.textContent = front;
-    if (backEl) backEl.textContent = back;
-    if (backEl) backEl.hidden = !state.cardRevealed;
-
-    const counter = $("#card-counter");
-    if (counter) {
-      counter.textContent = `${state.cardIdx + 1} / ${state.cards.length}`;
-    }
-    const flip = $("#card-flip");
-    if (flip) {
-      flip.textContent = state.cardRevealed
-        ? window.I18N.t("cardHide")
-        : window.I18N.t("cardReveal");
-    }
-    const prev = $("#card-prev");
-    const next = $("#card-next");
-    if (prev) prev.disabled = state.cardIdx === 0;
-    if (next) next.disabled = state.cardIdx === state.cards.length - 1;
-
-    const surface = $("#card-surface");
-    if (surface) surface.dataset.revealed = state.cardRevealed ? "true" : "false";
-  }
-
-  function flipCard() {
-    if (!state.cards.length) return;
-    state.cardRevealed = !state.cardRevealed;
-    renderCard();
-  }
-
-  function gotoCard(delta) {
-    const n = state.cards.length;
-    if (!n) return;
-    const next = state.cardIdx + delta;
-    if (next < 0 || next >= n) return;
-    state.cardIdx = next;
-    state.cardRevealed = false;
-    renderCard();
+    await window.Cards.openForChapter(chapterRef, lessonEntry, mode);
   }
 
   function wireCards() {
+    window.Cards.init();
     const cardsBtn = $("#cards-btn");
     const reviewBtn = $("#cards-review");
-    const closeBtn = $("#cards-close");
-    const flip = $("#card-flip");
-    const prev = $("#card-prev");
-    const next = $("#card-next");
-    const surface = $("#card-surface");
-
-    if (cardsBtn) cardsBtn.addEventListener("click", openCardsForCurrentChapter);
-    if (reviewBtn) reviewBtn.addEventListener("click", openCardsForCurrentChapter);
-    if (closeBtn) closeBtn.addEventListener("click", closeAllPanels);
-    if (flip) flip.addEventListener("click", flipCard);
-    if (prev) prev.addEventListener("click", () => gotoCard(-1));
-    if (next) next.addEventListener("click", () => gotoCard(+1));
-
-    // Tap/click on the card itself also flips.
-    if (surface) {
-      surface.addEventListener("click", flipCard);
-      surface.addEventListener("keydown", (e) => {
-        if (e.key === " " || e.key === "Enter") {
-          e.preventDefault();
-          flipCard();
-        } else if (e.key === "ArrowRight") {
-          gotoCard(+1);
-        } else if (e.key === "ArrowLeft") {
-          gotoCard(-1);
-        } else if (e.key === "Escape") {
-          closeAllPanels();
-        }
-      });
-    }
+    if (cardsBtn) cardsBtn.addEventListener("click", () => openCardsForCurrentChapter("library"));
+    if (reviewBtn) reviewBtn.addEventListener("click", () => openCardsForCurrentChapter("library"));
   }
 
   // ---------- Boot ----------
@@ -764,6 +773,7 @@
     renderToc();
     updateProgressBar();
     await renderLesson();
+    startReadingTracker();
 
     window.addEventListener("hashchange", renderLesson);
   }

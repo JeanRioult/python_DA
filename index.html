@@ -19,6 +19,7 @@
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 
   <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/cards.css">
   <link rel="stylesheet" href="assets/css/dark.css">
   <link rel="stylesheet" href="assets/css/dyslexia.css">
   <link rel="stylesheet" href="assets/css/low-stim.css">
@@ -35,7 +36,7 @@
       <span class="brand" aria-label="Python DA">Python DA</span>
     </div>
 
-    <div class="progress-wrap" aria-label="Progression globale">
+    <div class="progress-wrap" aria-label="Progression globale" title="Progression du cours (lecture + leçons terminées)">
       <div class="progress-bar">
         <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
       </div>
@@ -58,23 +59,22 @@
     <nav id="toc-nav"></nav>
   </aside>
 
-  <aside id="flashcards" class="flashcards-panel" aria-label="Flashcards" hidden>
-    <div class="flashcards-header">
-      <h2>Flashcards</h2>
-      <span id="card-counter" class="card-counter" aria-live="polite"></span>
-      <button id="cards-close" class="icon-btn" aria-label="Fermer">
-        <span aria-hidden="true">×</span>
-      </button>
-    </div>
-    <p id="card-chapter" class="card-chapter"></p>
-    <div id="card-surface" class="card-surface" role="button" tabindex="0" aria-label="Cliquer pour retourner la carte">
-      <div class="card-side card-front" id="card-front"></div>
-      <div class="card-side card-back" id="card-back" hidden></div>
-    </div>
-    <div class="card-controls">
-      <button id="card-prev" class="pill-btn" aria-label="Carte précédente">←</button>
-      <button id="card-flip" class="cta">Montrer la réponse</button>
-      <button id="card-next" class="pill-btn" aria-label="Carte suivante">→</button>
+  <aside id="flashcards" class="cards-panel" aria-label="Cartes" hidden>
+    <div class="cards-shell">
+      <header class="cards-bar">
+        <div class="cards-tabs" role="tablist">
+          <button class="cards-tab" data-mode="library" role="tab" aria-selected="true">Collection</button>
+          <button class="cards-tab" data-mode="practice" role="tab" aria-selected="false">Pratique</button>
+        </div>
+        <div class="cards-meta">
+          <span id="cards-chapter-label" class="cards-chapter-label" aria-live="polite"></span>
+          <span id="cards-stats" class="cards-stats" aria-live="polite"></span>
+        </div>
+        <button id="cards-close" class="icon-btn" aria-label="Fermer">
+          <span aria-hidden="true">×</span>
+        </button>
+      </header>
+      <div id="cards-view" class="cards-view"></div>
     </div>
   </aside>
 
@@ -138,6 +138,9 @@
   </aside>
 
   <main id="main" class="lesson" tabindex="-1">
+    <div class="lesson-reading-bar" aria-hidden="true" title="Lecture de cette leçon (≥ 15 s par palier)">
+      <div id="lesson-reading-fill" class="lesson-reading-fill" style="width: 0%"></div>
+    </div>
     <article id="lesson-content" class="lesson-content">
       <p class="loading">Chargement…</p>
     </article>
@@ -156,6 +159,7 @@
   <script src="assets/js/vendor/katex/auto-render.min.js"></script>
   <script src="assets/js/i18n.js"></script>
   <script src="assets/js/progress.js"></script>
+  <script src="assets/js/cards.js"></script>
   <script src="assets/js/app.js"></script>
   <script src="assets/js/sw-register.js" defer></script>
 </body>

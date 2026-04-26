@@ -172,6 +172,22 @@ body {
   margin: 0 auto;
   padding: var(--space-5) var(--space-4) var(--space-6);
 }
+.lesson-reading-bar {
+  position: sticky;
+  top: 0;
+  height: 3px;
+  background: transparent;
+  z-index: 30;
+  margin: 0 calc(-1 * var(--space-4)) var(--space-3);
+  pointer-events: none;
+}
+.lesson-reading-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), color-mix(in oklab, var(--accent), white 25%));
+  transition: width 600ms ease;
+  width: 0%;
+  border-radius: 0 999px 999px 0;
+}
 .lesson-content h1 {
   font-size: 2rem;
   line-height: 1.25;
